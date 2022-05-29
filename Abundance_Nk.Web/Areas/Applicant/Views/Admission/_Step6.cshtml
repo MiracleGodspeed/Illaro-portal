@@ -1,0 +1,95 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.AdmissionViewModel
+
+
+<br />
+
+<div style="margin-bottom:15px; text-align:justify">
+    <div>
+        <p style="color:darkgreen; font-weight:bold">
+            Welcome to the final step of your admission process.
+        </p>
+
+        <small>Please confirm your Order Number for Acceptance and School Fees payment below. In case of any discrepancy, report immediately to the appropriate authority. Thereafter click on the <b>Fill Student Form</b> button to fill your form<cite title="Source Title"></cite></small>
+    </div>
+</div>
+
+<h3>Confirm Your Details</h3>
+<div class="row">
+    <div class="col-sm-12 ">
+        <div class="well">
+            @*<div class="form-group margin-bottom-0">
+                    @Html.LabelFor(model => model.ApplicationForm.Number, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9 text-bold">
+                        @Html.DisplayFor(model => model.ApplicationForm.Number)
+                    </div>
+                </div>*@
+
+            <div class="form-group margin-bottom-0">
+                @Html.LabelFor(model => model.AcceptanceInvoiceNumber, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9 text-bold">
+                    @Html.DisplayFor(model => model.AcceptanceInvoiceNumber, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group margin-bottom-0">
+                @Html.LabelFor(model => model.SchoolFeesInvoiceNumber, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9 text-bold">
+                    @Html.DisplayFor(model => model.SchoolFeesInvoiceNumber, new { @class = "form-control" })
+                </div>
+            </div>
+
+            @*<div class="form-group margin-bottom-0">
+                    @Html.LabelFor(model => model.AcceptanceConfirmationOrderNumber, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9 text-bold">
+                        @Html.DisplayFor(model => model.AcceptanceConfirmationOrderNumber, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group margin-bottom-0">
+                    @Html.LabelFor(model => model.SchoolFeesConfirmationOrderNumber, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9 text-bold">
+                        @Html.DisplayFor(model => model.SchoolFeesConfirmationOrderNumber, new { @class = "form-control" })
+                    </div>
+                </div>*@
+
+            <div class="form-group margin-bottom-0">
+                @Html.LabelFor(model => model.AcceptanceReceiptNumber, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9 text-bold">
+                    @Html.DisplayFor(model => model.AcceptanceReceiptNumber, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group margin-bottom-0">
+                @Html.LabelFor(model => model.SchoolFeesReceiptNumber, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9 text-bold">
+                    @Html.DisplayFor(model => model.SchoolFeesReceiptNumber, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-inline">
+            <div class="form-group margin-bottom-0">
+                @Html.ActionLink("Fill Student Form", "Form", "Information", new { Area = "Student", fid = Model.ApplicationForm.Id, pid = Model.AppliedCourse.Programme.Id }, new { @class = "btn btn-white btn-lg ", target = "_blank", id = "alCourseRegistration" })
+            </div>
+            <div class="form-group margin-bottom-0">
+
+                <a id="btnFill" class="btn btn-white btn-lg " href="#">Fill Course Registration Form</a>
+
+
+                @Html.HiddenFor(model => model.Student.MatricNumber);
+
+
+                @* @Html.ActionLink("Fill Course Registration Form", "Form", "CourseRegistration", new { Area = "Student", sid = Abundance_Nk.Web.Models.Utility.Encrypt(Model.ApplicationForm.Person.Id.ToString()), ssid = 0 }, new { @class = "btn btn-white btn-lg ", target = "_blank", id = "alCourseRegistration" })
+                    <input class="btn btn-white btn-lg" href="#" value="Fill Course Registration Form">*@
+            </div>
+            <div class="form-group margin-bottom-0">
+                <div id="divProcessingAcceptanceInvoice" style="display:none">
+                    <img src="@Url.Content("~/Content/Images/bx_loader.gif")" />
+                    <span>Processing ...</span>
+                </div>
+            </div>
+        </div>
+
+        @*<br />*@
+    </div>
+</div>

@@ -1,0 +1,988 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.AdmissionViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .step {
+        font-size: 11pt;
+        color: green;
+    }
+</style>
+
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/responsive-tabs.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //Add to show matric number
+            var matNo = $("#Student_MatricNumber").val();
+            $('#btnFill').on('click', function () {
+                var disp = "KINDLY LOGIN TO YOUR STUDENT PORTAL WITH YOUR MATRIC NUMBER : " + matNo + " AND DEFAULT PASSWORD TO FILL YOUR COURSE REGISTRATION FORM";
+                swal("ATTENTION", disp , "warning");
+            });
+
+            //End
+        var formId = $("#ApplicationForm_Id").val();
+        var formNo = $("#ApplicationForm_Number").val();
+        var applicantStatus = $('#ApplicantStatusId').val();
+        var invoiceUrl = "/Applicant/Admission/Invoice?ivn=";
+        var acceptanceInvoiceNo = $("#AcceptanceInvoiceNumber").val();
+        var schoolFeesInvoiceNo = $("#SchoolFeesInvoiceNumber").val();
+        var driversLicenseInvoiceNo = $("#DriversLicenseInvoiceNumber").val();
+        var changeOfCourseApplies = $("#ChangeOfCourseApplies").val();
+        var hostelInvoiceUrl = "/Applicant/Admission/HostelInvoice?hostelivn=";
+        var hostelInvoiceNo = $('#HostelInvoiceNumber').val();
+        var hostelReceiptUrl = "/Applicant/Admission/HostelReceipt?inv=";
+        var hostelRRR = $("#HostelConfirmationOrderNumber").val();
+
+        if (hostelInvoiceNo != null && hostelInvoiceNo != "" && hostelRRR != null && hostelRRR != "") {
+            $("#alPrintHostelReceipt").prop("href", hostelReceiptUrl + hostelInvoiceNo);
+            $('.divHostelReceipt').show();
+
+        }
+
+        if (changeOfCourseApplies == false) {
+            $('#ChangeOfCourseApplies').prop('disabled', true);
+        }
+        else {
+            $('#ChangeOfCourseApplies').prop('disabled', false);
+        }
+
+        if (applicantStatus == 9 || applicantStatus == 10 || applicantStatus == 11) {
+
+            swal("ATTENTION!", "ALL FRESH STUDENTS SHOULD PLEASE PROCEED TO THEIR RESPECTIVE DEPARTMENT OFFICES TO SUBMIT THEIR DOCUMENTS AFTER COMPLETING THE ONLINE REGISTRATION.",
+                "warning");
+        }
+            $('#regenerateInvoice').on('change', function () {
+                let allowRegenerateInvoice = $('#regenerateInvoice').val();
+                if (allowRegenerateInvoice != null && allowRegenerateInvoice == "true") {
+                    $("#btnGenerateSchoolFeesInvoice").prop('disabled', false);
+                }
+                else {
+                    $("#btnGenerateSchoolFeesInvoice").prop('disabled', true);
+                }
+            })
+
+            UpdateTabState(applicantStatus);
+            ShowRegenerateInvoice(applicantStatus);
+
+        //$(".InvoiceNumber").prop("href", invoiceUrl + invoiceNo);
+        $("#aAcceptanceInvoiceNumber").prop("href", invoiceUrl + acceptanceInvoiceNo);
+        $("#aSchoolFeesInvoiceNumber").prop("href", invoiceUrl + schoolFeesInvoiceNo);
+        $("#aDriversLicenseInvoiceNumber").prop("href", invoiceUrl + driversLicenseInvoiceNo);
+        $("#aHostelInvoiceNumber").prop("href", hostelInvoiceUrl + hostelInvoiceNo);
+      
+        function RemoveAttribut(tab) {
+            //alert(tab);
+            tab.removeAttr("data-toggle");
+            tab.removeAttr("href");
+        }
+        function RemoveClass(tab, step) {
+            tab.removeClass("active");
+            step.removeClass("active");
+        }
+        function AddClass(tab, step) {
+            tab.addClass("active");
+            step.addClass("active");
+        }
+
+		    $('#btnAcceptanceReceiptNext').on('click', function(e) {
+		        $('#ApplicantStatusId').val(4);
+		        RemoveClass($('#tab3'), $('#step3'));
+		        //RemoveClass($('#tab2'), $('#step2'));
+		        UpdateTabState(4);
+		    });
+
+		    $('#btnVerifyOlevelNext').on('click', function(e) {
+		        $('#ApplicantStatusId').val(6);
+		        RemoveClass($('#tab1'), $('#step1'));
+		        UpdateTabState(6);
+		    });
+
+		    $('#btnStep1Next').on('click', function (e) {
+		        $('#ApplicantStatusId').val(2);
+		        RemoveClass($('#tab1'), $('#step1'));
+		        UpdateTabState(2);
+		    });
+
+		    $('#btnSchoolFeesReceiptNext').on('click', function(e) {
+		        $('#ApplicantStatusId').val(10);
+		        RemoveClass($('#tab5'), $('#step5'));
+		        UpdateTabState(9);
+		    });
+
+
+
+        $("#btnGenerateAcceptanceInvoice").on('click', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GenerateAcceptanceInvoice", "Admission")',
+                traditional: true,
+                datatype: 'json',
+                data: { applicationFormNo: formNo },
+                beforeSend: function () {
+                    $("#divProcessingAcceptanceInvoice").show();
+                },
+                complete: function () {
+                    $("#divProcessingAcceptanceInvoice").hide();
+                },
+                success: function (data) {
+                    var payment = JSON.parse(data);
+
+                    $('.divAcceptanceInvoice').show();
+                    $("#btnGenerateAcceptanceInvoice").prop('disabled', true);
+
+                    var url = invoiceUrl + payment.InvoiceNumber;
+                    $("#aAcceptanceInvoiceNumber").prop("href", url);
+                    alert("Acceptance Invoice has been successfully generated! Click on the 'Print Invoice' button to print the invoice, then proceed to bank for payment.");
+                },
+                error: function () {
+                    $('.divAcceptanceInvoice').hide();
+                    alert("Unable to connect to Remita, Please try again after some time!");
+                }
+            });
+        });
+
+        $("#btnGenerateAcceptanceReceipt").on('click', function (e) {
+            e.preventDefault();
+
+            var nextApplicantStatus = 4;
+            var acceptanceInvoiceNo = $("#AcceptanceInvoiceNumber").val();
+            var orderConfirmationNo = $("#AcceptanceConfirmationOrderNumber").val();
+
+            if (acceptanceInvoiceNo == "" || acceptanceInvoiceNo == undefined) {
+                alert("Acceptance Invoice Number not set! Please contact your system administrator.");
+                return;
+            }
+            else if (orderConfirmationNo == "" || orderConfirmationNo == undefined) {
+                alert("Please enter your Acceptance Confirmation Order Number!");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GenerateAcceptanceReceipt", "Admission")',
+                    traditional: true,
+                    datatype: 'json',
+                    data: { fid: formId, ivn: acceptanceInvoiceNo, con: orderConfirmationNo, st: nextApplicantStatus },
+
+                    beforeSend: function () {
+                        $("#divProcessingAcceptanceReceipt").show();
+                    },
+                    complete: function () {
+                        $("#divProcessingAcceptanceReceipt").hide();
+                    },
+                    success: function (data) {
+                        //alert(data.indexOf("success"));
+                        UpdateButtonState($("#btnGenerateAcceptanceReceipt"), data);
+
+                        $('#divGenerateAcceptanceReceipt').html(data);
+
+                        if (data.indexOf("success") > -1) {
+                            $('.divAcceptanceReceipt').show();
+                            $('#AcceptanceConfirmationOrderNumber').prop('disabled', true);
+                        }
+                        else {
+                            $('.divAcceptanceReceipt').hide();
+                            $('#AcceptanceConfirmationOrderNumber').prop('disabled', false);
+                        }
+
+
+                    },
+                    error: function () {
+                        $('.divAcceptanceReceipt').hide();
+                        alert("Unable to connect to Remita, Please try again after some time!");
+                    }
+                });
+            });
+
+
+            ///Request for hostel Accomodation. Using Acceptance fee RRR
+            $("#btnHostelRequest").on('click', function (e) {
+                e.preventDefault();
+                var orderConfirmationNo = $("#AcceptanceConfirmationOrderNumber").val();
+                if (orderConfirmationNo != null && orderConfirmationNo!="") {
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CreateHostelRequest", "Admission")',
+                traditional: true,
+                datatype: 'json',
+                data: { AcceptanceRRR: orderConfirmationNo },
+
+                beforeSend: function () {
+                    //$("#divProcessingSchoolFeesInvoice").show();
+                },
+                complete: function () {
+                    //$("#divProcessingSchoolFeesInvoice").hide();
+                },
+                success: function (result) {
+
+
+
+                    if (!result.IsError) {
+                        alert(result.Message);
+                    }
+                    else {
+                        alert(result.Message);
+                    }
+
+                },
+                error: function () {
+
+                    alert("Operation failed!");
+                }
+            });
+                }
+
+            });
+            // Generate Hostel Fee Invoice
+            $("#btnGenerateHostelInvoice").on('click', function (e) {
+                //e.preventDefault();
+
+                var orderConfirmationNo = $("#AcceptanceConfirmationOrderNumber").val();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GenerateHostelInvoice", "Admission")',
+                traditional: true,
+                datatype: 'json',
+                data: { AcceptanceRRR: orderConfirmationNo },
+
+                beforeSend: function () {
+                    //$("#divProcessingSchoolFeesInvoice").show();
+                },
+                complete: function () {
+                    //$("#divProcessingSchoolFeesInvoice").hide();
+                },
+                success: function (result) {
+
+
+                    if (!result.IsError && result.HostelInvoiceNo!=null) {
+                        alert(result.Message);
+                        $('.divHostelInvoice').show();
+                        $("#btnGenerateHostelInvoice").prop('disabled', true);
+
+                        var url = hostelInvoiceUrl + result.HostelInvoiceNo;
+                        $("#aHostelInvoiceNumber").prop("href", url);
+
+                    }
+                    else {
+                        alert(result.Message);
+                    }
+
+                },
+                error: function () {
+
+                    alert("Operation failed!");
+                }
+            });
+        });
+
+                // Generate Hostel Fee Receipt
+            $("#btnGenerateHostelReceipt").on('click', function (e) {
+                //e.preventDefault();
+
+                var hostelOrderConfirmationNo = $("#HostelConfirmationOrderNumber").val();
+                var hostelivn = $("#HostelInvoiceNumber").val();
+                if (hostelivn != null && hostelivn != "" && hostelOrderConfirmationNo != null && hostelOrderConfirmationNo != "") {
+                    $.ajax({
+                type: "POST",
+                url: '@Url.Action("PayHostelFee", "Admission")',
+                traditional: true,
+                datatype: 'json',
+                data: { HostelRRR: hostelOrderConfirmationNo, hostelInvoiceNo: hostelivn},
+
+                beforeSend: function () {
+                    $("#divProcessingHostelReceipt").show();
+                },
+                complete: function () {
+                    $("#divProcessingHostelReceipt").hide();
+                },
+                success: function (result) {
+
+
+                    if (!result.IsError && result.HostelInvoiceNo!=null) {
+                        alert(result.Message);
+                        $('.divHostelReceipt').show();
+                        $("#btnGenerateHostelReceipt").prop('disabled', true);
+
+                        var url = hostelReceiptUrl + result.HostelInvoiceNo;
+                        $("#alPrintHostelReceipt").prop("href", url);
+
+                    }
+                    else {
+                        alert(result.Message);
+                    }
+
+                },
+                error: function () {
+
+                    alert("Operation failed!");
+                }
+            });
+                }
+
+
+            });
+
+
+            //Drivers License Receipt
+            $("#btnGenerateDriversLicenseReceipt").on('click', function (e) {
+                e.preventDefault();
+
+                var nextApplicantStatus = 9;
+                var driversLicenseInvoiceNo = $("#DriversLicenseInvoiceNumber").val();
+                var orderConfirmationNo = $("#DriversLicenseConfirmationOrderNumber").val();
+
+                if (driversLicenseInvoiceNo == "" || driversLicenseInvoiceNo == undefined) {
+                    alert("Drivers License Invoice Number not set! Please contact your system administrator.");
+                    return;
+                }
+                else if (orderConfirmationNo == "" || orderConfirmationNo == undefined) {
+                    alert("Please enter your Dirvers License Payment Order Confirmation Number!");
+                    return;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GenerateDriversLicenceFeesReceipt", "Admission")',
+                    traditional: true,
+                    datatype: 'json',
+                    data: { fid: formId, ivn: driversLicenseInvoiceNo, con: orderConfirmationNo, st: nextApplicantStatus },
+                    //data: { fid: formId, ivn: schoolFeesInvoiceNo, con: orderConfirmationNo, st: applicantStatus },
+
+                    beforeSend: function () {
+                        $("#divProcessingSchoolFeesReceipt").show();
+                    },
+                    complete: function () {
+                        $("#divProcessingSchoolFeesReceipt").hide();
+                    },
+                    success: function (data) {
+                        UpdateButtonState($("#btnGenerateDriversLicenseReceipt"), data);
+
+                        //RemoveClass($('#tab5'), $('#step5'));
+                        //UpdateTabState(9);
+
+                        $('#divGenerateDriversLicenseReceipt').html(data);
+                        if (data.indexOf("success") > -1) {
+                            $('.divSchoolFeesReceipt').show();
+                            $('#DriversLicenseConfirmationOrderNumber').prop('disabled', true);
+                        }
+                        else {
+                            $('.divSchoolFeesReceipt').hide();
+                            $('#DriversLicenseConfirmationOrderNumber').prop('disabled', true);
+                        }
+                    },
+                    error: function () {
+                        $('.divSchoolFeesReceipt').hide();
+                        alert("Unable to connect to Remita, Please try again after some time!");
+                    }
+                });
+            });
+
+
+
+
+
+
+            $("#btnGenerateSchoolFeesReceipt").on('click', function (e) {
+                e.preventDefault();
+
+                var nextApplicantStatus = 9;
+                var schoolFeesInvoiceNo = $("#SchoolFeesInvoiceNumber").val();
+                var orderConfirmationNo = $("#SchoolFeesConfirmationOrderNumber").val();
+
+                if (schoolFeesInvoiceNo == "" || schoolFeesInvoiceNo == undefined) {
+                    alert("School Fees Invoice Number not set! Please contact your system administrator.");
+                    return;
+                }
+                else if (orderConfirmationNo == "" || orderConfirmationNo == undefined) {
+                    alert("Please enter your School Fees Order Confirmation Number!");
+                    return;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GenerateSchoolFeesReceipt", "Admission")',
+                    traditional: true,
+                    datatype: 'json',
+                    data: { fid: formId, ivn: schoolFeesInvoiceNo, con: orderConfirmationNo, st: nextApplicantStatus },
+                    //data: { fid: formId, ivn: schoolFeesInvoiceNo, con: orderConfirmationNo, st: applicantStatus },
+
+                    beforeSend: function () {
+                        $("#divProcessingSchoolFeesReceipt").show();
+                    },
+                    complete: function () {
+                        $("#divProcessingSchoolFeesReceipt").hide();
+                    },
+                    success: function (data) {
+                        UpdateButtonState($("#btnGenerateSchoolFeesReceipt"), data);
+
+                        //RemoveClass($('#tab5'), $('#step5'));
+                        //UpdateTabState(9);
+
+                        $('#divGenerateSchoolFeesReceipt').html(data);
+                        if (data.indexOf("success") > -1) {
+                            $('.divSchoolFeesReceipt').show();
+                            $('#SchoolFeesConfirmationOrderNumber').prop('disabled', true);
+                        }
+                        else {
+                            $('.divSchoolFeesReceipt').hide();
+                            $('#SchoolFeesConfirmationOrderNumber').prop('disabled', true);
+                        }
+                    },
+                    error: function () {
+                        $('.divSchoolFeesReceipt').hide();
+                        alert("Unable to connect to Remita, Please try again after some time!");
+                    }
+                });
+            });
+
+
+
+
+            $("#btnGenerateSchoolFeesInvoice").on('click', function (e) {
+
+            e.preventDefault();
+                let faculty = $('#AppliedCourse_Department_Faculty_Id').val();
+                let robotic = $('#robotic').val();
+                let regenerateInvoice=$('#regenerateInvoice').val();
+                let cisco = $('#cisco').val();
+                if (faculty != undefined && (faculty == 6 || faculty == 1) && robotic!=undefined && robotic == "") {
+                    alert("Please provide response to Include robotic option");
+                    return;
+                }
+                if (faculty != undefined && faculty != 6 && cisco != undefined && cisco == "") {
+                    alert("Please provide response to Include Cisco option");
+                    return;
+                }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GenerateSchoolFeesInvoice", "Admission")',
+                traditional: true,
+                datatype: 'json',
+                data: { formNo: formNo, cisco: cisco, robotic: robotic, regenerateInvoice:regenerateInvoice },
+
+                beforeSend: function () {
+                    $("#divProcessingSchoolFeesInvoice").show();
+                },
+                complete: function () {
+                    $("#divProcessingSchoolFeesInvoice").hide();
+                },
+                success: function (data) {
+                    var payment = JSON.parse(data);
+
+                    $('.divSchoolFeesInvoice').show();
+                    $("#btnGenerateSchoolFeesInvoice").prop('disabled', true);
+
+                    var url = invoiceUrl + payment.InvoiceNumber;
+                    $("#aSchoolFeesInvoiceNumber").prop("href", url);
+
+                    if (payment.InvoiceNumber == "No Acceptance") {
+                        alert("Pay Acceptance Fee before proceeding.");
+                    }
+                    else {
+                        alert("School Fees Invoice has been successfully generated! Click on the 'Print Invoice' button to print the invoice, then proceed to bank for payment.")
+                    }
+
+                },
+                error: function () {
+                    $('.divSchoolFeesInvoice').hide();
+                    alert("Operation failed!");
+                }
+            });
+        });
+
+
+            //Drivers License Invoice
+            $("#btnGenerateDriversLicenseFeesInvoice").on('click', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GenerateDriversLicenceFeesInvoice", "Admission")',
+                traditional: true,
+                datatype: 'json',
+                data: { formNo: formNo },
+
+                beforeSend: function () {
+                    $("#divProcessingSchoolFeesInvoice").show();
+                },
+                complete: function () {
+                    $("#divProcessingSchoolFeesInvoice").hide();
+                },
+                success: function (data) {
+                    var payment = JSON.parse(data);
+
+                    $('.divDriversLicenseInvoice').show();
+
+                    $("#btnGenerateDriversLicenseFeesInvoice").prop('disabled', true);
+
+                    var url = invoiceUrl + payment.InvoiceNumber;
+                    $("#aDriversLicenseInvoiceNumber").prop("href", url);
+
+                    if (payment.InvoiceNumber == "No Acceptance") {
+                        alert("Pay Acceptance Fee before proceeding.");
+                    }
+                    else {
+                        alert("Drivers License Fee Invoice has been successfully generated! Click on the 'Print Drivers License Invoice' button to print the invoice, then proceed to bank for payment.")
+                    }
+
+                },
+                error: function () {
+                    $('.divDriversLicenseInvoice').hide();
+                    alert("Operation failed!");
+                }
+            });
+        });
+
+
+    $("#btnGenerateSchoolFeesInvoiceDL").on('click', function (e) {
+        e.preventDefault();
+        var paymentMode = document.getElementById('PaymentMode_Id').value;
+        console.log(paymentMode, "payment mode");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GenerateSchoolFeesInvoiceDistantLearning", "Admission")',
+                traditional: true,
+                datatype: 'json',
+                data: { formNo: formNo, paymentMode: parseInt(paymentMode) },
+
+                beforeSend: function () {
+                    $("#divProcessingSchoolFeesInvoice").show();
+                },
+                complete: function () {
+                    $("#divProcessingSchoolFeesInvoice").hide();
+                },
+                success: function (data) {
+                    var payment = JSON.parse(data);
+                    console.log(payment, "payment")
+                    $('.divSchoolFeesInvoice').show();
+                    $("#btnGenerateSchoolFeesInvoice").prop('disabled', true);
+
+                    var url = invoiceUrl + payment.InvoiceNumber;
+                    $("#aSchoolFeesInvoiceNumber").prop("href", url);
+
+                    if (payment.InvoiceNumber == "No Acceptance") {
+                        alert("Pay Acceptance Fee before proceeding.");
+                    }
+                    else if (payment.InvoiceNumber == "FirstInstallmentError.") {
+                        swal("Failed!", "School invoice has to be generated in the exact order: first installment, second installment and third installment respectfully. Please check that the appropriate order was selected then try again", "error")
+                        $("#aSchoolFeesInvoiceNumber").hide()
+                        //alert("Pay Acceptance Fee before proceeding.");
+                    }
+                    else {
+                        swal("Invoice Generated!", "School Fees Invoice has been successfully generated! Click on the 'Print Invoice' button to print the invoice, then proceed to bank for payment.", "success")
+                        //alert("School Fees Invoice has been successfully generated! Click on the 'Print Invoice' button to print the invoice, then proceed to bank for payment.")
+                        $("#aSchoolFeesInvoiceNumber").show()
+
+                    }
+
+                },
+                error: function () {
+                    $('.divSchoolFeesInvoice').hide();
+                    alert("Operation failed!");
+                }
+            });
+        });
+
+
+
+
+
+
+
+
+
+        function UpdateButtonState(button, data) {
+            if (data.indexOf("success") > -1) {
+                button.prop('disabled', true);
+            }
+            else {
+                button.prop('disabled', false);
+            }
+        }
+            function ShowRegenerateInvoice(status) {
+                if (status > 7) {
+                    $('#regenerateInvoiceDiv').show();
+                }
+                else {
+                    $('#regenerateInvoiceDiv').hide();
+                }
+
+            }
+        function UpdateTabState(applicantStatus) {
+            RemoveClass($('#tab1'), $('#step1'));
+
+               if (applicantStatus == 1) {
+				RemoveAttribut($('#tab1 a'));
+                RemoveAttribut($('#tab2 a'));
+                RemoveAttribut($('#tab3 a'));
+                RemoveAttribut($('#tab4 a'));
+                RemoveAttribut($('#tab5 a'));
+                RemoveAttribut($('#tab6 a'));
+
+                AddClass($('#tab1'), $('#step1'));
+
+                $('#divRejectReason').hide();
+                   $('#divStudentInformationForm').hide();
+                   
+            }
+			 else if (applicantStatus == 2) {
+
+                //RemoveAttribut($('#tab2 a'));
+                RemoveAttribut($('#tab3 a'));
+                RemoveAttribut($('#tab4 a'));
+                RemoveAttribut($('#tab5 a'));
+                RemoveAttribut($('#tab6 a'));
+
+                AddClass($('#tab2'), $('#step2'));
+
+                $('#divRejectReason').hide();
+                $('#divStudentInformationForm').hide();
+				$('#btnGenerateAcceptanceInvoice').prop('disabled', true);
+                $("#btnGenerateSchoolFeesInvoice").prop('disabled', true);
+                $('#AcceptanceConfirmationOrderNumber').prop('disabled', true);
+            }
+               else if (applicantStatus == 3) {
+                   $('#btnGenerateAcceptanceInvoice').prop('disabled', false);
+
+                //RemoveAttribut($('#tab3 a'));
+                RemoveAttribut($('#tab4 a'));
+                RemoveAttribut($('#tab5 a'));
+                RemoveAttribut($('#tab6 a'));
+
+                //AddClass($('#tab2'), $('#step2'));
+                AddClass($('#tab3'), $('#step3'));
+                $('.divAcceptanceInvoice').show();
+
+                var acceptanceConfirmationorderNo = $("#AcceptanceConfirmationOrderNumber").val();
+                if (acceptanceConfirmationorderNo != '') {
+                    $('.divAcceptanceReceipt').show();
+                }
+                else {
+                    $('.divAcceptanceReceipt').hide();
+                }
+
+                $('#divRejectReason').hide();
+                $('#divStudentInformationForm').hide();
+            }
+            else if (applicantStatus == 4) {
+                $('#btnGenerateAcceptanceInvoice').prop('disabled', true);
+                $('#btnGenerateAcceptanceReceipt').prop('disabled', true);
+                $('#AcceptanceConfirmationOrderNumber').prop('disabled', true);
+
+                //RemoveAttribut($('#tab4 a'));
+                RemoveAttribut($('#tab5 a'));
+                RemoveAttribut($('#tab6 a'));
+
+                //AddClass($('#tab3'), $('#step3'));
+                AddClass($('#tab4'), $('#step4'));
+
+                $('.divAcceptanceReceipt').show();
+                $('.divAcceptanceInvoice').show();
+                $('.divSchoolFeesInvoice').show();
+                //$('.divDriversLicenseInvoice').show();
+                $('.divHostelInvoice').show();
+
+                var schoolFeesConfirmationorderNo = $("#SchoolFeesConfirmationOrderNumber").val();
+                if (schoolFeesConfirmationorderNo != '') {
+                    $('.divSchoolFeesReceipt').show();
+                }
+                else {
+                    $('.divSchoolFeesReceipt').hide();
+                }
+
+                $('#divRejectReason').hide();
+                $('#divStudentInformationForm').hide();
+            }
+            else if (applicantStatus == 5) {
+                //$('#btnGenerateAcceptanceInvoice').prop('disabled', true);
+                //$("#btnGenerateSchoolFeesInvoice").prop('disabled', true);
+                //$('#AcceptanceConfirmationOrderNumber').prop('disabled', true);
+
+                //RemoveAttribut($('#tab4 a'));
+                //RemoveAttribut($('#tab5 a'));
+                //RemoveAttribut($('#tab6 a'));
+
+                AddClass($('#tab3'), $('#step3'));
+                //AddClass($('#tab4'), $('#step4'));
+
+                //$('.divAcceptanceReceipt').show();
+                //$('.divAcceptanceInvoice').show();
+                //$('.divSchoolFeesInvoice').show();
+
+                //var schoolFeesConfirmationorderNo = $("#SchoolFeesConfirmationOrderNumber").val();
+                //if (schoolFeesConfirmationorderNo != '') {
+                //    $('.divSchoolFeesReceipt').show();
+                //}
+                //else {
+                //    $('.divSchoolFeesReceipt').hide();
+                //}
+
+                //$('#divRejectReason').hide();
+                //$('#divStudentInformationForm').hide();
+            }
+            else if (applicantStatus == 6) {
+                //$('#btnGenerateAcceptanceInvoice').prop('disabled', true);
+                $('#AcceptanceConfirmationOrderNumber').prop('disabled', true);
+                $("#btnVerifyOlevelResult").prop('disabled', true);
+
+                RemoveAttribut($('#tab4 a'));
+                RemoveAttribut($('#tab5 a'));
+                RemoveAttribut($('#tab6 a'));
+
+                AddClass($('#tab3'), $('#step3'));
+                //AddClass($('#tab4'), $('#step4'));
+
+                //$('.divAcceptanceReceipt').show();
+                //$('.divAcceptanceInvoice').show();
+                //$('.divSchoolFeesReceipt').show();
+                //$('#divStudentInformationForm').hide();
+                //$('#divRejectReason').hide();
+            }
+            else if (applicantStatus == 7) {
+                $('#btnGenerateAcceptanceInvoice').prop('disabled', true);
+                $('#AcceptanceConfirmationOrderNumber').prop('disabled', true);
+
+
+                RemoveAttribut($('#tab3 a'));
+                RemoveAttribut($('#tab4 a'));
+                RemoveAttribut($('#tab5 a'));
+                RemoveAttribut($('#tab6 a'));
+
+                AddClass($('#tab2'), $('#step2'));
+                //AddClass($('#tab3'), $('#step3'));
+
+                //$('.divAcceptanceReceipt').show();
+                //$('.divAcceptanceInvoice').show();
+                //$('#divStudentInformationForm').hide();
+                $('#divRejectReason').show();
+            }
+            else if (applicantStatus == 8) {
+                $('#btnGenerateAcceptanceInvoice').prop('disabled', true);
+                $("#btnGenerateSchoolFeesInvoice").prop('disabled', true);
+                $('#btnGenerateAcceptanceReceipt').prop('disabled', true);
+                $('#AcceptanceConfirmationOrderNumber').prop('disabled', true);
+                $("#btnVerifyOlevelResult").prop('disabled', true);
+
+                RemoveAttribut($('#tab6 a'));
+                AddClass($('#tab5'), $('#step5'));
+                $('.divHostelInvoice').show();
+                $('.divAcceptanceReceipt').show();
+                $('.divAcceptanceInvoice').show();
+                 $('.divSchoolFeesInvoice').show();
+                 //$('.divDriversLicenseInvoice').show();
+                $('#divRejectReason').hide();
+                $('#divStudentInformationForm').hide();
+                //$('.divSchoolFeesReceipt').show();
+            }
+            else if (applicantStatus == 9) {
+                $('#btnGenerateAcceptanceInvoice').prop('disabled', true);
+                $("#btnGenerateSchoolFeesInvoice").prop('disabled', true);
+                $('#btnGenerateAcceptanceReceipt').prop('disabled', true);
+                $("#btnGenerateSchoolFeesReceipt").prop('disabled', true);
+                $('#AcceptanceConfirmationOrderNumber').prop('disabled', true);
+                $('#SchoolFeesConfirmationOrderNumber').prop('disabled', true);
+                $("#btnVerifyOlevelResult").prop('disabled', true);
+
+                AddClass($('#tab6'), $('#step6'));
+
+                $('.divAcceptanceReceipt').show();
+                $('.divAcceptanceInvoice').show();
+                   $('.divSchoolFeesInvoice').show();
+                   //$('.divDriversLicenseInvoice').show();
+                $('.divSchoolFeesReceipt').show();
+                $('#divStudentInformationForm').hide();
+                $('#divRejectReason').hide();
+                $('.divHostelInvoice').show();
+            }
+            else if (applicantStatus == 10 || applicantStatus == 11) {
+                $('#btnGenerateAcceptanceInvoice').prop('disabled', true);
+                $("#btnGenerateSchoolFeesInvoice").prop('disabled', true);
+                $('#btnGenerateAcceptanceReceipt').prop('disabled', true);
+                $("#btnGenerateSchoolFeesReceipt").prop('disabled', true);
+                $('#AcceptanceConfirmationOrderNumber').prop('disabled', true);
+                $('#SchoolFeesConfirmationOrderNumber').prop('disabled', true);
+                $("#btnVerifyOlevelResult").prop('disabled', true);
+
+                AddClass($('#tab6'), $('#step6'));
+
+                $('.divAcceptanceReceipt').show();
+                $('.divAcceptanceInvoice').show();
+                $('.divSchoolFeesInvoice').show();
+                   $('.divSchoolFeesReceipt').show();
+                   //$('.divDriversLicenseInvoice').show();
+                $('#divStudentInformationForm').show();
+                $('#divRejectReason').hide();
+            }
+        }
+    });
+    </script>
+}
+
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>
+                Admission
+            </h3>
+        </div>
+
+        <div class="panel-body">
+
+
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @Html.HiddenFor(m => m.IsAdmitted)
+            @Html.HiddenFor(m => m.ApplicantStatusId)
+            @Html.HiddenFor(m => m.AppliedCourse.Programme.Id)
+            @Html.HiddenFor(m => m.ApplicationForm.Id)
+            @Html.HiddenFor(m => m.ApplicationForm.Person.Id)
+            @Html.HiddenFor(m => m.ApplicationForm.RejectReason)
+            @Html.HiddenFor(m => m.ApplicationForm.Rejected)
+            @Html.HiddenFor(m => m.ApplicationForm.Number)
+            @Html.HiddenFor(m => m.Loaded)
+            @Html.HiddenFor(m => m.AppliedCourse.Department.Faculty.Id)
+
+            <div class="row">
+                <div class="col-md-12">
+                    @if (TempData["Message"] != null)
+                    {
+                        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                    }
+                </div>
+            </div>
+
+            @if (Model.ApplicationForm == null || Model.IsAdmitted == false)
+            {
+                <div style="margin-bottom:15px; text-align:justify">
+                    <blockquote>
+                        <p style="color:red; font-weight:bold">
+                            We regret to inform you that you have not been considered for a Provisional Admission into Federal Polytechnic Ilaro this academic session yet.
+                        </p>
+
+                    </blockquote>
+                </div>
+                <br />
+                <br />
+
+
+
+                return;
+            }
+
+            <div class="shadow">
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div>
+                            <div class="col-sm-12 form-group">
+                                <h4>Current Status: <b style="color:green">@Html.DisplayFor(model => model.Applicant.Status.Name)</b></h4>
+                            </div>
+
+                            <div class="form-group margin-bottom-0">
+                                @Html.LabelFor(model => model.ApplicationForm.Person.FullName, new { @class = "control-label col-sm-3" })
+                                <div class="col-sm-9" style="font-weight:bold">
+                                    @Html.DisplayFor(model => model.ApplicationForm.Person.FullName)
+                                </div>
+                            </div>
+
+                            <div class="form-group margin-bottom-0">
+                                @Html.LabelFor(model => model.ApplicationForm.Number, new { @class = "control-label col-sm-3" })
+                                <div class="col-sm-9" style="font-weight:bold">
+                                    @Html.DisplayFor(model => model.ApplicationForm.Number)
+                                </div>
+                            </div>
+
+                            <div class="form-group margin-bottom-0">
+                                @Html.LabelFor(model => model.AppliedCourse.Programme.Name, new { @class = "control-label col-sm-3" })
+                                <div class="col-sm-9" style="font-weight:bold">
+                                    @Html.DisplayFor(model => model.AppliedCourse.Programme.Name, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group margin-bottom-0">
+                                @Html.LabelFor(model => model.admissionList.Deprtment.Name, new { @class = "control-label col-sm-3" })
+                                <div class="col-sm-9" style="font-weight:bold">
+                                    @Html.DisplayFor(model => model.admissionList.Deprtment.Name, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group margin-bottom-0">
+                                @Html.LabelFor(model => model.admissionList.DepartmentOption.Name, new { @class = "control-label col-sm-3" })
+                                <div class="col-sm-9" style="font-weight:bold">
+                                    @Html.DisplayFor(model => model.admissionList.DepartmentOption.Name, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="hd" id="hd">
+
+            @Html.HiddenFor(model => model.AcceptanceInvoiceNumber)
+            @Html.HiddenFor(model => model.SchoolFeesInvoiceNumber)
+            @Html.HiddenFor(model => model.DriversLicenseInvoiceNumber)
+
+            <br />
+
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs responsive" id="myTab">
+                        <li id="tab1" class="test-class active"><a class="deco-none misc-class" href="#step1" data-toggle="tab"><span class="step">Step </span><span class="badge">1</span></a></li>
+                        <li id="tab2"><a class="deco-none" href="#step2" data-toggle="tab"> <span class="step">Step </span><span class="badge">2</span></a></li>
+                        <li id="tab3"><a class="deco-none" href="#step3" data-toggle="tab"><span class="step">Step </span><span class="badge">3</span></a></li>
+                        <li id="tab4"><a class="deco-none" href="#step4" data-toggle="tab"><span class="step">Step </span><span class="badge">4</span></a></li>
+                        <li id="tab5"><a class="deco-none" href="#step5" data-toggle="tab"><span class="step">Step </span><span class="badge">5</span></a></li>
+                        <li id="tab6"><a class="deco-none" href="#step6" data-toggle="tab"><span class="step">Step </span><span class="badge">6</span></a></li>
+                    </ul>
+
+                    <div class="tab-content responsive ">
+                        <div class="tab-pane active " id="step1">
+                            @Html.Partial("_Step1", Model)
+                        </div>
+
+                        <div class="tab-pane" id="step2">
+                            @Html.Partial("_Step2", Model)
+                        </div>
+
+                        <div class="tab-pane" id="step3">
+                            @Html.Partial("_Step3", Model)
+                        </div>
+
+                        <div class="tab-pane" id="step4">
+                            @Html.Partial("_Step4", Model)
+
+                        </div>
+
+                        <div class="tab-pane" id="step5">
+                            @Html.Partial("_Step5", Model)
+                        </div>
+
+                        <div class="tab-pane" id="step6">
+                            @Html.Partial("_Step6", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

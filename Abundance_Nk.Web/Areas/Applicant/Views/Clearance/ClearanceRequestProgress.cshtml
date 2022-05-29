@@ -1,0 +1,98 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.ClearanceViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container" style="height: 80vh;">
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3>Clearance Status</h3>
+                </div>
+              
+                <div class="panel-body">
+                    
+                    <h5 class="">@Model.Student.FullName</h5>
+                  
+                    <p class="p-lvl2"><span>Matric Number: </span>@Model.Student.MatricNumber</p>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>CLEARANCE UNIT</th>
+                                    <th>CLEARANCE STATUS</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody style="color:black;">
+                                @for (int i = 0; i < Model.ClearanceUnits.Count; i++)
+                                {
+                                    var sn = 1 + i;
+                                    <tr>
+                                        <td>@sn</td>
+                                        <td>@Model.ClearanceUnits[i].Name</td>
+                                       
+                                            @if (Model.ClearanceUnits[i].status == "Cleared")
+                                            {
+                                        <td>
+                                            <span class="status-approved">Approved</span>
+                                        </td>
+                                            }
+                                            else if (Model.ClearanceUnits[i].status == "Pending")
+                                            {
+                                                <td>
+                                                    <span class="status-pend">Pending</span>
+                                                </td>
+                                            }
+                                            else if (Model.ClearanceUnits[i].status == "Extra Information")
+                                            {
+                                                <td>
+                                                    <span class="status-declined">Declined</span>
+                                                </td>
+                                            }
+
+
+                                        @if (Model.ClearanceUnits[i].status == "Extra Information")
+                                        {
+                                            <td>
+                                                @Html.ActionLink("View", "DisputeClearance", new { area = "Applicant", controller = "Clearance", logId = @Model.ClearanceUnits[i].LogId }, new { @class = "btn btn-success mr5" })
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
+                    <div class="row mb-2">
+                        <div class="col-md-6"></div>
+
+                        <div class="col-md-6 text-right" style="text-align: right;">
+                            @if (Model.ViewPrintButton == true)
+                            {
+                                @Html.ActionLink("Print Clearance Certificate", "ClearanceReceipt", "Credential", new { area = "Common", sid = Abundance_Nk.Web.Models.Utility.Encrypt(@Model.Student.Id.ToString()) }, new { @class = "btn btn-success pull-right", target = "_blank" })
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

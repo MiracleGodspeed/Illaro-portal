@@ -1,0 +1,181 @@
+﻿@model Abundance_Nk.Model.Model.ComplaintLog
+
+@{
+    ViewBag.Title = "Complain Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#Programme_Id").change(function () {
+
+            $("#Department_Id").empty();
+            var selectedProgramme = $("#Programme_Id").val();
+            var programme = $("#Programme_Id").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartmentByProgrammeId","Form")', // we are calling json method
+                dataType: 'json',
+                data: { id: programme },
+                success: function (departments) {
+                    $("#Department_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+
+                    $.each(departments, function (i, department) {
+                        $("#Department_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve departments.' + ex);
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
+@using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="container">
+      <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+              <div class="row">
+                  <div>
+                      @if (TempData["Message"] != null)
+                {
+                          @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                      }
+                  </div>
+              </div>
+              <div class="form-horizontal">
+                  <div class="panel">
+                      <div class="panel-heading"><h4>Complaint Form</h4></div>
+                      <div class="panel-body">
+
+                          <p>Kindly provide the available details in the text boxes provided</p>
+                          <hr />
+                          @Html.ValidationSummary(true)
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-12" })
+                                      <div class="col-md-12">
+                                          @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "your name as it appears on your document" })
+                                          @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.MobileNumber, htmlAttributes: new { @class = "control-label col-md-12" })
+                                      <div class="col-md-12">
+                                          @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control", @placeholder = "e.g 080XXXXXXXX" })
+                                          @Html.ValidationMessageFor(model => model.MobileNumber, null, new { @class = "text-danger" })
+                                      </div>
+                                  </div>
+                              </div>
+
+
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.ApplicationNumber, htmlAttributes: new { @class = "control-label col-md-12" })
+                                      <div class="col-md-12">
+                                          @Html.TextBoxFor(model => model.ApplicationNumber, new { @class = "form-control", @placeholder = "e.g FPI/ND/150000000001" })
+                                          @Html.ValidationMessageFor(model => model.ApplicationNumber, null, new { @class = "text-danger" })
+                                      </div>
+                                  </div>
+                              </div>
+
+
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.RRR, htmlAttributes: new { @class = "control-label col-md-12" })
+                                      <div class="col-md-12">
+                                          @Html.TextBoxFor(model => model.RRR, new { @class = "form-control", @placeholder = "e.g Q6567366" })
+                                          @Html.ValidationMessageFor(model => model.RRR, null, new { @class = "text-danger" })
+                                      </div>
+                                  </div>
+                              </div>
+
+
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.ExamNumber, htmlAttributes: new { @class = "control-label col-md-12" })
+                                      <div class="col-md-12">
+                                          @Html.TextBoxFor(model => model.ExamNumber, new { @class = "form-control", @placeholder = "e.g ST000012" })
+                                          @Html.ValidationMessageFor(model => model.ExamNumber, null, new { @class = "text-danger" })
+                                      </div>
+                                  </div>
+                              </div>
+
+
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.Programme.Id, new { @class = "control-label col-md-12" })
+                                      <div class="col-md-12">
+                                          @Html.DropDownListFor(model => model.Programme.Id, (IEnumerable<SelectListItem>)ViewBag.Programme, new { @class = "form-control", required = true })
+                                          @Html.ValidationMessageFor(model => model.Programme.Id)
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.Department.Id, new { @class = "control-label col-md-12" })
+                                      <div class="col-md-12">
+                                          @Html.DropDownListFor(model => model.Department.Id, (IEnumerable<SelectListItem>)ViewBag.Department, new { @class = "form-control", required = true })
+                                          @Html.ValidationMessageFor(model => model.Department.Id)
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.ConfirmationNumber, htmlAttributes: new { @class = "control-label col-md-12" })
+                                      <div class="col-md-12">
+                                          @Html.TextBoxFor(model => model.ConfirmationNumber, new { @class = "form-control", @placeholder = "e.g 078372362563623 / 262544545454" })
+                                          @Html.ValidationMessageFor(model => model.ConfirmationNumber, null, new { @class = "text-danger" })
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.Complain, htmlAttributes: new { @class = "control-label col-md-12" })
+                                      <div class="col-md-12">
+                                          @Html.TextAreaFor(model => model.Complain, new { @class = "form-control", @placeholder = "e.g I am unable to check my admission" })
+                                          @Html.ValidationMessageFor(model => model.Complain, null, new { @class = "text-danger" })
+                                      </div>
+                                  </div>
+                              </div>
+
+
+                          </div>
+
+                      </div>
+
+
+
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <div class="col-md-offset-2 col-md-12 padding-both">
+                                  <input type="submit" value="Submit" class="btn btn-success" />
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    }
+   

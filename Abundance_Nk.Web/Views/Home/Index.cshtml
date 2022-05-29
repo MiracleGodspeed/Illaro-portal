@@ -1,0 +1,459 @@
+@{
+    ViewBag.Title = "Home";
+}
+<link href="~/Content/pretty-menu.css" rel="stylesheet" />
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/style.default.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600&display=swap" rel="stylesheet" />
+
+<script src="~/Scripts/sweetalert.min.js"></script>
+<style>
+
+    body, html {
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+
+
+    blockquote::after {
+        display: none;
+    }
+
+    #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(22, 21, 21, 0.932);
+        /* change if the mask should have another color then white */
+        z-index: 99999;
+        /*display: none*/
+        /* makes sure it stays on top */
+    }
+
+    #preloader2 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(22, 21, 21, 0.932);
+        /* change if the mask should have another color then white */
+        z-index: 99999;
+        display: block
+        /* makes sure it stays on top */
+    }
+
+    #preloader3 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(22, 21, 21, 0.932);
+        /* change if the mask should have another color then white */
+        z-index: 99999;
+        display: none
+        /* makes sure it stays on top */
+    }
+
+    #status {
+        width: 150px;
+        height: 130px;
+        position: absolute;
+        left: 42%;
+        /* centers the loading animation horizontally one the screen */
+        top: 40%;
+        /* centers the loading animation vertically one the screen */
+        /* background-image: url(./images/icon-1.png); */
+        /* path to your loading animation */
+        background-repeat: no-repeat;
+        background-position: center;
+        /* margin: -100px 0 0 -100px; */
+        background-size: 400px;
+        background-color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        /* is width and height divided by two */
+    }
+ 
+
+    .ld-img {
+        left: 0rem !important;
+        top: 0rem !important;
+        width: 31px !important;
+        margin-top: 25px !important;
+        margin-bottom: 10px !important;
+        position: relative !important;
+    }
+
+
+
+
+    #qual-prompt {
+        display: none
+    }
+
+
+
+    .modal-r {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 99999;
+        opacity: 1;
+        transition: opacity 400ms ease-in;
+        pointer-events: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        min-height: 100vh;
+    }
+
+    .content-modal {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        background: white;
+        padding: 23px;
+        border-radius: 10px;
+        width: 80%;
+        height: 60vh;
+        overflow-x:scroll!important
+        /*font-family: 'Poppins', sans-serif !important;*/
+    }
+
+    .popps {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .content-modal p {
+        font-size: 16px;
+        font-weight: 600 !important
+    }
+
+    .modal-c:target {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .modal-c h1 {
+        font-size: 42px;
+    }
+
+    .content-modal a {
+        font-weight: bold;
+    }
+
+    .close {
+        align-self: flex-end;
+        text-decoration: none;
+        color: red;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //swal("Important Notice!", "All  fees payment verification are now online. Candidates with payment issues should call this number 0803 238 4666 between 8:00am to 5:00pm", 'info')
+
+
+        //swal("Important Notice!", "erererrereerererer", 'info')
+
+
+
+        $("#preloader2").fadeIn('slow')
+
+        
+
+        $("#closeQualPPrompt").click(function () {
+            $("#preloader2").hide()
+            $("#preloader3").fadeIn('slow')
+
+        })
+
+
+        $("#closeQual").click(function () {
+            $("#preloader2").fadeOut()
+            $("#preloader3").fadeOut('slow')
+
+        })
+    })
+
+</script>
+
+<div id="preloader2">
+    <div id="status2">
+        @*<div style="background-color:white;width:200px;height:200px">*@
+
+        <div class="content-modal text-center" style="margin-left:auto; margin-right:auto;margin-top:10em; text-align:left">
+            @*<a href="#close" title="Close" class="close"> <img src="~/Content/Images/school_logo.jpg" style="width:79px;" /></a>*@
+            <h3>Important Notice!</h3>
+
+            <p id="qual-text">
+                For students whose school fees receipts are not showing their payment breakdown.
+
+                Kindly return to the school portal.
+                <br />
+                <br />
+                <b>AS A RETURNING STUDENT:</b>
+                <br />
+
+                1. Login to your account using your matric number and password
+                <br />
+
+                2. Click on session registration
+                <br />
+
+                3. Input your RRR number and REGENERATE your receipt.
+                <br />
+                <br />
+                <br />
+
+                <b>AS A NEW STUDENT</b>
+                <br />
+
+                1. On the portal, click on Applicant and select Check Admissions Status
+                <br />
+
+                2. Type in your Application number and Application RRR number to log in
+                <br />
+
+                3. Select step 5 then REPRINT  your receipt.
+            </p>
+
+            <br />
+            <br />
+            <i>Call <b>07088391544</b> for questions and assistance</i>
+
+            <br />
+            <p id="">
+                <a id="closeQualPPrompt" style="cursor:pointer;color:green">Next</a>
+            </p>
+            <a href="#close" title="Close" class="close"> <img src="~/Content/Images/school_logo.jpg" style="width:79px;" /></a>
+
+        </div>
+
+        @*</div>*@
+    </div>
+</div>
+
+<div id="preloader3">
+    <div id="status3">
+        @*<div style="background-color:white;width:200px;height:200px">*@
+
+        <div class="content-modal text-center" style="margin-left:auto; margin-right:auto;margin-top:10em; text-align:left">
+            @*<a href="#close" title="Close" class="close"> <img src="~/Content/Images/school_logo.jpg" style="width:79px;" /></a>*@
+            <h3>Important Notice!</h3>
+            <br />
+
+            <p id="qual-text">
+                For students that have issues with payment amount I.e a situation where the amount on the invoice is greater or less than the amount showing at the bank.
+
+                Kindly go back to the school portal
+                <br />
+                <br />
+                <b>As a returning student:</b>
+                <br />
+
+                1. Login into ur account to generate another invoice.
+                <br />
+
+                2. Select the appropriate parameters - offering cisco? (yes/no), offering robotics (yes/no)
+
+                <br />
+
+                3. Confirm your selection
+                <br />
+
+
+                4. Click on Regenerate invoice (at the bottom of the page) and select YES
+
+                <br />
+
+                You will be presented with a nee invoice that reflects the appropriate amount and a new invoice number
+
+            </p>
+
+            <br />
+            <br />
+            <i>Call <b>07088391544</b> for questions and assistance</i>
+
+            <br />
+            <p id="">
+                <a id="closeQual" style="cursor:pointer; color:green">Close</a>
+            </p>
+            <a href="#close" title="Close" class="close"> <img src="~/Content/Images/school_logo.jpg" style="width:79px;" /></a>
+
+        </div>
+
+        @*</div>*@
+    </div>
+</div>
+<div class="jumbotron"
+     style="background: url('https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?cs=srgb&dl=bookcase-books-bookshelf-1370295.jpg&fm=jpg');
+background-size: cover;
+background-repeat: no-repeat;
+border-bottom-left-radius: 50% 20%;
+    border-bottom-right-radius: 50% 20%; min-height: 520px;
+">
+
+
+    <div class="container">
+        <div class="row" style="padding: 20px;">
+            <div class="col-md-5">
+
+                <div class="containerdemo">
+                    <div class="quote-box">
+                        <div class="quote">
+                            <h3>Welcome to Federal Polytechnic, Ilaro!</h3>
+                            <blockquote>
+                                "The secret of getting ahead is getting started. The secret of getting started is breaking your complex
+                                overwhelming tasks into small manageable tasks, and starting on the first one."
+                            </blockquote>
+                        </div>
+                        <div class="name">
+                            Mark Twain
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @if (@ViewBag.message != null)
+    {
+        <div class="container ">
+            <div class="bg-warning mr-1 ml-3 col-md-12 ml-auto mr-auto p-3" style="border-radius: 3px; margin-top: 20px;">
+                <marquee>
+                    @foreach (string item in ViewBag.message)
+                    {
+                        <span style="display: block; padding:5px; color: #333; font-weight: bold;"> @item</span>
+                    }
+                </marquee>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+<div class="container mb-4" style="margin-top: -75px; margin-bottom: 30px;">
+    <div class="card card-shadow mb-4">
+
+
+        <div class="row text-justify">
+
+            <div class="col-md-3 col-sm-6 hero-feature ilaro-box-one">
+                <div class="thumbnail" style="min-height: 265px">
+                    <center>
+                        <img src="~/Content/Images/003-webpage.png" height="40" alt="" />
+                    </center>
+                    <div class="caption" style="min-height: 245px">
+                        <h4 style="text-align:center;">Generate Invoice</h4>
+                        <div class="minibody">
+                            To apply for any programme, you must generate an invoice. This should be taken to
+                            any of the designated banks where you would pay the exact amount on the invoice.
+                        </div>
+                        <p>
+                            @Html.ActionLink("Generate Invoice", "PostJambFormInvoiceGeneration", "Form", new { Area = "Applicant" }, new { @class = "btn btn-warning btn-block" })
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3 col-sm-6 hero-feature ilaro-box-one">
+                <div class="thumbnail" style="min-height: 265px">
+                    <center>
+                        <img src="~/Content/Images/001-checklist.png" height="40" alt="">
+                    </center>
+                    <div class="caption" style="min-height: 245px">
+                        <h4 style="text-align:center;">Check Result</h4>
+                        <div class="minibody">To Check your PUTME / Entrance Exam Result, please click the link below.</div>
+                        <p>
+                            @Html.ActionLink("Check Result", "Index", "PostUtmeResult", new { Area = "Applicant" }, new { @class = "btn btn-warning btn-block" })
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 hero-feature ilaro-box-one">
+                <div class="thumbnail" style="min-height: 265px">
+                    <center>
+                        <img src="~/Content/Images/002-search-file.png" height="40" alt="" />
+                    </center>
+                    <div class="caption" style="min-height: 245px">
+                        <h4 style="text-align:center;">Search for Result</h4>
+                        <div class="minibody">If you wrote the PUTME exam without filling the form, please click the link below to merge result with form.</div>
+                        <p>
+                            @Html.ActionLink("Search Result", "MergeResult", "PostUtmeResult", new { Area = "Applicant" }, new { @class = "btn btn-warning btn-block" })
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 hero-feature ilaro-box-one">
+                <div class="thumbnail" style="min-height: 265px">
+                    <center>
+                        <img src="~/Content/Images/004-curriculum.png" height="40" alt="" />
+                    </center>
+                    <div class="caption" style="min-height: 245px">
+                        <h4 style="text-align:center;">Application Status</h4>
+                        <div class="minibody">To check your Application Status, please use the link below.</div>
+                        <p>
+                            @Html.ActionLink("Check Admission Status", "CheckStatus", "Admission", new { Area = "Applicant" }, new { @class = "btn btn-warning btn-block" })
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        @*<div class="row">
+                <div class="col-md-12">
+
+                    <div class="panel" style="background: #f2f2f2;">
+                        <div class="panel-heading"><h2>Instruction</h2></div>
+                        <div class="panel-body text-justify">
+
+                            <p><h5>Are you having difficulty generating your acceptance invoice or receipt?</h5></p>
+                            <p>Submit your complaint online and get resolution in less than 3hrs</p>
+                            @Html.ActionLink("Submit your Complaint", "Index", "Complain", new { Area = "Applicant" }, new { @class = "btn btn-success" })
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+    </div>
+</div>
+
+
+@*<div class="modal" tabindex="-1" role="dialog" id="infoModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>All  fees payment verification are now online, candidates with payment issues should call this number <b>0803 238 4666</b> between 8:00am to 5:00pm </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>*@

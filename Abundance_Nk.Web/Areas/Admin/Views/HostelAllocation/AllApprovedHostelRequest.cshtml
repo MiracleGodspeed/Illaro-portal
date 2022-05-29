@@ -1,0 +1,422 @@
+﻿
+@using Abundance_Nk.Business
+@model Abundance_Nk.Web.Areas.Admin.ViewModels.HostelViewModel
+@{
+    ViewBag.Title = "ApprovedHostelRequest";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+@section Scripts {
+
+
+    <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $.extend($.fn.dataTable.defaults, {
+                responsive: false
+            });
+
+            $("#requestTable").DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible',
+                            header: true,
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+
+
+
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    }, , 'colvis'
+                ]
+            });
+        })
+
+
+
+        function updateStatus(id, levelId) {
+            var level = levelId;
+
+            if (!id) {
+                showNotification("Invalid id.", "warning", "Attention!");
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ApproveSingleHostelRequest", "HostelAllocation")',
+                dataType: 'json',
+                beforeSend: function () { $("#checkProgress").show() },
+                data: { requestId: id, levelId: level, status: event.target.checked },
+                success: function (result) {
+                    if (result.IsError === false) {
+                        showNotification(result.Message, "success", "Success!");
+                    } else {
+                        showNotification(result.Message, "warning", "Attention!");
+                    }
+
+                    $("#checkProgress").hide();
+                },
+                error: function (jqXHR) {
+                    showNotification(jqXHR.statusText, "warning", "Attention!");
+                    $("#checkProgress").hide();
+                }
+            });
+
+            return;
+        }
+
+        function showNotification(msg, type, title) {
+            $.toast({
+                heading: title,
+                text: msg,
+                position: 'top-right',
+                loaderBg: '#ff6849',
+                icon: type,
+                hideAfter: 6500,
+                stack: 6
+            });
+        }
+
+        function showLoading() {
+            $("#btnSubmit").hide();
+            $("#btnLoading").show();
+        }
+        function showSaveLoading() {
+            $("#btnSave").hide();
+            $("#btnSaveProgress").show();
+        }
+
+        function checkAll() {
+            if ($('#check_all').is(':checked')) {
+                $('.checkbox').prop('checked', true);
+            } else {
+                $('.checkbox').prop('checked', false);
+            }
+        }
+
+        function updateSelected() {
+
+            var level = $("#level").val();
+
+            $("#btnSubmit").hide();
+            $("#btnSave").hide();
+
+            $("#btnLoading").show();
+            $("#btnSaveProgress").show();
+            $("#checkProgress").show();
+
+            $(".checkbox").map((index, currentItem) => {
+                var item = currentItem;
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ApproveSingleHostelRequest", "HostelAllocation")',
+                    dataType: 'json',
+                    beforeSend: function () {  },
+                    data: { requestId: item.value, levelId: level, status: item.checked },
+                    success: function (result) {
+                        if (result.IsError === false) {
+                            showNotification(result.Message, "success", "Success!");
+                        } else {
+                            showNotification(result.Message, "warning", "Attention!");
+                        }
+                    },
+                    error: function (jqXHR) {
+                        showNotification(jqXHR.statusText, "warning", "Attention!");
+                    }
+                });
+
+                if (index == ($(".checkbox").length - 1)) {
+
+                    $("#btnSubmit").show();
+                    $("#btnSave").show();
+
+                    $("#btnLoading").hide();
+                    $("#btnSaveProgress").hide();
+                    $("#checkProgress").hide();
+
+                }
+            });
+
+        }
+
+    </script>
+}
+
+<div class="col-md-12">
+
+    <div>
+        @if (TempData["Message"] != null)
+            {
+            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+        }
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading panel-dark-head">
+            <h4>All Approved Hostel Requests</h4>
+        </div>
+        <div class="panel-body">
+
+        </div>
+
+        <div class="panel-body">
+            @*@if (Model.HostelRequests != null && Model.HostelRequests.Count > 0)
+                {*@
+            <div class="panel panel-danger">
+                <div class="panel-body table-responsive">
+                    @*@using (Html.BeginForm("ApproveHostelRequestFromViewPendingRequest", "HostelAllocation", new { Area = "Admin" }, FormMethod.Post))
+                    {*@
+
+                        <table class="table-bordered table-hover table-striped table" id="requestTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Picture
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Gender
+                                    </th>
+                                    <th>
+                                        Matric NO.
+                                    </th>
+                                    <th>
+                                        State
+                                    </th>
+                                    <th>
+                                        Address
+                                    </th>
+                                    <th>
+                                        Programme
+                                    </th>
+                                    <th>
+                                        Department
+                                    </th>
+                                    <th>
+                                        Level
+                                    </th>
+                                    <th>
+                                        Approved By
+                                    </th>
+                                    @*<th></th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.HostelRequests.Count; i++)
+                                {
+                                    StudentLogic studentLogic = new StudentLogic();
+                                    var personId = Model.HostelRequests[i].Person.Id;
+                                    var student=studentLogic.GetModelsBy(d => d.Person_Id == personId).FirstOrDefault();
+                                    var MatricNo = student != null ? student.MatricNumber : null;
+                                    <tr>
+
+                                        @Html.HiddenFor(model => model.HostelRequests[i].Id)
+                                        @if (Model.HostelRequests[i].Student != null)
+                                        {
+                                            if (!string.IsNullOrEmpty(Model.HostelRequests[i].Student.ImageFileUrl))
+                                            {
+                                                <td>
+                                                    <img src="@Url.Content(@Model.HostelRequests[i].Student.ImageFileUrl)" class="img img-rounded" style="width: 200px; height: 200px" />
+
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <img src="@Url.Content("~/Content/Images/default_avatar.png")" class="img img-rounded" style="width: 200px; height: 200px" />
+
+                                                </td>
+                                            }
+
+                                            <td>
+                                                @Model.HostelRequests[i].Student.FullName.ToUpper()
+                                            </td>
+                                            if (Model.HostelRequests[i].Student.Sex != null && Model.HostelRequests[i].Student.Sex.Id > 0)
+                                            {
+                                                <td>
+                                                    @Model.HostelRequests[i].Student.Sex.Name
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+
+                                            if (Model.HostelRequests[i].Student.MatricNumber != null)
+                                            {
+                                                <td>
+                                                    @Model.HostelRequests[i].Student.MatricNumber.ToUpper()
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+
+                                            if (Model.HostelRequests[i].Student.State != null)
+                                            {
+                                                <td>
+                                                    @Model.HostelRequests[i].Student.State.Name.ToUpper()
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+
+                                            <td>
+                                                @Model.HostelRequests[i].Student.SchoolContactAddress
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(Model.HostelRequests[i].Person.ImageFileUrl))
+                                            {
+                                                <td>
+                                                    <img src="@Url.Content(@Model.HostelRequests[i].Person.ImageFileUrl)" class="img img-rounded" style="width: 200px; height: 200px" />
+
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <img src="@Url.Content("~/Content/Images/default_avatar.png")" class="img img-rounded" style="width: 200px; height: 200px" />
+
+                                                </td>
+                                            }
+
+                                            <td>
+                                                @Model.HostelRequests[i].Person.FullName.ToUpper()
+                                            </td>
+                                            if (Model.HostelRequests[i].Person.Sex != null && Model.HostelRequests[i].Person.Sex.Id > 0)
+                                            {
+                                                <td>
+                                                    @Model.HostelRequests[i].Person.Sex.Name
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                            <td>@MatricNo</td>
+
+                                            if (Model.HostelRequests[i].Person.State != null)
+                                            {
+                                                <td>
+                                                    @Model.HostelRequests[i].Person.State.Name.ToUpper()
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+
+                                            <td>
+                                                @Model.HostelRequests[i].Person.ContactAddress
+                                            </td>
+                                        }
+
+                                        <td>
+                                            @Model.HostelRequests[i].Programme.Name
+                                        </td>
+                                        <td>
+                                            @Model.HostelRequests[i].Department.Name
+                                        </td>
+                                        <td>
+                                            @Model.HostelRequests[i].Level.Name
+                                        </td>
+                                        <td>
+                                            @Model.HostelRequests[i].User.Username
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                            <br />
+
+                    @*}*@
+                </div>
+            </div>
+            @*}*@
+        </div>
+
+    </div>
+</div>
+
+

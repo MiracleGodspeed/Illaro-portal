@@ -1,0 +1,126 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.TranscriptViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+    
+           <div class="row">
+               <div class="col-md-3"></div>
+               <div class="col-md-6">
+
+                   <div class="panel">
+                       <div class="panel-heading">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   @if (Model.RequestType == null)
+                                   {
+                                       <h3>
+                                           Transcript Request 
+                                       </h3>
+                                   }
+                                   @if (Model.RequestType == "Certificate Collection")
+                                   {
+                                       <h3>
+                                           Certificate Collection 
+                                       </h3>
+                                   }
+                                   @if (Model.RequestType == "Transcript Verification")
+                                   {
+                                       <h3>
+                                           Transcript Verification 
+                                       </h3>
+                                   }
+                                   @if (Model.RequestType == "Certificate Verification")
+                                   {
+                                       <h3>
+                                           Certificate Verification
+                                       </h3>
+                                   }
+                                   @if (Model.RequestType == "Convocation Fee")
+                                   {
+                                       <h3>
+                                           Convocation Fee 
+                                       </h3>
+                                   }
+
+                               </div>
+
+                           </div>
+                       </div>
+                       <div class="panel-body">
+
+                           @if (TempData["Message"] != null)
+                           {
+                               @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                           }
+
+                           @using (Html.BeginForm("IndexAlt", "Transcript", FormMethod.Post, new { id = "frmIndex", enctype = "multipart/form-data" }))
+                           {
+                               @Html.AntiForgeryToken()
+                               @Html.ValidationSummary(true)
+
+                        
+                                   <p>Enter your matric Number and click on the search button to retrieve your details</p>
+                                   <hr style="margin-top:0" />
+                                  
+                                       <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="form-group">
+                                                   @Html.LabelFor(model => model.transcriptRequest.student.MatricNumber, new { @class = "control-label " })
+                                                   @Html.TextBoxFor(model => model.transcriptRequest.student.MatricNumber, new { @class = "form-control" })
+                                                   @Html.ValidationMessageFor(model => model.transcriptRequest.student.MatricNumber, null, new { @class = "text-danger" })
+                                               </div>
+                                           </div>
+
+                                           @if (Model.transcriptRequest.student != null)
+                                           {
+                                               <div class="col-md-8">
+                                                   <div class="well well-sm">
+                                                       <div class="form-group">
+
+                                                           <br />
+                                                           @if (Model.transcriptRequest.payment == null)
+                                                           {
+                                                               @Html.ActionLink(Model.transcriptRequest.student.FullName + " - " + Model.transcriptRequest.student.MatricNumber + " >> Click to continue", "Request", "Transcript", new { sid = Model.transcriptRequest.student.Id }, new { @class = "btn btn-danger btn-sm", target = "_blank" })
+                                                           }
+                                                           else
+                                                           {
+                                                               @Html.ActionLink(Model.transcriptRequest.student.FullName + " - " + Model.transcriptRequest.student.MatricNumber + " >> Click to check status", "TranscriptPayment", "Transcript", new { tid = Model.transcriptRequest.Id }, new { @class = "btn btn-danger btn-sm", target = "_blank" })
+                                                           }
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           }
+
+
+
+                                       </div>
+                            
+                                 
+                                               <div class="form-group">
+                                             
+                                                       <input class="btn btn-success btn-lg mr5" type="submit" name="submit" id="submit" value="Search" />
+                                                 
+                                               </div>
+                       
+
+                                    
+                                 
+
+                       
+
+                               <br />
+                           }
+
+                       </div>
+
+                   </div>
+               </div>
+       
+    </div>
+
+</div>

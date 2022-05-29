@@ -1,0 +1,236 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.TranscriptProcessorViewModel
+@{
+    ViewBag.Title = "Transcript Requests";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+
+   <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+<link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+
+<script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<link href="~/Content/jquery-ui-1.10.3.css" rel="stylesheet" />
+<script src="~/Scripts/file-upload/jquery-ui-1.9.2.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.date').datepicker({
+                dateFormat: "mm/dd/yy",
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                autoclose: true,
+                changeMonth: true,
+                changeYear: true,
+                //gotoCurrent: true,
+            });
+
+            var dateFrom = $("#DateFrom").val();
+            var dateTo = $("#DateTo").val();
+
+            $('#table-request').DataTable({
+                //order: [[3, 'asc']],
+                dom: 'Bfrtip',
+                buttons: [
+                       {
+                           extend: 'print',
+                           exportOptions: {
+                               columns: [0, 1, 2, 3, 4, 5],
+                               modifier: {
+                                   orientation: 'landscape'
+                               }
+                           },
+                           header: true,
+                           orientation: 'landscape',
+                           customize: function (doc) {
+                               doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                           },
+                           title: 'Transcript Request',
+                           message: "Transcript Requests From:  " + dateFrom + "  To:  " + dateTo
+                       },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5],
+                                modifier: {
+                                    orientation: 'landscape'
+                                }
+                            },
+                            header: true,
+                            orientation: 'landscape',
+                            customize: function (doc) {
+                                doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                            },
+                            title: 'Transcript Request',
+                            message: "Transcript Requests From:  " + dateFrom + "  To:  " + dateTo
+                        },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5],
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        header: true,
+                        orientation: 'landscape',
+                        customize: function (doc) {
+                            doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                        },
+                        title: 'Transcript Request',
+                        message: "Transcript Requests From:  " + dateFrom + "  To:  " + dateTo
+                    },
+                    'colvis'
+                ],
+                columnDefs: [{
+                    targets: [5],
+                    visible: true,
+                    "searchable": false
+                }]
+            });
+
+            $("#aPrint").on('click', function () {
+                $(".printable").print();
+                return false;
+            });
+        });
+
+
+        function getnewValue(val) {
+            var dropdownChanged = val.id;
+            var buttonId = document.getElementById(dropdownChanged).offsetParent.nextElementSibling.childNodes[0].id;
+            var buttonUrl = document.getElementById(dropdownChanged).offsetParent.nextElementSibling.childNodes[0].href;
+
+            var ur = buttonUrl + "&stat=" + val.value;
+            document.getElementById(buttonId).href = ur;
+
+        }
+
+    </script>
+}
+
+
+<div>
+    @if (TempData["Message"] != null)
+    {
+        @Html.Partial("_Message", TempData["Message"])
+    }
+</div>
+
+<div class="container" style="width: 100% !important; font-size: 12px">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("ViewTranscriptVerificationRequests", "TranscriptProcessor", FormMethod.Post))
+            {
+                <h2> Transcript Requests</h2>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateFrom, "Date From:", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DateFrom, new { @class = "form-control date", required = "required" })
+                            @Html.ValidationMessageFor(model => model.DateFrom)
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateTo, "Date To:", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DateTo, new { @class = "form-control date", required = "required" })
+                            @Html.ValidationMessageFor(model => model.DateTo)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button class="btn btn-default" type="submit" name="submit" id="submit">Search</button> &nbsp;
+                            @*@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                @Html.ActionLink("Update Transcript Payments", "UpdateTranscriptRemitaPayment", null, new { @class = "btn btn-sm btn-danger-alt" })
+                            }*@
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.transcriptRequests != null && Model.transcriptRequests.Count > 0)
+            {
+                <h2> Transcript Requests</h2>
+
+                <div class="table-responsive">
+                    <span style="display: none" class="Load"><img src="~/Content/Images/bx_loader.gif" /></span>
+                    <table id="table-request" class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Name</th>
+                                <th>Matric Number</th>
+                                <th>Programme</th>
+                                <th>Department</th>
+                                <th>Date Requested</th>
+                                <th style="width: 150px">Destination</th>
+                                <th>Delivery Service</th>
+                                <th>State</th>
+                                <th>Country</th>
+                                <th>Status</th>
+                                <th>Invoice Number</th>
+                                <th>RRR</th>
+                                <th>Amount</th>
+                                <th>Payment Date</th>
+                                @*<th style="width: 80px">Select Status</th>
+                                <th>Update Status</th>
+                                <th>Statement of Result</th>
+                                <th>Alumni Receipt</th>
+                                <th>Verify</th>*@
+                            </tr>
+                        </thead>
+                        <tbody style="color: black;">
+                            @for (int i = 0; i < Model.transcriptRequests.Count; i++)
+                            {
+                                var sn = i + 1;
+                                <tr>
+                                    <td>@sn</td>
+                                    <td>@Model.transcriptRequests[i].Name.ToUpper()</td>
+                                    <td>@Model.transcriptRequests[i].MatricNumber.ToUpper()</td>
+                                    <td>@Model.transcriptRequests[i].ProgrammeName</td>
+                                    <td>@Model.transcriptRequests[i].DepartmentName</td>
+                                    <td>@Html.DisplayTextFor(m => m.transcriptRequests[i].DateRequested)</td>
+                                    <td style="width: 150px">@Model.transcriptRequests[i].DestinationAddress</td>
+                                    <td>@Html.DisplayTextFor(m => m.transcriptRequests[i].DeliveryService)</td>
+                                    <td>@Html.DisplayTextFor(m => m.transcriptRequests[i].StateName)</td>
+                                    <td>@Html.DisplayTextFor(m => m.transcriptRequests[i].CountryName)</td>
+                                    <td>@Html.DisplayTextFor(m => m.transcriptRequests[i].Status)</td>
+                                    <td>@Html.DisplayTextFor(m => m.transcriptRequests[i].InvoiceNumber)</td>
+                                    <td>@Html.DisplayTextFor(m => m.transcriptRequests[i].RRR)</td>
+                                    <td>@Html.DisplayTextFor(m => m.transcriptRequests[i].TransactionAmount)</td>
+                                    <td>@Html.DisplayTextFor(m => m.transcriptRequests[i].TransactionDate)</td>
+                                    @*<td style="width: 80px">@Html.DropDownListFor(m => m.transcriptRequests[i].transcriptStatus.TranscriptStatusId, (IEnumerable<SelectListItem>)ViewData["status" + i], new { @class = "form-control statusDrop", @onChange = "getnewValue(this)" })</td>
+                                    <td>@Html.ActionLink("Update", "UpdateStatus", "TranscriptProcessor", new { tid = Model.transcriptRequests[i].Id }, new { @class = "btn btn-default", @id = "url" + i })</td>
+                                    <td><button class="btn btn-primary" onclick="displayStatement(@Model.transcriptRequests[i].Id)">View</button></td>
+                                    <td><button class="btn btn-primary" onclick="displayAlumni(@Model.transcriptRequests[i].Id)">View</button></td>
+                                    <td><button class="btn btn-primary" onclick="verifyRequest(@Model.transcriptRequests[i].Id)">verified</button></td>*@
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

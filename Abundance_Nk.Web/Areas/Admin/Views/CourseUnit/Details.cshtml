@@ -1,0 +1,75 @@
+﻿@model Abundance_Nk.Model.Entity.COURSE_UNIT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>COURSE_UNIT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Minimum_Unit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Minimum_Unit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Maximum_Unit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Maximum_Unit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DEPARTMENT.Department_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DEPARTMENT.Department_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LEVEL.Level_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LEVEL.Level_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SEMESTER.Semester_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SEMESTER.Semester_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DEPARTMENT_OPTION.Department_Option_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DEPARTMENT_OPTION.Department_Option_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PROGRAMME.Programme_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PROGRAMME.Programme_Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Course_Unit_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

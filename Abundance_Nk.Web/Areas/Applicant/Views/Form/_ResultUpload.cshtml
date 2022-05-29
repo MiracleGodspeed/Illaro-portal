@@ -1,0 +1,192 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJambViewModel
+
+@{
+    //Layout = null;
+}
+
+<br/>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div style="font-size:x-large">ND RESULT UPLOAD</div>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-offset-2 col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row form-inline">
+                                    <div class="col-md-offset-3 col-md-8">
+                                        <div class="form-group">
+                                            @Html.RadioButtonFor(m => m.UploadType, "Certificate", new { id = "certificateCkb", Checked = "checked" }) ND Certificate &nbsp;
+                                            @Html.RadioButtonFor(m => m.UploadType, "Result", new { id = "resultCkb" }) ND Result
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="col-md-12">
+
+                                            <div class="col-md-6 ">
+                                                @Html.HiddenFor(model => model.PreviousEducation.ResultCopyUrl, new { id = "hfCredentialCertUrl", name = "hfCredentialCertUrl" })
+                                                <input type="text" id="cert-file-path" readonly="readonly" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(m => m.MyCredentialFileCertificate, new { id = "cu-cert-credential-simple-upload", type = "file", style = "color:transparent;" })
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <input class="btn btn-default btn-metro" type="button" name="cert-start-upload" id="cert-start-upload" value="Upload Credential" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div id="CertfileUploadProgress" style="display:none">
+                                                    <img src="@Url.Content("~/Content/Images/bx_loader.gif")" />
+                                                    <span>Uploading ...</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-------------------------upload IT letter of completion----------------------->
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="row form-inline">
+                                        <div class="col-md-offset-3 col-md-8">
+                                            <div class="form-group">
+                                               <label>IT Letter of Completion Upload</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        @Html.HiddenFor(model => model.PreviousEducation.ITLetterOfCompletion, new { id = "hfITCompletiontUrl", name = "hfITCompletiontUrl" })
+                                        <input type="text" id="itLetter-file-path" readonly="readonly" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.ItLetterOfCompletion, new { id = "it-letter-of-completion-simple-upload", type = "file", style = "color:transparent;" })
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input class="btn btn-default btn-metro" type="button" name="itletter-start-upload" id="itletter-start-upload" value="Upload Letter" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="itLetterFileUploadProgress" style="display:none">
+                                                <img src="@Url.Content("~/Content/Images/bx_loader.gif")" />
+                                                <span>Uploading ...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12" for="certificateImage">ND Certificate</label>
+                                    <div class="col-md-12">
+                                        @if (Model.PreviousEducation.CertificateCopyUrl != null)
+                                        {
+                                            <a href="@Url.Content(Model.PreviousEducation.CertificateCopyUrl)" height="100" width="100" target="_blank" rel="noopener noreferrer"><i class="glyphicon glyphicon-eye-open"></i>View</a>
+                                        }
+                                      
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12" for="resultImage">ND Result</label>
+                                    <div class="col-md-12">
+                                        @if (Model.PreviousEducation.ResultCopyUrl != null)
+                                        {
+                                            <a href="@Url.Content(Model.PreviousEducation.ResultCopyUrl)" height="100" width="100" target="_blank" rel="noopener noreferrer"><i class="glyphicon glyphicon-eye-open"></i>View</a>
+                                        }
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12" for="resultImage">IT Letter of Completion</label>
+                                    <div class="col-md-12">
+                                        @if (Model.PreviousEducation.ITLetterOfCompletion != null)
+                                        {
+                                            <a href="@Url.Content(Model.PreviousEducation.ITLetterOfCompletion)" height="100" width="100" target="_blank" rel="noopener noreferrer"><i class="glyphicon glyphicon-eye-open"></i>View</a>
+                                        }
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                            @*<div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12" for="certificateImage">ND Certificate</label>
+                                    <div class="col-md-12">
+                                        @if (Model.PreviousEducation.CertificateCopyUrl != null)
+                                        {
+                                            <a href="@Url.Content(Model.PreviousEducation.CertificateCopyUrl)" height="100" width="100"><i class="glyphicon glyphicon-cloud-download"></i>Certificate</a>
+                                        }
+                                        else
+                                        {
+                                            <img id="certificateImage" src="~/Content/Images/edit_icon.png" height="100" width="100">
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12" for="resultImage">ND Result</label>
+                                    <div class="col-md-12">
+                                        @if (Model.PreviousEducation.ResultCopyUrl != null)
+                                        {
+                                            <a href="@Url.Content(Model.PreviousEducation.ResultCopyUrl)" height="100" width="100"><i class="glyphicon glyphicon-cloud-download"></i>Result</a>
+                                        }
+                                        else
+                                        {
+                                            <img id="resultImage" src="~/Content/Images/edit_icon.png" height="100" width="100">
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-12" for="resultImage">IT Letter of Completion</label>
+                                    <div class="col-md-12">
+                                        @if (Model.PreviousEducation.ITLetterOfCompletion != null)
+                                        {
+                                            <a href="@Url.Content(Model.PreviousEducation.ITLetterOfCompletion)" height="100" width="100"><i class="glyphicon glyphicon-cloud-download"></i>IT Letter of Completion</a>
+                                        }
+                                        else
+                                        {
+                                            <img id="resultImage" src="~/Content/Images/edit_icon.png" height="100" width="100">
+                                        }
+                                    </div>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>

@@ -1,0 +1,402 @@
+﻿@*@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJAMBFormPaymentViewModel*@
+@model Abundance_Nk.Web.Areas.Student.ViewModels.PaymentViewModel
+
+
+@{
+    ViewBag.Title = "Post JAMB Programme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert.min.js"></script>
+<style>
+    #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(22, 21, 21, 0.932);
+        /* change if the mask should have another color then white */
+        z-index: 99999;
+        display: none
+        /* makes sure it stays on top */
+    }
+
+    #status {
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        left: 42%;
+        /* centers the loading animation horizontally one the screen */
+        top: 40%;
+        /* centers the loading animation vertically one the screen */
+        /* background-image: url(./images/icon-1.png); */
+        /* path to your loading animation */
+        background-repeat: no-repeat;
+        background-position: center;
+        /* margin: -100px 0 0 -100px; */
+        background-size: 400px;
+        background-color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        /* is width and height divided by two */
+    }
+
+    .ld-img {
+        left: 0rem !important;
+        top: 0rem !important;
+        width: 31px !important;
+        margin-top: 25px !important;
+        margin-bottom: 10px !important;
+        position: relative !important;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //alert("Application has closed for ND Part-Time and HND Full-Time");
+        //var items = $('#AppliedCourse_Option_Id option').size();
+        //if (items > 0) {
+        //    $("#divDepartmentOption").show();
+        //}
+        //else {
+        //    $("#divDepartmentOption").hide();
+        //}
+
+        //$("#Programme_Id option[value=1]").remove();
+        //$("#Programme_Id option[value=2]").remove();
+        //$("#Programme_Id option[value=3]").remove();
+        //$("#Programme_Id option[value=4]").remove();
+        //$("#Programme_Id option[value=5]").remove();
+        //$("#Programme_Id option[value=6]").remove();
+
+        var selectedProgramme = $("#Programme_Id").val();
+        if (selectedProgramme == 1 || selectedProgramme == 9) {
+            $("#divJambNo").show();
+        }
+        else
+        {
+            $("#divJambNo").hide();
+        }
+
+        $("#isAcknowledged").change(function () {
+            if (this.checked) {
+                $("#submit").fadeIn();
+            }
+            else {
+                $("#submit").hide();
+            }
+
+        })
+
+        $("#submit").click(function () {
+            $("#submit").fadeIn('slow')
+
+        })
+
+        $("#Programme_Id").change(function () {
+
+            var programme = $("#Programme_Id").val();
+            if (programme == 1) {
+                $("#divJambNo").show();
+                $("#divDepartmentOption").hide();
+            }
+            else if (programme == 2) {
+                $("#divJambNo").hide();
+                $("#divDepartmentOption").hide();
+            }
+            else if (programme == 3) {
+                $("#divJambNo").hide();
+                $("#divDepartmentOption").show();
+            }
+            else if (programme == 4) {
+                $("#divJambNo").hide();
+                $("#divDepartmentOption").show();
+            }
+            else if (programme == 8) {
+                $("#divJambNo").hide();
+                $("#divDepartmentOption").show();
+            }
+            else {
+                $("#divJambNo").hide();
+                $("#divDepartmentOption").hide();
+            }
+
+            $("#AppliedCourse_Department_Id").empty();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartmentByProgrammeId")', // we are calling json method
+                dataType: 'json',
+                data: { id: programme },
+                success: function (departments) {
+                    $("#AppliedCourse_Department_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+
+                    $.each(departments, function (i, department) {
+                        //if (programme == 1) {
+                        //    if (department.Value == 31 || department.Value == 32 || department.Value == 34) {
+                        //        $("#AppliedCourse_Department_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                        //    }
+                        //}
+                        //else {
+                        //    $("#AppliedCourse_Department_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                        //}
+
+                        $("#AppliedCourse_Department_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                        if (programme == 5) {
+
+                            //$("#AppliedCourse_Department_Id option[value=18]").remove();
+
+                        }
+						if (programme == 2) {
+
+                            //$("#AppliedCourse_Department_Id option[value=6]").remove();
+
+                        }
+						 if (programme == 3) {
+                            //$("#AppliedCourse_Department_Id option[value=24]").remove();
+							//$("#AppliedCourse_Department_Id option[value=28]").remove();
+							$("#AppliedCourse_Department_Id option[value=29]").remove();
+                        }
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve departments.' + ex);
+                }
+            });
+        })
+        $('#JambRegistrationNumber').keyup(function () {
+            var jambNum = $('#JambRegistrationNumber').val();
+            if (jambNum.length == 10) {
+                $('#preloader').fadeIn();
+                $.ajax({
+                type: 'POST',
+                url: '@Url.Action("FetchJambRecord")', // we are calling json method
+                dataType: 'json',
+                data: { JambRegNumber: jambNum },
+                    success: function (response) {
+                        $('#preloader').fadeOut();
+                        console.log(response);
+                        if (response.DataExist == true && response != null) {
+                            $('#ack_declaration').hide();
+                            $("#submit").fadeIn();
+                            $('#Person_LastName').val(response.LastName);
+                            $('#Person_FirstName').val(response.FirstName);
+                            $('#Person_OtherName').val(response.OtherName);
+                            $('#Person_LastName').attr('readonly', true);
+                            $('#Person_FirstName').attr('readonly', true);
+                            $('#Person_OtherName').attr('readonly', true);
+                            if (response.DepartmentId != null) {
+                                $("#AppliedCourse_Department_Id").find('option[value="' + parseInt(response.DepartmentId) + '"]').attr("selected", "selected");
+                                $('#AppliedCourse_Department_Id').attr('readonly', true);
+
+                            }
+                            if (response.StateId != null) {
+                                $("#Person_State_Id").find('option[value="' + response.StateId + '"]').attr("selected", "selected");
+                                $('#Person_State_Id').attr('readonly', true);
+
+                            }
+                        }
+                        else {
+                            swal('System Notice!', 'You did NOT selected Fedpoly Ilaro as your preferred Institution. Continue to Purchase Form', 'warning');
+                            $('#ack_declaration').fadeIn();
+                            $("#submit").fadeOut();
+                            $('#Person_LastName').val("");
+                            $('#Person_FirstName').val("");
+                            $('#Person_OtherName').val("");
+                            $('#Person_LastName').attr('readonly', false);
+                            $('#Person_FirstName').attr('readonly', false);
+                            $('#Person_OtherName').attr('readonly', false);
+                            $('#Person_State_Id').attr('readonly', false);
+                            $('#AppliedCourse_Department_Id').attr('readonly', false);
+
+                        }
+                },
+                    error: function (ex) {
+                        $('#preloader').fadeOut();
+                        //swal('Error!', 'Error occured while attempting to validate JAMB reg number. Please try again.', 'warning');
+
+                        //$('#AppliedCourse_Department_Id').attr('readonly', false);
+
+                }
+            });
+            }
+        });
+        //Load Department Option
+        $("#AppliedCourse_Department_Id").change(function () {
+
+            var department = $("#AppliedCourse_Department_Id").val();
+            var programme = $("#Programme_Id").val();
+
+            $("#AppliedCourse_Option_Id").empty();
+
+            //if (department == 9 || department == 15 || department == 20) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDepartmentOptionByDepartment")', // we are calling json method
+                    dataType: 'json',
+                    data: { id: department, programmeid: programme },
+                    success: function (departmentOptions) {
+                        //$("#hfDepartmentOptionExist").val(departmentOptions[0]);
+
+                        if (departmentOptions == "" || departmentOptions == null || departmentOptions == undefined) {
+                            $("#divDepartmentOption").hide();
+                        }
+                        else {
+                            $("#AppliedCourse_Option_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+                            $.each(departmentOptions, function (i, Option) {
+                                $("#AppliedCourse_Option_Id").append('<option value="' + Option.Value + '">' + Option.Text + '</option>');
+                            });
+                            if (programme > 2)
+                            {
+                                $("#divDepartmentOption").show();
+                            }
+
+                        }
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve department Options.' + ex);
+                    }
+                });
+
+        })
+
+        //alert("Please double-check all entries you have made; you cannot change any of your information once you have generated an invoice.");
+
+    })
+
+</script>
+
+@*@using (Html.BeginForm("PostJambFormInvoiceGeneration", "Form", FormMethod.Post, new { target = "_blank" }))*@
+<div id="preloader">
+    <div id="status">
+        @*<div style="background-color:white;width:200px;height:200px">*@
+
+        <img src="~/Content/Images/bx_loader.gif" class="ld-img" />
+
+        <p style="font-size:10px"><b>Processing...</b></p>
+
+        @*</div>*@
+    </div>
+</div>
+@using (Html.BeginForm("GenerateShortFallInvoice", "Form", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 ml-auto mr-auto">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h2>Generate Shortfall Invoice</h2>
+                        <p><b>Note that this interface is applicable only to individuals with existing payment record. Takes payment RRR and generates fee balance (if any) for the specified fee type</b></p>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div>
+                                    @if (TempData["Message"] != null)
+                                    {
+                                        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <h3>Choose Fee Type</h3>
+                                <hr style="margin-top:0" />
+                                <div class="col-md-12">
+
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Session</label>
+
+                                                @Html.DropDownListFor(m => m.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Sessions, new { @class = "form-control", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.Session.Id, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Fee Type</label>
+
+
+                                                @Html.DropDownListFor(m => m.FeeType.Id, (IEnumerable<SelectListItem>)ViewBag.FeeTypes, new { @class = "form-control", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.FeeType.Id, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div id="" class="form-group">
+                                                <label class="control-label">Application Number</label>
+                                                @Html.TextBoxFor(model => model.Student.MatricNumber, new { @class = "form-control", required = "required" })
+                                                @Html.ValidationMessageFor(model => model.Student.MatricNumber, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div id="" class="form-group">
+                                                <label class="control-label">RRR/Confirmation Number</label>
+                                                @Html.TextBoxFor(model => model.PaymentEtranzact.ConfirmationNo, new { @class = "form-control", required = "required" })
+                                                @Html.ValidationMessageFor(model => model.PaymentEtranzact.ConfirmationNo, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <br />
+
+
+                            <hr style="margin-top:0" />
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+
+
+                                    <!-- form-group -->
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="btn btn-primary mr5" type="submit" name="submit" id="submit" value="Generate Invoice" />
+                                        </div>
+                                    </div><!-- form-group -->
+                                </div><!-- row -->
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-1"></div>
+
+
+
+                    </div>
+                </div><!-- panel -->
+            </div><!-- panel-body -->
+
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+}

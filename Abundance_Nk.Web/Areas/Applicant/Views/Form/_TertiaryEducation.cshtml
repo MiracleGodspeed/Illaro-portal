@@ -1,0 +1,185 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJambViewModel
+
+@{
+    //Layout = null;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div style="font-size:x-large">Tertiary Education</div>
+    </div>
+    @Html.HiddenFor(model => model.PreviousEducation.Id)
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PreviousEducation.SchoolName, new { @class = "control-label " })
+                    @Html.TextBoxFor(model => model.PreviousEducation.SchoolName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PreviousEducation.SchoolName)
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PreviousEducation.Course, new { @class = "control-label " })
+                    @Html.TextBoxFor(model => model.PreviousEducation.Course, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PreviousEducation.Course)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-inline">
+                        
+                        <div class="form-inline" style="color:black">Start Date <span id="spSDate" style="color:green; font-weight:bold; display:none">...Loading</span></div>
+
+                        @Html.DropDownListFor(model => model.PreviousEducation.StartYear.Id, (IEnumerable<SelectListItem>)ViewBag.PreviousEducationStartYearId, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.PreviousEducation.StartMonth.Id, (IEnumerable<SelectListItem>)ViewBag.PreviousEducationStartMonthId, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.PreviousEducation.StartDay.Id, (IEnumerable<SelectListItem>)ViewBag.PreviousEducationStartDayId, new { @class = "form-control" })
+
+                        <div>
+                            <div class="form-group">
+                                @Html.ValidationMessageFor(model => model.PreviousEducation.StartYear.Id, "The Start Year Field is required!", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.PreviousEducation.StartMonth.Id, "The Start Month Field is required!", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.PreviousEducation.StartDay.Id, "The Start Day Field is required!", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-inline">
+                        <div class="form-inline" style="color:black">End Date <span id="spEDate" style="color:green; font-weight:bold; display:none">...Loading</span></div>
+
+                        @Html.DropDownListFor(model => model.PreviousEducation.EndYear.Id, (IEnumerable<SelectListItem>)ViewBag.PreviousEducationEndYearId, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.PreviousEducation.EndMonth.Id, (IEnumerable<SelectListItem>)ViewBag.PreviousEducationEndMonthId, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.PreviousEducation.EndDay.Id, (IEnumerable<SelectListItem>)ViewBag.PreviousEducationEndDayId, new { @class = "form-control" })
+
+                        <div>
+                            <div class="form-group">
+                                @Html.ValidationMessageFor(model => model.PreviousEducation.EndYear.Id, "The End Year Field is required!", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.PreviousEducation.EndMonth.Id, "The End Month Field is required!", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.PreviousEducation.EndDay.Id, "The End Day Field is required!", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PreviousEducation.Qualification.Id, new { @class = "control-label " })
+                    @Html.DropDownListFor(model => model.PreviousEducation.Qualification.Id, (IEnumerable<SelectListItem>)ViewBag.QualificationId, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PreviousEducation.Qualification.Id)
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PreviousEducation.ResultGrade.Id, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.PreviousEducation.ResultGrade.Id, (IEnumerable<SelectListItem>)ViewBag.ResultGradeId, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PreviousEducation.ResultGrade.Id)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PreviousEducation.ITDuration.Id, new {@class = "control-label "})
+                    @Html.DropDownListFor(model => model.PreviousEducation.ITDuration.Id, (IEnumerable<SelectListItem>) ViewBag.ITDurationId, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.PreviousEducation.ITDuration.Id)
+                </div>
+            </div>
+
+            <div class="col-md-6">
+            </div>
+        </div>
+
+        @*<div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="col-md-12" for="certificateImage">ND Certificate</label>
+                        <div class="col-md-12">
+                            @if (Model.PreviousEducation.CertificateCopyUrl != null)
+                            {
+                                <img id="certificateImage" src="@Url.Content(Model.PreviousEducation.CertificateCopyUrl)" height="100" width="100">
+                            }
+                            else
+                            {
+                                <img id="certificateImage" src="#" height="100" width="100">
+                            }
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="col-md-12" for="resultImage">ND Result</label>
+                        <div class="col-md-12">
+                            @if (Model.PreviousEducation.ResultCopyUrl != null)
+                            {
+                                <img id="resultImage" src="@Url.Content(Model.PreviousEducation.ResultCopyUrl)" height="100" width="100">
+                            }
+                            else
+                            {
+                                <img id="resultImage" src="#" height="100" width="100">
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="row form-inline">
+                <div class="col-md-12">
+                    @Html.RadioButtonFor(m => m.UploadType, "Certificate", new {id = "certificateCkb", Checked = "checked"}) ND Certificate &nbsp;
+                    @Html.RadioButtonFor(m => m.UploadType, "Result", new {id = "resultCkb"}) ND Result
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div id="dropzone">
+                        <form class="dropzone needsclick" id="demo-upload" action="/"></form>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+        <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <span>
+                            <b>DID YOU ATTEND THE CONVOCATION: </b>
+                            @Html.CheckBoxFor(model => model.PreviousEducation.ConvocationStatus)
+                        </span>
+                        <div>
+                            <small>Check if "Yes", uncheck if "No"</small>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <span>
+                        <b>HAVE YOU COLLECTED YOUR CERTIFICATE: </b>
+                        @Html.CheckBoxFor(model => model.PreviousEducation.CertificateStatus)
+                    </span>
+                    <div>
+                        <small>Check if "Yes", uncheck if "No"</small>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+    </div>
+</div>

@@ -1,0 +1,354 @@
+﻿@using Abundance_Nk.Web.Models
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title - The Federal Polytechnic Ilaro</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    
+    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Content/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/favicon/manifest.json">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/Content/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        /*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>a:after {
+  content: "\f0da";
+  float: right;
+  border: none;
+  font-family: 'FontAwesome';
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  right: 100%;
+  margin-top: 0px;
+  margin-right: 0px;
+}
+
+
+@@media (min-width: 991px) {
+  .dropdown-menu {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+    </style>
+</head>
+
+<body style="padding:0px; background: #f2f2f2;">
+
+    <!-- Navigation -->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <a class="navbar-brand" href="https://federalpolyilaro.edu.ng/"><img src="@Url.Content("~/Content/Images/school_logo.jpg")" height="35" alt="" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">@Html.ActionLink("Home", "Index", new { Controller = "Home", Area = "" }, new { @class = "nav-link text-uppercase" })</li>
+
+                <li class="nav-item"><a class="nav-link text-uppercase" href="#">Portal User Guide</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-uppercase dropdown-toggle" data-toggle="dropdown" href="#">Applicant<span class="caret"></span></a>
+                    <div class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        @Html.ActionLink("Generate Invoice", "PostJambFormInvoiceGeneration", "Form", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Fill Application Form", "PostJambProgramme", "Form", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Check Result", "Index", "PostUtmeResult", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+                        @*<li>@Html.ActionLink("Search for PUTME Result", "MergeResult", "PostUtmeResult", new { Area = "Applicant" }, null)</li>*@
+
+                        @Html.ActionLink("Check Admission Status", "CheckStatus", "Admission", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Generate Change of Course Invoice", "GenerateChangeOfCourseInvoice", "Admission", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Pay Change Of Course Fee", "ProcessChangeOfCourse", "Admission", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Request For Hostel Allocation", "CreateHostelRequest", "Hostel", new { Area = "Student" }, new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Generate Hostel Allocation Invoice", "GenerateHostelInvoice", "Hostel", new { Area = "Student" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Pay Hostel Fee", "PayHostelFee", "Hostel", new { Area = "Student" }, new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Generate Shortfall Invoice", "GenerateShortFallInvoice", "Form", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Get Shortfall Receipt", "PayShortFallFee", "Form", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+                    </div>
+                </li>
+                <li class="dropdown nav-item">
+                    <a class="dropdown-toggle nav-link text-uppercase" data-toggle="dropdown" href="#">Returning Student<span class="caret"></span></a>
+                    <div class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        @Html.ActionLink("Generate Invoice", "Index", "Payment", new { Area = "Student" }, new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Session Registration", "Logon", "Registration", new { Area = "Student" }, new { @class = "dropdown-item" })
+
+
+                        @Html.ActionLink("Check Semester Result", "Check", "Result", new { Area = "Student" }, new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Request For Hostel Allocation", "CreateHostelRequest", "Hostel", new { Area = "Student" }, new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Generate Hostel Allocation Invoice", "GenerateHostelInvoice", "Hostel", new { Area = "Student" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Pay Hostel Fee", "PayHostelFee", "Hostel", new { Area = "Student" }, new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Generate ShortFall Invoice", "GenerateShortFallInvoice", "Payment", new { Area = "Student" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Pay ShortFall Fee", "PayShortFallFee", "Payment", new { Area = "Student" }, new { @class = "dropdown-item" })
+                    </div>
+                </li>
+
+
+                <li class="dropdown nav-item">
+                    <a class="dropdown-toggle nav-link text-uppercase" data-toggle="dropdown" href="#">Extra Year Students<span class="caret"></span></a>
+                    <div class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        @Html.ActionLink("Generate Invoice", "Index", "ExtraYear", new { Area = "Student" }, new { @class = "dropdown-item" })
+
+                        @Html.ActionLink("Session Registration", "Step_3", "ExtraYear", new { Area = "Student" }, new { @class = "dropdown-item" })
+
+                    </div>
+                </li>
+
+
+              
+                <li class="dropdown nav-item">
+                  
+
+                <li class="nav-item dropdown">
+                    <a id="dropdownMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link text-uppercase dropdown-toggle">Graduate
+                    <span class="caret"></span></a>
+                    <ul aria-labelledby="dropdownMenu1" class="dropdown-menu " role="menu" aria-labelledby="dLabel">
+                        <li>@Html.ActionLink("Collection of Transcript", "Index", "Transcript", new { type = "", Area = "Applicant" }, new { @class = "dropdown-item" })</li>
+                        <li>@Html.ActionLink("Collection of Certificate", "Index", "Transcript", new { type = "Certificate Collection", Area = "Applicant" }, new { @class = "dropdown-item" })</li>
+
+               @*<li>@Html.ActionLink("Verification for Nigerian Organisations","VerificationFees","Transcript",new { feeTypeId = Utility.Encrypt("20"),Area = "Applicant" },null)</li>*@
+ </li>
+                        <li>
+                            @Html.ActionLink("Convocation Fee", "ConvocationFee", "Transcript", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+                        </li>
+                        <li>
+                            @*<li>@Html.ActionLink("Convocation Fee Receipt", "PayConvocationFee", "Transcript", new { Area = "Applicant" }, null)</li>*@
+                        </li>
+                        <li>
+                            @Html.ActionLink("Print Convocation / Certificate Receipt", "PrintCertificateReceipt", "Admission", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Apply For Clearance", "Index", "Clearance", new { Area = "Applicant" }, new { @class = "dropdown-item" })
+                        </li>
+                 
+
+                        <!-- Level two dropdown-->
+                        <li class="dropdown-submenu">
+                            <a id="dropdownMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">
+                            Result/Certificate Verification</a>
+                            <ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow" style="left:-200px">
+                                <li>
+                                    @*@Html.ActionLink("Local Certificate Verification", "Index", "Transcript", new { type = "Certificate Verification", Area = "Applicant" }, new { @class = "dropdown-item" })*@
+                                    @Html.ActionLink("Local Verification", "VerificationFees", "Transcript", new { feeTypeId = Utility.Encrypt("24"), Area = "Applicant" }, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("WES/Foreign Verification", "VerificationFees", "Transcript", new { feeTypeId = Utility.Encrypt("16"), Area = "Applicant" }, new { @class = "dropdown-item" })
+
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li><a href="#" class="dropdown-item">Alumni</a></li>
+                        <li><a href="#" class="dropdown-item">Guide for Graduates</a></li>
+                        <!-- End Level two -->
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    @Html.ActionLink("Submit your Complaint", "Index", "Complain", new { type = "", Area = "Applicant" }, new { @class = "nav-link text-uppercase" })
+                </li>
+
+                <li>
+                    <a class="btn btn-success mr5" href="/Security/Account/Login">Login</a>
+                </li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+
+
+                }
+
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container-fluid" style="padding:0px;">
+        @RenderBody()
+
+
+
+
+        <div class="col-md-12 p-3 bg-warning" style=" padding: 10px;">
+            <p style="color:#333; font-weight:bold; text-align:center">
+                If you experience any difficulties or issues kindly call 07088391544 ,
+                09059424123 , 09053630262 or email support@lloydant.com, For transcript related call 08104593133
+            </p>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-success text-center p-4">
+            <div class=" container">
+                <div class=" text-center">
+                    <h4>The Federal Polytechnic Ilaro</h4>
+                    <p>&copy; @DateTime.Now.Year - All Rights reserved by FedPoly,Ilaro</p>
+
+
+                    @*<p class="align-right text-uppercase"><a href="http://www.lloydant.com" style="color: #fff !important;">Powered by <img src="@Url.Content("~/Content/Images/lloydant.png")" alt="" /></a></p>*@
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Content/Modal/bootstrap.min.js"></script>
+    <script>
+        //jQuery.noConflict();
+        $(document).ready(function () {
+            $('#infoModal').modal('show');
+        })
+        $(function () {
+            // ------------------------------------------------------- //
+            // Multi Level dropdowns
+            // ------------------------------------------------------ //
+            $("ul.dropdown-menu [data-toggle='dropdown']").on("click", function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                $(this).siblings().toggleClass("show");
+
+
+                if (!$(this).next().hasClass('show')) {
+                    $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+                }
+                $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+                    $('.dropdown-submenu .show').removeClass("show");
+                });
+
+            });
+            
+        });
+
+    </script>
+
+    <!-- Start of Smartsupp Live Chat script -->
+    @*<script type="text/javascript">
+
+
+        var _smartsupp = _smartsupp || {};
+        _smartsupp.key = "8d8c5c64fa82b02ea860a7f80d5a93c351259935";
+
+        //
+        _smartsupp.cookieDomain = '.federalpolyilaro.edu.ng';
+        _smartsupp.requireLogin = true;
+        // disable email
+        _smartsupp.loginEmailControl = false;
+        // append checkbox control to confirm something
+        _smartsupp.loginControls = [{
+            xtype: 'textinput',
+            name: 'number',
+            label: 'Phone',
+            required: true
+        }, {
+            xtype: 'textinput',
+            name: 'identifier',
+            label: 'Application / Matric No',
+            required: true
+        }];
+
+        window.smartsupp || (function (d) {
+            var s, c, o = smartsupp = function () { o._.push(arguments) }; o._ = [];
+            s = d.getElementsByTagName('script')[0]; c = d.createElement('script');
+            c.type = 'text/javascript'; c.charset = 'utf-8'; c.async = true;
+            c.src = '//www.smartsuppchat.com/loader.js'; s.parentNode.insertBefore(c, s);
+        })(document);
+
+
+    </script>*@
+    <!-- End of Smartsupp Live Chat script -->
+    @*<script>
+        // customize banner & logo
+        smartsupp('banner:set', 'bubble');
+
+        // customize texts
+        smartsupp('chat:translate', {
+            online: {
+                title: 'Support',
+                infoTitle: 'LLOYDANT'
+            },
+            offline: {
+                title: 'OFFLINE'
+            }
+        });
+
+        // customize colors
+        smartsupp('theme:colors', {
+            primary: '#2C893C',
+            banner: '#999999',
+            primaryText: '#ffffff'
+        });
+    </script>*@
+
+    <!--New Chat box-->
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5e1c9b0b7e39ea1242a465b4/1duhhr3rk';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+
+</body>
+
+
+
+
+
+
+
+
+
+</html>

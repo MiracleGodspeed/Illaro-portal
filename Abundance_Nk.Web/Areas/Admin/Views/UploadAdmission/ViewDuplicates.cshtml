@@ -1,0 +1,136 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.UploadAdmissionViewModel
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "View Duplicates";
+}
+<script src="~/Scripts/DataTables-1.10.15/media/js/jquery.js"></script>
+
+<link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+<link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+@*<script src="~/Scripts/dataTables.js"></script>
+    <link href="~/Content/dataTables.css" rel="stylesheet"/>*@
+
+<script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },, 'colvis'
+                ]
+            });
+
+    });
+
+</script>
+
+<div class="container">
+    <div class="well">
+        <p class="text-success">These records already exist on the admission list, the others have been uploaded successfully</p>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <table class="table" id="myTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Application Number
+                        </th>
+                        <th>
+                            Surname
+                        </th>
+                        <th>
+                            Firstname
+                        </th>
+                        <th>
+                            Othername
+                        </th>
+                        <th>
+                            Department Admitted
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.ExistingAdmissions)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Form.Number)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Form.Person.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Form.Person.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Form.Person.OtherName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Deprtment.Name)
+                            </td>
+
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>

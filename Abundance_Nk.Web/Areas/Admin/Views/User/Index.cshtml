@@ -1,0 +1,185 @@
+@model Abundance_Nk.Web.Areas.Admin.ViewModels.UserViewModel
+
+@{
+                /**/
+
+                ViewBag.Title = "Staff";
+                //Layout = "~/Views/Shared/_Layout.cshtml";
+                Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@if (TempData["Message"] != null)
+{
+    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+
+
+    <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+
+
+    <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $.extend($.fn.dataTable.defaults, {
+                responsive: true
+            });
+
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    }, , 'colvis'
+                ]
+
+                @*serverSide: true,
+            ajax: '@Url.Action("StudentIdDataAjaxAsync", "UploadAdmission")'*@
+
+
+            });
+
+
+        });
+        function ArchiveUser(id) {
+        var response = confirm("Are you sure You want to Delete User?");
+        if (response) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteUser", "User")', // Calling json method
+                traditional: true,
+                data: { id },
+                success: function (result) {
+                    if (!result.isError && result.Message) {
+                        alert(result.Message);
+                        location.reload(true);
+                    }
+                },
+                error: function(ex) {
+                    alert('Failed to retrieve courses.' + ex);
+                }
+            });
+        }
+        else {
+            return false;
+        }
+    }
+
+    </script>
+}
+
+<div class="card card-shadow">
+    <div class="card-header">
+        <h3 class="card-title">Staff</h3>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table  table-bordered table-striped table-hover" id="myTable">
+                <thead>
+                    <tr>
+                        <th>
+                            S/N
+                        </th>
+                        <th>
+                            Staff Name
+                        </th>
+                        <th>
+                            Role
+                        </th>
+                        <th>
+                            View
+                        </th>
+                        <th>
+                            Edit
+                        </th>
+                        <th>
+                            Delete
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Users.Count; i++)
+                    {
+                        var sn = i + 1;
+                        <tr>
+                            <td>
+                                @sn
+                            </td>
+                            <td>
+                                @Model.Users[i].Username
+                            </td>
+                            <td>
+                                @Model.Users[i].Role.Name
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "ViewUserDetails", new { id = Model.Users[i].Id })
+                                @*<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> @Html.ActionLink("Details", "ViewUserDetails", new { id = Model.Users[i].Id })*@
+                                @*@Html.ActionLink("Delete", "Delete", new { id = Model.Users[i].Id })*@
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditUser", new { id = Model.Users[i].Id })
+                                @*<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> @Html.ActionLink("Edit", "EditUser", new { id = Model.Users[i].Id })*@
+                            </td>
+                            <td>
+                                <button class=" btn btn-primary" aria-hidden="true" onclick="ArchiveUser(@Model.Users[i].Id)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

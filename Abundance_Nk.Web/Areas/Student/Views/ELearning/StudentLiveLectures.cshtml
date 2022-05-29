@@ -1,0 +1,408 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.ELearningViewModel
+@{
+    ViewBag.Title = "StudentLiveLectures";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    #spinner {
+        display: none
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif !important
+    }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery-ui-1.9.2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery.fileupload-ui.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.print.js"></script>
+
+
+<link href="~/Content/sbCss/sb-admin.css" rel="stylesheet" />
+<link href="~/Content/dataTables.css" rel="stylesheet" />
+<link href="~/Scripts/DataTables-1.10.15/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/jquery.toast.css" rel="stylesheet" />
+<script type="text/javascript">
+    var jqXHRData;
+    let lectureIdGlobal;
+       function RegisterAttendance(lectureId, registrationId) {
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RegisterStudentAttendance")', // we are calling json method
+                dataType: 'json',
+                 data: { RegistrationId: registrationId, LiveLectureId: lectureId },
+                success: function (response) {
+                    //$("#hfDepartmentOptionExist").val(departmentOptions[0]);
+
+                    if (response.statusCode == 200) {
+                        console.log("marked")
+                    }
+                    else {
+                        console.log("unmarked")
+
+                    }
+                },
+                error: function (ex) {
+                    console.log(ex);
+                }
+            });
+    }
+    function SetLectureId(lectureId) {
+        lectureIdGlobal = lectureId
+    }
+
+    function SendFeedback() {
+        var _comments = $("#student_comments").val();
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("PostAnonymousComments")', // we are calling json method
+                dataType: 'json',
+                 data: { LiveLectureId: lectureIdGlobal, Comments: _comments },
+                success: function (response) {
+                    if (response.statusCode == 200) {
+                        alert("Thank You! Your feedback was recieved!")
+                        $("#spinner").hide();
+
+                    }
+                    else {
+                        console.log("unmarked")
+
+                    }
+                },
+                error: function (ex) {
+                    console.log(ex);
+                }
+            });
+    }
+
+
+    $(document).ready(function () {
+        $("#schedule_btn").click(function () {
+            //alert("ef")
+
+            $("#attendance").fadeOut();
+            $("#schedule").fadeIn();
+        })
+
+        $("#attendance_btn").click(function () {
+            //alert("ef")
+
+            $("#schedule").fadeOut();
+            $("#attendance").fadeIn();
+
+        })
+        $("#save_lecture").click(function () {
+            $("#spinner").show();
+            $("#save_lecture").hide();
+
+            var topic = $("#lecture_topic").val()
+            var date = $("#lecture_date").val()
+            var time = $("#lecture_time").val()
+            var duration = $("#lecture_duration").val()
+            var course_allocation = $("#course_allocation").val()
+            var agenda = $("#lecture_agenda").val()
+
+            if (topic == null || date == null || time == null || duration == null || course_allocation == null) {
+                alert("All fields are required!")
+                return;
+            }
+
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CreateLiveLectures")', // we are calling json method
+                dataType: 'json',
+                data: { topic: topic, agenda: agenda, date: date, start_time: time, duration: duration, courseAllocationId: course_allocation },
+                success: function (res) {
+                    alert(res.message);
+                    $("#spinner").hide();
+                    $("#save_lecture").show();
+                },
+                error: function (ex) {
+                    alert('Failed to create');
+                    $("#spinner").hide();
+                    $("#save_lecture").show();
+                }
+            });
+        });
+
+
+
+        $("#Programme_Id").change(function () {
+
+            $("#Department_Id").empty();
+
+            var selectedProgramme = $("#AdmissionListDetail_Form_ProgrammeFee_Programme_Id").val();
+            var programme = $("#Programme_Id").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartmentByProgrammeId")', // we are calling json method
+                dataType: 'json',
+                data: { id: programme },
+                success: function (departments) {
+                    $("#Department_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+
+                    $.each(departments, function (i, department) {
+                        $("#Department_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve departments.' + ex);
+                }
+            });
+        });
+
+     
+
+        //Load Department Option
+        $("#AdmissionListDetail_Deprtment_Id").change(function () {
+
+            var department = $("#AdmissionListDetail_Deprtment_Id").val();
+            var programme = $("#AdmissionListDetail_Form_ProgrammeFee_Programme_Id").val();
+
+            $("#AdmissionListDetail_DepartmentOption_Id").empty();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartmentOptionByDepartment")', // we are calling json method
+                dataType: 'json',
+                data: { id: department, programmeid: programme },
+                success: function (departmentOptions) {
+                    //$("#hfDepartmentOptionExist").val(departmentOptions[0]);
+
+                    if (departmentOptions == "" || departmentOptions == null || departmentOptions == undefined) {
+                        $("#divDepartmentOption").hide();
+                    }
+                    else {
+                        $("#AdmissionListDetail_DepartmentOption_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+                        $.each(departmentOptions, function (i, Option) {
+                            $("#AdmissionListDetail_DepartmentOption_Id").append('<option value="' + Option.Value + '">' + Option.Text + '</option>');
+                        });
+                        if (programme > 2) {
+                            $("#divDepartmentOption").show();
+                        }
+
+                    }
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve department Options.' + ex);
+                }
+            });
+
+        })
+
+
+
+
+})
+</script>
+
+
+
+<div class="alert alert-success fade in nomargin">
+    <h3>@ViewBag.Title</h3>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @if (TempData["Message"] != null)
+        {
+            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+        }
+    </div>
+</div>
+
+<div class="col-md-10 ml-auto mr-auto" style="height: 81vh;">
+    <div class="card card-shadow">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>My Live Lecture Management</h4>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="modal fade" id="myModal" style="z-index:9999">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <b class="modal-title">Anonymous Lecture Feedback</b>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row">
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="label-control">Enter Lecture Feedback</label>
+                                    <textarea id="student_comments" class="form-control"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button class="btn btn-success" type="button" id="save_lecture" onclick="SendFeedback()"><i class="fa fa-save"></i> &nbsp; Send</button>
+                            </div>
+                            <div class="col-md-6" id="spinner">
+                                <img src="~/Content/Images/bx_loader.gif" />
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <div class="col-md-12">
+
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-success" id="schedule_btn">Schedules</button>
+                    <button type="button" class="btn btn-outline-success" id="attendance_btn">Attendance History</button>
+                </div>
+                <br />
+
+
+
+                <br />
+                <br />
+                @if (Model != null && Model.LiveLectureModelList.Count > 0)
+                {
+                    <div class="col-md-12" id="schedule">
+                        <h4>Live Lecture Schedules</h4>
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Lecture Date</th>
+                                    <th>Topic of DIscussion</th>
+                                    <th>Scheduled Time</th>
+                                    <th>Action</th>
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody style="color:black;">
+
+                                @for (var itemIndex = 0; itemIndex < Model.LiveLectureModelList.Count; itemIndex++)
+                                {
+                                    <tr>
+
+                                        @{ int N = 0;}
+                                        <td>@{ N = itemIndex + 1; } @N</td>
+                                        <td>@Html.DisplayTextFor(m => m.LiveLectureModelList[itemIndex].LectureDate)</td>
+                                        <td>@Html.DisplayTextFor(m => m.LiveLectureModelList[itemIndex].Topic)</td>
+                                        <td>@Model.LiveLectureModelList[itemIndex].Time</td>
+                                        <td>
+                                            <a class="btn btn-success btn-sm" onclick="RegisterAttendance(@Model.LiveLectureModelList[itemIndex].LectureId, @Model.LiveLectureModelList[itemIndex].RegistrationDetailId)" href="@Model.LiveLectureModelList[itemIndex].JoinUrl" target="_blank">Join Live Class</a>
+                                        </td>
+
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                }
+
+                @*}*@
+
+
+                @if (Model.AttendanceModelList != null && Model.AttendanceModelList.Count > 0)
+                {
+                    <div class="col-md-12" style="display:none" id="attendance">
+                        <h4>Attendance History</h4>
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Lecture Date</th>
+                                    <th>Topic of DIscussion</th>
+                                    <th>Scheduled Time</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody style="color:black;">
+
+                                @for (var itemIndex = 0; itemIndex < Model.AttendanceModelList.Count; itemIndex++)
+                                {
+                                <tr>
+
+                                    @{ int N = 0;}
+                                    <td>@{ N = itemIndex + 1; } @N</td>
+                                    <td>@Html.DisplayTextFor(m => m.AttendanceModelList[itemIndex].LectureDate)</td>
+                                    <td>@Html.DisplayTextFor(m => m.AttendanceModelList[itemIndex].Topic)</td>
+                                    <td>@Model.AttendanceModelList[itemIndex].Time</td>
+                                    @if (Model.AttendanceModelList[itemIndex].IsPresent == true)
+                                    {
+                                        <td><span class="btn btn-success btn-sm">Present</span></td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm" onclick="SetLectureId(@Model.AttendanceModelList[itemIndex].LectureId)" data-toggle="modal" data-target="#myModal" type="button"><i class="fa fa-sms"></i> Give Feedback</button>
+                                        </td>
+
+                                    }
+                                    else
+                                    {
+                                        <td><span class="btn btn-danger btn-sm">Absent</span></td>
+                                        <td><span class="btn btn-danger btn-sm">...</span></td>
+
+                                    }
+
+
+                                </tr>
+
+
+
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                }
+
+
+            </div>
+
+
+        </div>
+    </div>

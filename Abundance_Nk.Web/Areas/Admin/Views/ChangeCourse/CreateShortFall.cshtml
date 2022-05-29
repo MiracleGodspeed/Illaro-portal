@@ -1,0 +1,180 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.ChangeCourseViewModel
+@{
+    ViewBag.Title = "CreateShortFall";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+    <div class="col-md-10 ml-auto mr-auto">
+        @using (Html.BeginForm("CreateShortFall", "ChangeCourse", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card card-shadow">
+                <div class="card-header">
+                    <h3>Enter Application Form Number or Matric Number</h3>
+                </div>
+                <div class="card-body">
+                   
+                        <div class="row">
+                            <div>
+                                @if (TempData["Message"] != null)
+                                {
+                                    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                                }
+                                @if (TempData["Action"] != null)
+                                {
+                                    <div class="alert alert-dismissible alert-warning">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <p>@TempData["Action"].ToString()</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                          
+                            <hr style="margin-top:0" />
+                            <div class="col-md-12">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            @Html.LabelFor(model => model.ApplicationFormNumber,"Application Form No / Matric No" ,new { @class = "control-label " })
+                                            @Html.TextBoxFor(model => model.ApplicationFormNumber, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ApplicationFormNumber, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                  
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <input class="btn btn-success btn-lg mr5" type="submit" name="submit" id="submit" value="Search" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                   
+
+                </div>
+
+                <div class="col-md-1"></div>
+            </div>
+        }
+
+
+
+
+    </div>
+ 
+
+    @if (Model == null || Model.Person == null)
+    {
+        return;
+    }
+    @using (Html.BeginForm("CreateShortFallInvoice", "ChangeCourse", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ApplicationFormNumber)
+        @Html.HiddenFor(model=>model.Person)
+
+        <div class="card card-shadow ">
+            <div class="card-body ">
+                <div class="col-md-12">
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Surname</label>
+                    <div class="col-sm-10">
+                        @Html.DisplayFor(model => model.Person.LastName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Person.LastName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">First Name</label>
+                    <div class="col-sm-10">
+                        @Html.DisplayFor(model => model.Person.FirstName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Person.FirstName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Other Names</label>
+                    <div class="col-sm-10">
+                        @Html.DisplayFor(model => model.Person.OtherName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Person.OtherName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Phone Number</label>
+                    <div class="col-sm-10">
+                        @Html.DisplayFor(model => model.Person.MobilePhone, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Person.MobilePhone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        @Html.DisplayFor(model => model.Person.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Person.Email)
+                    </div>
+                </div>
+                @if (Model.AppliedCourse != null)
+                {
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Programme</label>
+                        <div class="col-sm-10">
+                            @Html.DisplayFor(model => model.AppliedCourse.Programme.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AppliedCourse.Programme.Id)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Department</label>
+                        <div class="col-sm-10">
+                            @Html.DisplayFor(model => model.AppliedCourse.Department.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AppliedCourse.Department.Id)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Application Form Number</label>
+                        <div class="col-sm-10">
+                            @Html.DisplayFor(model => model.ApplicationFormNumber, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ApplicationFormNumber)
+                        </div>
+                    </div>
+                }
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Enter ShortFall Amount</label>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(model => model.ShortFallAmount, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.ShortFallAmount)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Session</label>
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Session.Id)
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <input class="btn btn-success mr5" type="submit" name="submit" id="submit" value="Generate Invoice" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+

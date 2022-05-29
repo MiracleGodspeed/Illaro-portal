@@ -1,0 +1,360 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.TranscriptRequestViewModel
+@using Abundance_Nk.Business
+@{
+    ViewBag.Title = "";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.js"></script>
+
+    <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+
+    <script type="text/javascript">
+    //var jqueryVersion = $.noConflict(true);
+    $(function () {
+
+
+        $.extend($.fn.dataTable.defaults, {
+            responsive: false
+        });
+
+        $("#myTable").DataTable({
+            dom: 'Bfrtip',
+            ordering: true,
+            buttons: [
+                {
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: ':visible',
+                        modifier: {
+                            orientation: 'landscape'
+                        }
+                    },
+                    orientation: 'landscape'
+
+
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ':visible',
+                        modifier: {
+                            orientation: 'landscape'
+                        }
+                    },
+                    orientation: 'landscape'
+
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':visible',
+                        modifier: {
+                            orientation: 'landscape'
+                        }
+                    },
+                    orientation: 'landscape'
+
+
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ':visible',
+                        header: true,
+                        modifier: {
+                            orientation: 'landscape'
+                        }
+
+
+
+                    },
+                    orientation: 'landscape'
+
+
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':visible',
+                        modifier: {
+                            orientation: 'landscape'
+                        }
+                    },
+                    orientation: 'landscape'
+
+
+                }, , 'colvis'
+            ]
+        });
+
+        $("#submit").click(function () {
+            $('#submit').attr('disable', 'disable');
+        });
+    });
+    </script>
+}
+
+@if (TempData["Message"] != null)
+            {
+    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+}
+
+
+<br />
+<div class="card card-shadow">
+    <div class="card-header">
+        <h3>Choose Payment Request to verify</h3>
+    </div>
+    @using (Html.BeginForm("VerifyTranscriptRequestPayment", "TranscriptBursar", new { area = "admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    { <div class="card-body">
+        <div class="col-md-12" style="padding: 20px;">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RequestType, "Certificate Verification", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.RequestType, "certificateverification", new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.RequestType, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RequestType, "Transcript Request", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.RequestType, "transcriptrequest", new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.RequestType, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RequestType, "Transcript Verification", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.RequestType, "transcriptverification", new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.RequestType, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            @*<div class="row">
+
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RequestType, "WES Verification", new { @class = "control-label" })
+                            @Html.RadioButtonFor(model => model.RequestType, "wesverification", new { @class = "" })
+                            @Html.ValidationMessageFor(model => model.RequestType, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>*@
+            <div class="col-md-6">
+                <br />
+                <input type="submit" class="btn-primary" value="View Report" />
+            </div>
+        </div>
+    </div>
+    }
+    @if (Model.Active)
+    {
+        <div class="col-sm-12" style="padding: 20px;">
+
+            <div class="alert alert-success fade in nomargin">
+                <h3 style="text-align: center">ALL PAID REQUEST</h3>
+            </div>
+
+
+
+            @if (Model != null && Model.GroupTranscriptByYears.Count > 0)
+                {
+                @*<div class="table-responsive">*@
+                <div class="card-body">
+                    <h3>Yearly Count - @ViewBag.Title2</h3>
+                    <table class="table table-bordered table-hover table-striped" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    SN
+                                </th>
+                                <th>
+                                    Year
+                                </th>
+                                <th>
+                                    Count
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.GroupTranscriptByYears.Count; i++)
+                            {
+                                int sn = i + 1;
+                                <tr>
+                                    <td>
+                                        @sn
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink(@Model.GroupTranscriptByYears[i].Year.ToString(), "TranscriptCountByMonth", new { year = @Model.GroupTranscriptByYears[i].Year, area = "admin", controller = "TranscriptBursar" })
+                                    </td>
+                                    <td>
+                                        @Model.GroupTranscriptByYears[i].TranscriptCount
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            @if (Model != null && Model.GroupTranscriptByMonths.Count > 0)
+            {
+                <div class="card-body">
+                    @*<div class="table-responsive">*@
+                    <h3>@Model.GroupTranscriptByMonths.FirstOrDefault().Year - @ViewBag.Title2 - Count</h3>
+                    <table class="table table-bordered table-hover table-striped" id="myTable">
+                        @*<table class="table table-responsive table-bordered table-striped table-hover" id="myTable">*@
+                        <thead>
+                            <tr>
+                                <th>
+                                    SN
+                                </th>
+                                @*<th>
+                                        Year
+                                    </th>*@
+                                <th>
+                                    Month
+                                </th>
+                                <th>
+                                    Count
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.GroupTranscriptByMonths.Count; i++)
+                            {
+                                int sn = i + 1;
+                                <tr>
+                                    <td>
+                                        @sn
+                                    </td>
+                                    @*<td class="col-lg-2 col-md-2 col-sm-2">
+                                            @Model.GroupTranscriptByMonths[i].Year.ToString()
+                                        </td>*@
+                                    <td>
+                                        @Html.ActionLink(@Model.GroupTranscriptByMonths[i].Month, "TranscriptRequestByMonth", new { month = @Model.GroupTranscriptByMonths[i].intMonth, year = @Model.GroupTranscriptByMonths[i].Year, area = "admin", controller = "TranscriptBursar" })
+                                    </td>
+                                    <td>
+                                        @Model.GroupTranscriptByMonths[i].TranscriptCount
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            @if (Model != null && Model.TranscriptRequests.Count > 0)
+            {
+                <div class="card-body">
+                    @*<div class="table-responsive">*@
+                    <h3>@Model.TranscriptRequests.FirstOrDefault().DateRequested.Year - @ViewBag.Title2</h3>
+                    <table class="table table-responsive table-bordered table-striped table-hover" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    SN
+                                </th>
+                                <th>
+                                    Student Name
+                                </th>
+                                <th>
+                                    Matric Number
+                                </th>
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    RRR
+                                </th>
+                                <th>
+                                    Date Paid
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                        Status
+                                    </th>
+
+                                <th>
+                                        Verify
+                                    </th>
+                                <th>
+                                    Print
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.TranscriptRequests.Count; i++)
+                            {
+                                int sn = i + 1;
+                                var paymentId = Model.TranscriptRequests[i].PaymentId;
+                                PaymentVerificationLogic paymentVerificationLogic = new PaymentVerificationLogic();
+                                var verifiedPayment = paymentVerificationLogic.GetModelsBy(p => p.Payment_Id == paymentId).LastOrDefault();
+                                <tr>
+                                    <td>
+                                        @sn
+                                    </td>
+                                    <td>
+                                        @Model.TranscriptRequests[i].Name
+                                    </td>
+                                    <td>
+                                        @Model.TranscriptRequests[i].MatricNumber
+                                    </td>
+                                    <td>
+                                        @Model.TranscriptRequests[i].InvoiceNumber
+                                    </td>
+                                    <td>
+                                        @Model.TranscriptRequests[i].RRR
+                                    </td>
+                                    <td>
+                                        @Model.TranscriptRequests[i].DateRequested
+                                    </td>
+                                    <td>
+                                        @string.Format("{0:0,0.00}", Model.TranscriptRequests[i].TransactionAmount)
+                                    </td>
+                                    <td>
+                                            @Model.TranscriptRequests[i].Status
+                                        </td>
+
+                                    <td>
+                                        @if (verifiedPayment==null)
+                                        {
+                                            <span class="glyphicon glyphicon-add" aria-hidden="true"></span> @Html.ActionLink("Verify", "VerifyPayment", new { pmid = @Model.TranscriptRequests[i].PaymentId, area = "Admin", controller = "TranscriptBursar" }, new { @class = "btn btn-success"})
+                                        }
+                                        
+                                    </td>
+                                    <td>
+                                        <span class="glyphicon glyphicon-add" aria-hidden="true"></span> @Html.ActionLink("Receipt", "Receipt", new { pmid = @Model.TranscriptRequests[i].PaymentId, area = "Common", controller = "Credential" }, new { @class = "btn btn-success", target = "_blank" })
+                                    </td>
+                                    
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            }
+
+        </div>
+    }
+</div>
+

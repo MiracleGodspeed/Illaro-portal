@@ -1,0 +1,287 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.StudentClearanceViewModel
+@{
+    ViewBag.Title = "BursaryStudentClearance";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Scripts {
+    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+    <script type="text/javascript" src="~/Scripts/file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <script type="text/javascript" src="~/Scripts/file-upload/js/jquery.iframe-transport.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script src="~/Scripts/file-upload/js/jquery.fileupload.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jquery.print.js"></script>
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <link href="~/Content/dropzone.css" rel="stylesheet" />
+    <link href="~/Content/jquery.toast.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.toast.js"></script>
+    <script src="~/Scripts/dropzone.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $.extend($.fn.dataTable.shadows, {
+                responsive: false
+            });
+
+            $("#clearanceTable").DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible',
+                            header: true,
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+
+
+
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    }, , 'colvis'
+                ]
+            });
+        })
+
+
+
+        var jqXHRData;
+                                function initSimpleFileUpload() {
+                'use strict';
+
+                $('#fu-my-simple-upload').fileupload({
+                    url: '@Url.Content("~/Admin/StudentClearance/UploadFile")',
+                    dataType: 'json',
+
+                    add: function (e, data) {
+                        jqXHRData = data
+                    },
+                    send: function (e) {
+                        $('#fileUploadProgress').show();
+                    },
+                    done: function (event, data) {
+                        if (data.result.isUploaded) {
+                            //alert("success");
+                            $("#hfDocumentUrl").val(data.result.imageUrl);
+                        } else {
+                            $("#tbx-file-path").val("");
+                            alert(data.result.message);
+                        }
+
+                        $('#document').attr('src', data.result.imageUrl);
+                        $('#fileUploadProgress').hide();
+                    },
+                    fail: function (event, data) {
+                        if (data.files[0].error) {
+                            alert(data.files[0].error);
+                        }
+                    }
+                });
+        }
+                                initSimpleFileUpload();
+            $("#hl-start-upload").on('click', function () {
+                if (jqXHRData) {
+                    jqXHRData.submit();
+                }
+                return false;
+            });
+            $("#fu-my-simple-upload").on('change', function () {
+                $("#tbx-file-path").val(this.files[0].name);
+            });
+
+    </script>
+
+}
+
+
+<div class="col-md-10 ml-auto mr-auto">
+
+    <div>
+        @if (TempData["Message"] != null)
+        {
+            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+        }
+    </div>
+
+    <div class="">
+
+
+        @if (Model.ClearanceDisputesList.Count > 0)
+        {
+            <div class="col-md-10 ml-auto mr-auto">
+
+                <div>
+                    @if (TempData["Message"] != null)
+                    {
+                        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                    }
+                </div>
+
+                <div class="card card-shadow">
+                    <div class="card-header">
+                        <h4> Clearance Dispute</h4>
+                    </div>
+                    <div class="card-body">
+
+                    </div>
+                    <br />
+
+                    <div class="card-body">
+
+                        <table class="table table-bordered table-hover table-striped" id="clearanceTable">
+                            <thead>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>CLEARANCE UNIT</th>
+                                    <th>REMARKS</th>
+                                    <th>DOWNLOAD</th>
+                                </tr>
+                            </thead>
+                            <tbody style="color:black;">
+                                @for (int i = 0; i < Model.ClearanceDisputesList.Count; i++)
+                                {
+                                    var sn = 1 + i;
+                                    <tr>
+                                        <td>@sn</td>
+                                        <td>@Model.ClearanceDisputesList[i].ClearanceLog.ClearanceUnit.Name</td>
+                                        <td>@Model.ClearanceDisputesList[i].Remark</td>
+                                        @if (Model.ClearanceDisputesList[i].Attachment != null)
+                                        {
+                                            <td>
+                                                @Html.ActionLink("Download", "DownloadAttachment", new { area = "Admin", controller = "StudentClearance", disputeId = @Model.ClearanceDisputesList[i].Id }, new { @class = "btn btn-success mr5", target = "_blank" })
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        }
+
+
+
+        @using (Html.BeginForm("ExtrainformationClearance", "StudentClearance", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="card-body">
+                <div class="row">
+                    @Html.HiddenFor(m => m.ClearanceLog.Id)
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ClearanceLog.Remarks, new { @class = "control-label " })
+                            @Html.TextAreaFor(model => model.ClearanceLog.Remarks, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row padding-bottom-5">
+                            <div class="col-md-6 ">
+                                @Html.HiddenFor(model => model.ClearanceDisputes.Attachment, new { id = "hfDocumentUrl", name = "hfDocumentUrl" })
+                                <input type="text" id="tbx-file-path" readonly="readonly" />
+                            </div>
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.MyFile, new { id = "fu-my-simple-upload", type = "file", style = "color:transparent;" })
+                            </div>
+                        </div>
+
+                        <div class="row padding-bottom-10">
+                            <div class="col-md-12">
+                                <input class="btn btn-outline-success" type="button" name="hl-start-upload" id="hl-start-upload" value="Upload Document" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="fileUploadProgress" style="display:none">
+                                <img src="@Url.Content("~/Content/Images/bx_loader.gif")" />
+                                <span>Uploading ...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+
+                            <input class="btn btn-success btn-lg mr5" type="submit" name="submit" id="submit" value="Save" />
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+        }
+    </div>
+</div>

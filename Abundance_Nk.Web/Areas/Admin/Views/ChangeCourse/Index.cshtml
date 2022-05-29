@@ -1,0 +1,75 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.ChangeCourseViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+    <div class="col-md-8 ml-auto mr-auto">
+        @using(Html.BeginForm("SearchResult","ChangeCourse",FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+    <div class="card card-shadow">
+        <div class="card-header">
+        <h3>Enter Application Form Number</h3>
+</div>
+        <div class="card-body">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div>
+                        @if (TempData["Message"] != null)
+                        {
+                            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                        }
+                        @if (TempData["Action"] != null)
+                        {
+                            <div class="alert alert-dismissible alert-warning">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <p>@TempData["Action"].ToString()</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                
+                  
+                    <div class="col-md-12">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    @Html.LabelFor(model => model.ApplicationFormNumber, new { @class = "control-label " })
+                                    @Html.TextBoxFor(model => model.ApplicationFormNumber, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ApplicationFormNumber, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input class="btn btn-success btn-lg" type="submit" name="submit" id="submit" value="Search" />
+                                </div>
+                            </div>
+
+                           
+                        </div>
+                    </div>
+
+               
+
+              
+
+            </div>
+
+        </div>
+
+      
+    </div>
+        }
+
+
+       
+</div>
+
+
+

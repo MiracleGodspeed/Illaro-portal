@@ -1,0 +1,212 @@
+﻿@using Abundance_Nk.Web.Models
+@model Abundance_Nk.Model.Model.Receipt
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+<script src="~/Scripts/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $("#aPrint").on('click', function () {
+            var payment = $('#paymentId').val();
+            window.open('http://localhost:2600/Reports/Presenter/e-Recieptaspx.aspx?paymentId=' + payment);
+            //window.open('https://applications.federalpolyilaro.edu.ng/Reports/Presenter/e-Recieptaspx.aspx?paymentId=' + payment);
+        });
+
+    });
+</script>
+
+<br />
+<div class="container-fluid" id="widget">
+    <div class="row">
+        @Html.HiddenFor(model => model.PaymentId, new { Id = "paymentId" })
+
+
+        <div class="col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3" style="padding: 0; background: url('@Url.Content("~/Content/Images/ilaroredesign.png")'); min-height: 100%; background-repeat: no-repeat; background-size: cover; background-position: center center;">
+            <div class="card" style="background: rgba(255, 255, 255, .6); padding: 30px; height: 100%;">
+                <div class="row ">
+                    <div class="col-md-10">
+
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary" target="_blank" id="aPrint">Download Receipt</button>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-md-2">
+                        <img src="/Content/Images/school_logo.jpg" width="100px" height="100px" />
+                    </div>
+                    <div class="col-md-8 text-center">
+                        <strong style="font-size: 25PX;">FEDERAL POLYTECHNIC ILARO</strong>
+                        <br>
+                        <strong style="font-size: 15PX; text-decoration: underline">
+                            OFFICIAL PAYMENT RECEIPT
+                        </strong>
+                        <br>
+                    </div>
+                    <div class="col-md-2">
+                        @if (Model.barcodeImageUrl != null)
+                        {
+                            @*<img src="@Model.barcodeImageUrl" height="50" />*@
+                            @Html.GenerateQrCode(Model.barcodeImageUrl)
+                        }
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 10px; border-bottom: 2px solid #333;">
+                    <div class="col-md-7">
+                    </div>
+                    <div class=" col-md-5 text-right">
+                        Serial NO.: <em><b>@Utility.Decrypt(Model.PaymentId)</b></em>
+                    </div>
+                </div>
+                
+                <div class="row" style="padding: 10px;">
+                    <div class="col-md-7 text-left">
+                        <b>Name: </b> <em> @Model.Name</em>
+
+                    </div>
+                    
+                    <div class="col-md-5 text-right">
+                        <em><b>RRR / Confirmation #:</b> @Model.ConfirmationOrderNumber</em>
+                        @if (!string.IsNullOrEmpty(Model.ShortFallRRR))
+                        {
+                            <em><i><b>ShortFall RRR:</b> @Model.ShortFallRRR</i></em>
+                        }
+                    </div>
+                </div>
+                <div class="row" style="padding: 10px;">
+                    <div class="col-md-7 text-left">
+                        <b>Matric Number: </b><em> @Model.MatricNumber </em>
+                    </div>
+                    
+                    <div class="col-md-5 text-right">
+
+                        <em><b>Payment Date:</b> @Model.Date.ToLongDateString() </em>
+
+                    </div>
+                </div>
+                <div class="row" style="padding: 10px; border-bottom: 2px solid #333;">
+                  
+                    <div class="col-md-7 text-left">
+                        @if (Model.Department != null)
+    {
+                    <b>Department: </b><em class="text-uppercase">@Model.Department</em>
+                        }
+                    </div>
+                   
+                    <div class="col-md-5 text-right">
+                        <b>Session : </b><em>@Model.Session</em>
+                    </div>
+
+                </div>
+                <br/>
+                <div class="row" style="padding: 10px;">
+                    <div class="col-md-12">
+                        <table class="table" style="border: 1px solid gray">
+                            <thead>
+                                <tr>
+                                    <th scope="col">S/N</th>
+                                    <th scope="col">BEING PAYMENT FOR: 
+                                   
+                                    </th>
+                                    @*<th scope="col">Last</th>*@
+                                    <th scope="col">N&nbsp;&nbsp; &nbsp;&nbsp; K</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.DepartmentObj!=null && Model.DepartmentObj.Id == 44)
+                                {
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>School Fees</td>
+                                    <td>@Model.Amount</td>
+
+                                </tr>
+                                }
+                                else if (Model.FeeDetails != null)
+                                {
+                                    for (int i = 0; i < Model.FeeDetails.Count; i++)
+                                    {
+                                        var sn = i + 1;
+                                        <tr>
+                                            <th scope="row">@sn</th>
+                                            <td>@(Model.FeeDetails[i].Fee.Name)</td>
+                                            @if (Model.FeeDetails[i].Fee.Amount <= 1)
+                                            {
+                                                <td>-</td>}
+                                            else
+                                            {
+                                                <td>@(Model.FeeDetails[i].Fee.Amount)</td>}
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>@Model.Purpose</td>
+                                        <td>@Model.Amount</td>
+                                    </tr>
+                                }
+                                <tr>
+
+                                    <td></td>
+                                    <td>Total </td>
+                                    <td><b> @Model.Amount</b></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if (Model.IsVerified)
+                                {
+                                    @*<h1 style="color:#80808040; font-size:3.4em; text-align:center">VERIFIED</h1>*@
+                                <div class="text-center" style="text-align:center; margin-bottom:-48px">
+                                    <img src=@Url.Content("~/Content/Images/verif.png") class="image-responsive" style="padding-bottom:10px; margin-top:5px; width:300px; text-align:center" />
+
+                                </div>
+                                }
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+
+                                <div class="text-center">
+                                    @if (Model.IsVerified)
+                                    {
+
+                                        @*<p><i>Verified on: @Model.PaymentVerification.DateVerified.ToLongDateString()</i></p>
+                                        <img src="@Model.PaymentVerification.User.SignatureUrl" class="image-responsive" height="50px" width="120px" />
+                                       <div class="clearfix"></div>
+                                        <h4 class="text-uppercase" style="border-top:2px solid #333; padding-top:10px;">@Model.PaymentVerification.User.Username</h4>*@
+                                        <img src=@Url.Content("~/Content/Images/Ilaro_Bursary_Stamp.jpg") class="image-responsive" height="50px" width="150px" />
+
+                                        <img src=@Url.Content("~/Content/Images/bursarSignature.png") class="image-responsive" height="50px" width="150px" style="border-bottom:2px solid #333; padding-bottom:10px; margin-top:5px" />
+                                    }
+                                    else
+                                    {
+                                        @*<img src="@Model.PaymentVerification.User.SignatureUrl" class="image-responsive" height="50px" width="120px" />*@
+                                        <h4 class="text-uppercase" style="border-top:2px solid #333; padding-top:10px;"></h4>
+                                        @*<img src=@Url.Content("~/Content/Images/Ilaro_Bursary_Stamp.jpg") class="image-responsive" height="50px" width="150px" />*@
+                                    }
+                                    <p style="font-size: 18px; margin-left:40px"><b>BURSAR</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

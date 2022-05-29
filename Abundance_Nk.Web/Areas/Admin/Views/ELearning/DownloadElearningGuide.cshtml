@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "DownloadElearningGuide";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    @Html.Partial("_Message", TempData["Message"])
+}
+

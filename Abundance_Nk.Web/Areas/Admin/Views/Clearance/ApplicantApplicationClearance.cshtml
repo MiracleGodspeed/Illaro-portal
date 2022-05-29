@@ -1,0 +1,273 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.ClearanceViewModel
+@using Abundance_Nk.Business
+@{
+    ViewBag.Title = "";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.js"></script>
+
+
+
+    <script type="text/javascript">
+    //var jqueryVersion = $.noConflict(true);
+    $(function () {
+
+    });
+        function SaveApproval() {
+            let remarks = $("#remarks").val();
+            let status = $("#status").val();
+            let formId = $("#ApplicationApprovalModel_FormId").val();
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ApproveApplication")', // we are calling json method
+                dataType: 'json',
+                 data: { formId,status,remarks},
+                 success: function (result) {
+                     alert(result.Message);
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve departments.' + ex);
+                }
+            });
+        }
+    </script>
+}
+
+@if (TempData["Message"] != null)
+            {
+    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+}
+
+
+<br />
+<div class="card card-shadow">
+    <div class="card-header">
+        <h3>Application Clearance</h3>
+    </div>
+    @using (Html.BeginForm("ApplicantApplicationClearance", "Clearance", new { area = "admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    { <div class="card-body">
+        <div class="col-md-12" style="padding: 20px;">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ApplicationNumber, "Applicantion Number", new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.ApplicationNumber, new { @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.ApplicationNumber, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+
+            </div>
+            <div class="col-md-6 ml-6">
+                <input type="submit" class="btn  btn-primary pull-left" value="View " />
+            </div>
+        </div>
+    </div>
+    }
+    @if (Model.ShowTable)
+    { 
+        <div class="card-body">
+        <div class="col-md-12" style="padding: 20px;">
+            @Html.HiddenFor(f=>f.ApplicationApprovalModel.FormId)
+            <table class="table table-responsive">
+                <tr>
+                    <th>NAME</th>
+                    <th>APPLICATION NO</th>
+                    <th>PROGRAMME</th>
+                    <th>DEPARTMENT</th>
+                    <th>OPTION</th>
+                    
+                </tr>
+                    <tr>
+                        <td>@Model.ApplicationApprovalModel.ApplicantFullName</td>
+                        <td>@Model.ApplicationApprovalModel.FormNo</td>
+                        <td>@Model.ApplicationApprovalModel.ProgrammeName</td>
+                        <td>@Model.ApplicationApprovalModel.DepartmentName</td>
+                        <td>@Model.ApplicationApprovalModel.OptionName</td>
+
+                    </tr>
+
+                
+
+            </table>
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12" style="padding: 20px;">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>First Sitting</h5>
+                    <hr class="no-top-padding" />
+
+                    <div>
+                        <div class="form-group margin-bottom-3">
+                            @Html.LabelFor(model => model.FirstSittingOLevelResult.Type.Id, "Type", new { @class = "control-label col-md-3 custom-text-white" })
+                            <div class="col-md-9 text-bold">
+                                @Html.DisplayFor(model => model.FirstSittingOLevelResult.Type.Name, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group margin-bottom-3">
+                            @Html.LabelFor(model => model.FirstSittingOLevelResult.ExamNumber, new { @class = "control-label col-md-3 custom-text-white" })
+                            <div class="col-md-9 text-bold">
+                                @Html.DisplayFor(model => model.FirstSittingOLevelResult.ExamNumber, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group margin-bottom-3">
+                            @Html.LabelFor(model => model.FirstSittingOLevelResult.ExamYear, new { @class = "control-label col-md-3 custom-text-white" })
+                            <div class="col-md-9 text-bold">
+                                @Html.DisplayFor(model => model.FirstSittingOLevelResult.ExamYear, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-condensed table-responsive" style="background-color:whitesmoke">
+                        <tr>
+                            <th class="custom-text-black">
+                                Subject
+                            </th>
+                            <th class="custom-text-black">
+                                Grade
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @for (int i = 0; i < 9; i++)
+                        {
+                            <tr>
+                                <td class="custom-text-black">
+                                    @Html.DisplayFor(model => model.FirstSittingOLevelResultDetailsList[i].Subject.Name)
+                                </td>
+                                <td class="custom-text-black">
+                                    @Html.DisplayFor(model => model.FirstSittingOLevelResultDetailsList[i].Grade.Name)
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+                </div>
+
+
+                <div class="col-md-6">
+                    <h5>Second Sitting</h5>
+                    <hr class="no-top-padding" />
+
+                    @if (Model.SecondSittingOLevelResult != null && !string.IsNullOrEmpty(Model.SecondSittingOLevelResult.ExamNumber) && Model.SecondSittingOLevelResult.ExamYear > 0)
+                {
+                        <div>
+                            <div class="form-group margin-bottom-3">
+                                @Html.LabelFor(model => model.SecondSittingOLevelResult.Type.Id, "Type", new { @class = "control-label col-md-3 custom-text-white" })
+                                <div class="col-md-9 text-bold">
+
+                                    @Html.DisplayFor(model => model.SecondSittingOLevelResult.Type.Name, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group margin-bottom-3">
+                                @Html.LabelFor(model => model.SecondSittingOLevelResult.ExamNumber, new { @class = "control-label col-md-3 custom-text-white" })
+                                <div class="col-md-9 text-bold">
+
+                                    @Html.DisplayFor(model => model.SecondSittingOLevelResult.ExamNumber, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group margin-bottom-3">
+                                @Html.LabelFor(model => model.SecondSittingOLevelResult.ExamYear, new { @class = "control-label col-md-3 custom-text-white" })
+                                <div class="col-md-9 text-bold">
+                                    @Html.DisplayFor(model => model.SecondSittingOLevelResult.ExamYear, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <table class="table table-condensed table-responsive" style="background-color:whitesmoke">
+                            <tr>
+                                <th class="custom-text-black">
+                                    Subject
+                                </th>
+                                <th class="custom-text-black">
+                                    Grade
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @for (int i = 0; i < 9; i++)
+                            {
+                                <tr>
+                                    <td class="custom-text-black">
+                                        @Html.DisplayFor(model => model.SecondSittingOLevelResultDetailsList[i].Subject.Name)
+                                    </td>
+                                    <td class="custom-text-black">
+                                        @Html.DisplayFor(model => model.SecondSittingOLevelResultDetailsList[i].Grade.Name)
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    }
+                </div>
+
+            </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="col-md-12" style="padding: 20px;">
+                <div class="row">
+                    @if (Model.ApplicationApprovalModel.TreatedFormId > 0)
+                    {
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                @if (Model.ApplicationApprovalModel.IsApproved == true)
+                                {
+                                    <h5 style="color:green">Application has already been approved</h5>
+                                }
+                                else
+                                {
+                                    <h5 style="color:red">Application has already been rejected</h5>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ApplicationApprovalModel.ApprovalRemarks, "Remarks:", new { @class = "control-label" })
+                                @Html.DisplayFor(model => model.ApplicationApprovalModel.ApprovalRemarks, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    }
+                    
+                    </div>
+                <div class="row">
+                   
+                        <div class="col-md-6">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ApplicationApprovalModel.IsApproved, new { @class = "control-label custom-text-black" })
+                                    @Html.DropDownListFor(model => model.ApplicationApprovalModel.IsApproved, (IEnumerable<SelectListItem>)ViewBag.StatusId, new { @class = "form-control", id = "status" })
+                              
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ApplicationApprovalModel.ApprovalRemarks, "Remarks:", new { @class = "control-label" })
+                                <textarea type="text" cols="100" rows="5" id="remarks"></textarea>
+                                @*@Html.EditorFor(model => model.ApplicationApprovalModel.ApprovalRemarks, new { @class = "form-control", @id="remarks" })*@
+                            </div>
+                        </div>
+                    <div class="col-md-6">
+                        <br />
+                        <input type="button" class="btn btn-primary" value="Save" onclick="SaveApproval()" />
+                    </div>
+
+                </div>
+                </div>
+            </div>
+            }
+
+        </div>
+

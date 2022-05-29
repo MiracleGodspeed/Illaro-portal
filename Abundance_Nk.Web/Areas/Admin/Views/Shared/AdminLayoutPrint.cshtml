@@ -1,0 +1,100 @@
+﻿@using Abundance_Nk.Web.Models
+@using Microsoft.AspNet.Identity
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title - The Federal Polytechnic Ilaro</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/sbCss/sb-admin.css" rel="stylesheet" />
+    <link href="~/Content/dataTables.css" rel="stylesheet" />
+    <link href="~/Scripts/DataTables-1.10.15/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+
+
+    <!-- Custom CSS -->
+    <!-- Morris Charts CSS -->
+    @*<link href="~/Content/sbCss/plugins/morris.css" rel="stylesheet" />*@
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/jquery.toast.css" rel="stylesheet" />
+
+
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+    
+
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+             
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+
+
+                    <div id="page-wrapper">
+                        <div class="container">
+                           <div class="col-md-11 ml-auto mr-auto">
+                                @RenderBody()
+                           </div>
+                        </div>
+                        <!-- /.container-fluid -->
+                    </div>
+                    <!-- /#page-wrapper -->
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <div class="clearfix"></div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Federal Polytechnic, Ilaro</span>
+                        <span>Powered By Lloydant</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="~/Content/js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.toast.js"></script>
+    <script src="~/Scripts/sb-admin-2.js"></script>
+    <!-- Morris Charts JavaScript -->
+    @*<script src="~/Content/js/plugins/morris/raphael.min.js"></script>
+        <script src="~/Content/js/plugins/morris/morris.min.js"></script>
+        <script src="~/Content/js/plugins/morris/morris-data.js"></script>*@
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.ConfrencePaymentViewModels
+
+@{
+    ViewBag.Title = "Confrence Payments";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/file-upload/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+<script src="~/Scripts/jquery-3.1.1.intellisense.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <div class="col-md-12">
+            @if (TempData["Message"] != null)
+            {
+                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+            <div>
+                <h4><p class="custom-text-black text-center ">UPLOAD PUTME RESULT</p></h4>
+            </div>
+            @using (Html.BeginForm("ConfrencePayments", "Confrence", FormMethod.Post))
+            {
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="panel panel-default ">
+                    <div class="panel-body ">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <cite><p class="custom-text-black"> Select Date Range To view Confrence Payments</p></cite>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DateStart, new { @class = "control-label custom-text-black" })
+                                    @Html.EditorFor(model => model.DateStart, new { @class = "form-control col-md-4 date", placeholder = "From...", autocomplete = "off", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.DateStart, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DateEnd, new { @class = "control-label custom-text-black" })
+                                    @Html.EditorFor(model => model.DateEnd, new { @class = "form-control col-md-4 date", placeholder = "To...", autocomplete = "off", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.DateEnd, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-2">
+                                <i class="glyphicon-upload"></i><input class="btn btn-success mr5" type="submit" name="submit" id="submit" value="Get Payments" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+
+        </div>
+    </div>
+</div>
+@if (Model != null)
+{
+
+    <script>
+        $(document).ready(function () {
+            $('#breakdownTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
+            });
+        });
+    </script>
+    <div class="col-md-12 table-responsive ">
+
+
+        <table class="table table-bordered table-hover table-striped " id="breakdownTable">
+            
+                <thead>
+                    @*<tr style="color:white; font-size:x-large;">@ViewBag.DateRange
+                    </tr>*@
+
+                    <tr>
+                        <th>SN</th>
+                        <th>Title</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+
+                        <th>Phone</th>
+                        
+
+                    </tr>
+                </thead>
+                <tbody style="color:black;">
+
+                    @for (var i = 0; i < Model.Paystacks.Count; i++)
+    {
+                    <tr>
+                        @{ int N = 0;}
+                        <td>@{ N = i + 1; } @N</td>
+
+                        <td>@Model.Paystacks[i].Payment.Person.Title </td>
+                        <td>@Model.Paystacks[i].Payment.Person.FullName</td>
+                        <td>@Model.Paystacks[i].Payment.Person.Email</td>
+
+                        <td>@Model.Paystacks[i].Payment.Person.MobilePhone</td>
+                        <td>@Html.ActionLink("View Invoice", "ConfrenceInvoice", new { Controller = "Confrence", Area = "Applicant", Inv = @Model.Paystacks[i].reference },new{ @class = "btn btn-success", @target = "_blank" })</td>
+
+
+                    </tr>
+   }
+
+
+                </tbody>
+        </table>
+
+    </div>
+
+
+}
+
+    
+

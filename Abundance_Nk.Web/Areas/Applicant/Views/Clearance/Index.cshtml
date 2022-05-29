@@ -1,0 +1,213 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.ClearanceViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+        <div class="col-md-6 ml-auto mr-auto">
+
+            <div class="panel">
+
+                <div class="panel-body">
+
+                    @if (TempData["Message"] != null)
+                    {
+                        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                    }
+
+                    @using (Html.BeginForm("Index", "Clearance", FormMethod.Post, new { id = "frmIndex", enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+
+
+                      <div class="col-md-12">
+                          <p>Enter your matric Number and click on the search button to retrieve your details</p>
+                          <hr style="margin-top:0" />
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      @Html.LabelFor(model => model.Student.MatricNumber, new { @class = "control-label " })
+                                      @Html.TextBoxFor(model => model.Student.MatricNumber, new { @class = "form-control" })
+                                      @Html.ValidationMessageFor(model => model.Student.MatricNumber, null, new { @class = "text-danger" })
+                                  </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <input class="btn btn-success btn-lg" type="submit" name="submit" id="submit" value="Search" />
+                                  </div>
+                              </div>
+
+
+
+                          </div>
+                      </div>
+
+
+                                            <br />
+                    }
+
+                    <div class="col-md-12">
+
+                        @if (Model.ViewPanel == true)
+                        {
+
+                            using (Html.BeginForm("ClearanceRequest", "Clearance", FormMethod.Post, new { id = "frmIndex", enctype = "multipart/form-data" }))
+                            {
+                                <div class="col-md-12 p-0">
+                               
+                                       
+
+                                            <br />
+                                            @if (Model.ClearanceLog != null && Model.Student != null)
+                                            {
+                                                @Html.ActionLink(Model.Student.FullName + " - " + Model.Student.MatricNumber + " >> Click to View Cleareance Detail", "ClearanceRequestProgress", "Clearance", new { sid = Model.Student.Id }, new { @class = "btn btn-success btn-block btn-sm ", target = "_blank" })
+                                                
+                                            }
+                                            else
+                                            {
+                                                <div>
+                                               
+                                                     <hr />
+                                                        <div class="col-md-12">
+
+
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        @Html.LabelFor(model => model.Student.LastName)
+                                                                        @if (Model.Student.LastName == null)
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.LastName, new { @class = "form-control", @placeholder = "Enter Surname" })
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.LastName, new { @class = "form-control", @readonly = "readonly" })
+                                                                        }
+                                                                        @*@Html.ValidationMessageFor(model => model.Student.LastName)*@
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        @Html.LabelFor(model => model.Student.FirstName)
+                                                                        @if (Model.Student.FirstName == null)
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.FirstName, new { @class = "form-control", @placeholder = "Enter Firstname" })
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.FirstName, new { @class = "form-control", @readonly = "readonly" })
+                                                                        }
+                                                                        @*@Html.ValidationMessageFor(model => model.Student.FirstName)*@
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        @Html.LabelFor(model => model.Student.OtherName, new { @class = "control-label " })
+                                                                        @if (Model.Student.OtherName == null)
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.OtherName, new { @class = "form-control", @placeholder = "Enter Other Name" })
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.OtherName, new { @class = "form-control", @readonly = "readonly" })
+
+                                                                        }
+                                                                        @*@Html.ValidationMessageFor(model => model.Student.OtherName)*@
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        @Html.LabelFor(model => model.Student.MatricNumber, new { @class = "control-label " })
+                                                                        @if (Model.Student.MatricNumber == null)
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.MatricNumber, new { @class = "form-control", @placeholder = "Enter Matric Number" })
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.MatricNumber, new { @class = "form-control", @readonly = "readonly" })
+
+                                                                        }
+                                                                        @*@Html.ValidationMessageFor(model => model.Student.MatricNumber)*@
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        @Html.LabelFor(model => model.Student.Email, new { @class = "control-label " })
+                                                                        @if (Model.Student.Email == null)
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.Email, new { @class = "form-control", @placeholder = "Email", type = "email" })
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.Email, new { @class = "form-control", @readonly = "readonly" })
+
+                                                                        }
+                                                                        @*@Html.ValidationMessageFor(model => model.Student.Email)*@
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        @Html.LabelFor(model => model.Student.MobilePhone, new { @class = "control-label " })
+                                                                        @if (Model.Student.MobilePhone == null)
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.MobilePhone, new { @class = "form-control", @placeholder = "Phnone No.", type = "number" })
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.TextBoxFor(model => model.Student.MobilePhone, new { @class = "form-control", @readonly = "readonly" })
+
+                                                                        }
+                                                                        @*@Html.ValidationMessageFor(model => model.Student.MobilePhone)*@
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <input type="submit" class="btn btn-success btn-lg mr5" name="submit" value="Submit" />
+
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                            </div>
+
+
+
+
+                                                        </div>
+
+                                         
+                                              
+                                                </div>
+                                            }
+                               
+                                
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+   

@@ -1,0 +1,43 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.RemitaPaymentViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Remita Transactions</h2>
+
+<div>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>@Html.ActionLink("Full name", "Index", new { sortOrder = ViewBag.FullName, currentFilter = ViewBag.CurrentFilter })</th>
+                <th>@Html.ActionLink("Remita Retrieval Reference", "Index", new { sortOrder = ViewBag.FullName, currentFilter = ViewBag.CurrentFilter })</th>
+                <th>@Html.ActionLink("Transaction Amount", "Index", new { sortOrder = ViewBag.Number, currentFilter = ViewBag.CurrentFilter })</th>
+                <th>@Html.ActionLink("Transaction Date", "Index", new { sortOrder = ViewBag.Number, currentFilter = ViewBag.CurrentFilter })</th>
+                <th>@Html.ActionLink("Transaction Status", "Index", new { sortOrder = ViewBag.Number, currentFilter = ViewBag.CurrentFilter })</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody style="color:black;">
+            @for (var itemIndex = 0; itemIndex < Model.remitaPaymentList.Count; itemIndex++)
+            {
+                <tr>
+                    <td>@Html.DisplayTextFor(m => m.remitaPaymentList[itemIndex].payment.Person.FullName)</td>
+                    <td>@Html.DisplayTextFor(m => m.remitaPaymentList[itemIndex].RRR)</td>
+                    <td>@Html.DisplayTextFor(m => m.remitaPaymentList[itemIndex].TransactionAmount)</td>
+                    <td>@Html.DisplayTextFor(m => m.remitaPaymentList[itemIndex].TransactionDate)</td>
+                    <td>@Html.DisplayTextFor(m => m.remitaPaymentList[itemIndex].Status)</td>
+                    <td>@Html.ActionLink("Get Status", "GetStatus", "RemitaReport", new { order_Id = Model.remitaPaymentList[itemIndex].OrderId }, new { @class = "btn btn-default" })</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+
+
+</div>

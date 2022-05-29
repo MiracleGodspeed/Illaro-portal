@@ -1,0 +1,291 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.ELearningViewModel
+@{
+    ViewBag.Title = "NBTE Lecture Feedback";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .feeds-custom{
+        margin-bottom:20px!important;
+    }
+</style>
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+
+    <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+
+    <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <link href="~/Content/jquery-ui-1.10.3.css" rel="stylesheet" />
+    <script src="~/Scripts/file-upload/jquery-ui-1.9.2.min.js"></script>
+
+    <script type="text/javascript">
+
+        function FetchFeedback(lectureId) {
+            $("#spinner").fadeIn();
+            $("#feedback_board").html("");
+
+
+            //$("#feedback_board").html("")
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetFeedbackByLectureId")', // we are calling json method
+                dataType: 'json',
+                 data: { lectureId: lectureId },
+                 success: function (response) {
+                     if (response.FeedbackList != null && response.FeedbackList.length > 0) {
+                         $.each(response.FeedbackList, function (i, res) {
+                             $("#feedback_board").append("<div class='col-md-12 feeds-custom'><div class='form-group'> <label class='label-control'><b><i>Anonymous</i></b></label><p><b>" + res.Comments + "</b></p></div></div> <br>  <br>")
+                             $("#spinner").fadeOut();
+
+                         });
+                     }
+                     else {
+                         $("#feedback_board").append("<div class='col-md-12 feeds-custom'><div class='form-group'><p><b>No Feedback has been given.</b></p></div></div> <br>  <br>")
+                         $("#spinner").fadeOut();
+                     }
+                     
+                    console.log(response)
+            
+                },
+                error: function (ex) {
+                    console.log(ex);
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+
+            $('.date').datepicker({
+                dateFormat: "mm/dd/yy",
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                autoclose: true,
+                changeMonth: true,
+                changeYear: true,
+                //gotoCurrent: true,
+            });
+
+            var dateFrom = $("#DateFrom").val();
+            var dateTo = $("#DateTo").val();
+
+            $('#table-request').DataTable({
+                //order: [[3, 'asc']],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5],
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        header: true,
+                        orientation: 'landscape',
+                        customize: function (doc) {
+                            doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                        },
+                        title: 'Transcript Request',
+                        message: "Transcript Requests From:  " + dateFrom + "  To:  " + dateTo
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5],
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        header: true,
+                        orientation: 'landscape',
+                        customize: function (doc) {
+                            doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                        },
+                        title: 'Transcript Request',
+                        message: "Transcript Requests From:  " + dateFrom + "  To:  " + dateTo
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5],
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        header: true,
+                        orientation: 'landscape',
+                        customize: function (doc) {
+                            doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                        },
+                        title: 'Transcript Request',
+                        message: "Transcript Requests From:  " + dateFrom + "  To:  " + dateTo
+                    },
+                    'colvis'
+                ],
+                columnDefs: [{
+                    targets: [5],
+                    visible: true,
+                    "searchable": false
+                }]
+            });
+
+            $("#aPrint").on('click', function () {
+                $(".printable").print();
+                return false;
+            });
+        });
+
+
+        function getnewValue(val) {
+            var dropdownChanged = val.id;
+            var buttonId = document.getElementById(dropdownChanged).offsetParent.nextElementSibling.childNodes[0].id;
+            var buttonUrl = document.getElementById(dropdownChanged).offsetParent.nextElementSibling.childNodes[0].href;
+
+            var ur = buttonUrl + "&stat=" + val.value;
+            document.getElementById(buttonId).href = ur;
+
+        }
+
+    </script>
+}
+
+
+<div>
+    @if (TempData["Message"] != null)
+    {
+        @Html.Partial("_Message", TempData["Message"])
+    }
+</div>
+<div class="modal fade" id="myModal" style="z-index:9999">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <b class="modal-title">Feedbacks</b>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="col-md-12" id="spinner">
+                    <img src="~/Content/Images/bx_loader.gif" />
+                </div>
+                <div class="row" id="feedback_board">
+
+
+                    @*<div class="col-md-12">
+                <div class="form-group">
+                    <label class="label-control"><b><i>Anonymous</i></b></label>
+                    <p><b>Nothing serious was quite said but the experience in itsels was commendable.</b></p>
+                </div>
+            </div>
+            <hr>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="label-control"><b><i>Anonymous</i></b></label>
+                    <p><b>Nothing serious was quite said but the experience in itsels was commendable.</b></p>
+                </div>
+            </div>*@
+                </div>
+                <br />
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" style="width: 100% !important; font-size: 12px">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("LectureFeedBack", "ELearning", FormMethod.Post))
+            {
+                <h2>Lecture Feedbacks</h2>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Session.Id, "Session", new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Session.Id)
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Programme.Id, "Programme", new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Programme.Id, (IEnumerable<SelectListItem>)ViewBag.Programme, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Programme.Id)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary" type="submit" name="submit" id="submit">Search</button> &nbsp;
+                            @*@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    @Html.ActionLink("Update Transcript Payments", "UpdateTranscriptRemitaPayment", null, new { @class = "btn btn-sm btn-danger-alt" })
+                                }*@
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null && Model.LiveLectures != null && Model.LiveLectures.Count > 0)
+                {
+            <h4>Lecture Details and Feedback</h4>
+
+            <div class="table-responsive">
+                <span style="display: none" class="Load"><img src="~/Content/Images/bx_loader.gif" /></span>
+                <table id="table-request" class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Course</th>
+                            <th>Level</th>
+                            <th>Department</th>
+                            <th>Lecture Date</th>
+                            <th>...</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody style="color: black;">
+                        @for (int i = 0; i < Model.LiveLectures.Count; i++)
+                            {
+                                var sn = i + 1;
+                        <tr>
+                            <td>@sn</td>
+                            @*<td>1</td>*@
+                            <td>@Model.LiveLectures[i].CourseAllocation.Course.Name</td>
+                            <td>@Model.LiveLectures[i].Level.Name</td>
+                            <td>@Model.LiveLectures[i].Department.Name</td>
+                            <td>@Model.LiveLectures[i].LectureDate</td>
+                            <td><button class="btn btn-primary btn-sm" onclick="FetchFeedback(@Model.LiveLectures[i].Id)" data-toggle="modal" data-target="#myModal" type="button">See Comments</button></td>
+
+                        </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+            }
+        </div>
+    </div>
+
+</div>

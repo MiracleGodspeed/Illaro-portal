@@ -1,0 +1,203 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.CourseViewModel
+@{
+    ViewBag.Title = "Enable Course Registration";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+    <script type="text/javascript">
+
+
+        function updateStatus(status_id) {
+            //console.log(statusId, event);
+
+            if (!status_id) {
+                showNotification("Invalid id.", "warning", "Attention!");
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ModifyCourseRegistrationStatus", "Courses")', // we are calling json method
+                dataType: 'json',
+                beforeSend: function () { $("#checkProgress").show() },
+                data: { statusId: status_id, status: event.target.checked },
+                success: function(result) {
+                    if (result === "Modified") {
+                        showNotification(result, "success", "Success!");
+                    } else {
+                        showNotification(result, "warning", "Attention!");
+                    }
+
+                    $("#checkProgress").hide()
+                },
+                error: function(jqXHR) {
+                    showNotification(jqXHR.statusText, "warning", "Attention!");
+                    $("#checkProgress").hide()
+                }
+            });
+
+            return;
+        }
+
+        function showNotification(msg, type, title) {
+            $.toast({
+                heading: title,
+                text: msg,
+                position: 'top-right',
+                loaderBg: '#ff6849',
+                icon: type,
+                hideAfter: 6500,
+                stack: 6
+            });
+        }
+
+        function showLoading() {
+            $("#btnSubmit").hide();
+            $("#btnLoading").show();
+        }
+
+        function checkAll() {
+            if ($('#check_all').is(':checked')) {
+                $('.checkbox').prop('checked', true);
+            } else {
+                $('.checkbox').prop('checked', false);
+            }
+
+            var prog_id = $("#programme_Id").val();
+            var session_id = $("#Session_Id").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ModifyCourseRegistrationStatusBulk", "Courses")', // we are calling json method
+                dataType: 'json',
+                beforeSend: function() { $("#checkProgress").show() },
+                data: { progId: prog_id, sessionId: session_id, status: event.target.checked },
+                success: function(result) {
+                    if (result === "200") {
+                        showNotification("Modified.", "success", "Success!");
+                    } else {
+                        showNotification(result, "warning", "Attention!");
+                    }
+
+                    $("#checkProgress").hide()
+                },
+                error: function(jqXHR) {
+                    showNotification(jqXHR.statusText, "warning", "Attention!");
+                    $("#checkProgress").hide()
+                }
+            });
+        }
+
+    </script>
+}
+
+
+<div class="col-md-12">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+        <div>
+            @if (TempData["Message"] != null)
+            {
+                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading panel-dark-head">
+                <h4>Enable/Disable Course Registration </h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+
+                    @using (Html.BeginForm("ActivateCourseRegistration", "Courses", new { Area = "Admin" }, FormMethod.Post))
+                    {
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Session.Name, "Session", new { @class = "col-md-2 control-label" })
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.Session.Id, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.programme.Name, "Programme", new {@class = "col-md-2 control-label"})
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.programme.Id, (IEnumerable<SelectListItem>)ViewBag.Programme, new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(m => m.programme.Id, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-4">
+                                    <input type="submit" id="btnSubmit" onclick="showLoading()" value="Submit" class="btn btn-success" />
+                                    <button class="btn btn-success" disabled="disabled" id="btnLoading" style="display: none"><img style="width: 10px; height: 10px" src="~/Content/Images/bx_loader.gif" /></button>
+                                </div>
+                            </div>
+                        </div>
+
+                   }
+
+                </div>
+            </div>
+            <br />
+            <div class="panel-body">
+                <div class="col-md-12">
+
+                    @if (Model.CourseRegistrationStatusList != null && Model.CourseRegistrationStatusList.Count > 0)
+                    {
+                        <div class="panel panel-danger">
+                            <div class="panel-body">
+
+                                <span> <i>Check or uncheck the checkbutton to enable or disable course registration.</i></span>
+                                    <table class="table-bordered table-hover table-striped table-responsive table">
+                                        <tr>
+                                            <th>
+                                                SN
+                                            </th>
+                                            <th>
+                                                School
+                                            </th>
+                                            <th>
+                                                Department
+                                            </th>
+                                            <th>
+                                                <input type="checkbox" id="check_all" onclick="checkAll()"/> Status 
+                                                <span id="checkProgress" style="display: none"><img style="width: 10px; height: 10px" src="~/Content/Images/bx_loader.gif" /></span>
+                                            </th>
+                                        </tr>
+
+                                        @for (int i = 0; i < Model.CourseRegistrationStatusList.Count; i++)
+                                        {
+                                            <tr>
+                                                @{ var sn = i + 1;}
+                                                <td>@sn</td>
+                                                <td>
+                                                    @Model.CourseRegistrationStatusList[i].Department.Faculty.Name
+                                                </td>
+                                                <td>
+                                                    @Model.CourseRegistrationStatusList[i].Department.Name
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="checkbox" checked="@Model.CourseRegistrationStatusList[i].Active"
+                                                           onclick="updateStatus(@Model.CourseRegistrationStatusList[i].Id)"/>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+                                @*}*@
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

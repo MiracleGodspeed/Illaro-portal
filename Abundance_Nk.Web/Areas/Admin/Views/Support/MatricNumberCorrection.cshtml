@@ -1,0 +1,56 @@
+﻿
+@model Abundance_Nk.Web.Areas.Admin.ViewModels.SupportViewModel
+@{
+    ViewBag.Title = "MatricNumberCorrection";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+}
+
+    <div class="col-md-8 ml-auto mr-auto" style="height: 82vh;">
+        <div class="card card-shadow">
+            <div class="card-header">
+                <h3>Duplicate Registration Number Correction</h3>
+            </div>
+            <div class="card-body">
+
+                    @using (Html.BeginForm("MatricNumberCorrection", "Support", new { area = "Admin" }, FormMethod.Post))
+                    {
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                @Html.LabelFor(model => model.ApplicationForm.Number, "Application Form Number", htmlAttributes: new { @class = "control-label col-md-12" })
+                                <div class="col-md-12">
+                                    @Html.TextBoxFor(model => model.ApplicationForm.Number, new { @class = "form-control", @placeholder = "Enter Application Form Number", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.studentModel.MatricNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                       
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    <input type="submit" value="Submit" class="btn btn-success mr5" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                
+            </div>
+
+        </div>
+
+        @if (Model == null || Model.MatricNumber == null)
+        {
+            return;
+        }
+        @if (Model != null && Model.MatricNumber != null)
+        {
+            <div class="alert alert-success">
+                <h4>New Matriculation Number @Model.MatricNumber</h4>
+            </div>
+
+        }
+    </div>
+  
+

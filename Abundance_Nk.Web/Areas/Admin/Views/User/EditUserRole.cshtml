@@ -1,0 +1,206 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.UserViewModel
+@{
+    ViewBag.Title = "EditUserRole";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+        @if (TempData["Message"] != null)
+        {
+            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+        }
+        @section Scripts {
+            @Scripts.Render("~/bundles/jquery")
+
+
+            <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+            <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+            <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+            <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+            <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+            <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+
+
+            <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+            <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+            <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+            <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+            <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+            <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+            <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $.extend($.fn.dataTable.defaults, {
+                responsive: true
+            });
+
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    }, , 'colvis'
+                ]
+
+                @*serverSide: true,
+            ajax: '@Url.Action("StudentIdDataAjaxAsync", "UploadAdmission")'*@
+
+
+            });
+
+
+        });
+        function ArchiveUser(id) {
+        var response = confirm("Are you sure You want to Delete User?");
+        if (response) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteUser", "User")', // Calling json method
+                traditional: true,
+                data: { id },
+                success: function (result) {
+                    if (!result.isError && result.Message) {
+                        alert(result.Message);
+                        location.reload(true);
+                    }
+                },
+                error: function(ex) {
+                    alert('Failed to retrieve courses.' + ex);
+                }
+            });
+        }
+        else {
+            return false;
+        }
+    }
+
+            </script>
+        }
+                <div class="col-md-12">
+                    @using (Html.BeginForm("EditUserRole", "User", FormMethod.Post))
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4><i class="fa fa-edit"> Users</i></h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4>Select User-Role Category</h4>
+                                        <hr />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.User.Role.Name, "Role", new { @class = "control-label " })
+                                            @Html.DropDownListFor(model => model.User.Role.Id, (IEnumerable<SelectListItem>)ViewBag.Role, new { @class = "form-control", @required = "required" })
+                                            @Html.ValidationMessageFor(model => model.User.Role.Name)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input class="btn btn-success btn-sm mr5" type="submit" name="submit" id="submit" value="Submit" />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.Users != null && Model.Users.Count > 0)
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped  table-hover" id="myTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sn</th>
+                                                    <th>Username</th>
+                                                    <th>Role</th>
+                                                    @*<th>Department</th>*@
+                                                    <th>Edit</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.Users.Count; i++)
+                                                {
+                                                    var sn = i + 1;
+                                                    <tr>
+                                                        <td>@sn</td>
+                                                        <td>@Model.Users[i].Username</td>
+                                                        <td>@Model.Users[i].Role.Name</td>
+                                                        @*<td>@Model.Users[i].Department</td>*@
+                                                        <td>
+                                                            @*<i class="fa fa-edit"> </i> @Html.ActionLink("Edit Role", "EditRole", new { controller = "User", area = "Admin", @id = @Model.Users[i].Id }, new { @class = "btn btn-success btn-sm" })*@
+
+                                                            @*<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>*@ @Html.ActionLink("Edit", "EditUser", new { id = Model.Users[i].Id })
+                                                        </td>
+                                                        <td>
+                                                            <button class=" btn btn-primary" aria-hidden="true" onclick="ArchiveUser(@Model.Users[i].Id)">Delete</button>
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+                </div>
+

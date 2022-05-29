@@ -1,0 +1,572 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.TranscriptViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#State").hide();
+        $("#StateName").hide();
+        $("#Country").change(function() {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetState", "Transcript")', // Calling json method
+                dataType: 'json',
+                data: { id: $("#Country").val() },
+                // Get Selected Country ID.
+                success: function(country) {
+                    if (country == "NIG") {
+                        $("#State").show();
+                        $("#StateName").show();
+                    } else {
+                        $("#State").hide();
+                        $("#StateName").hide();
+
+                    }
+                },
+                error: function(ex) {
+                    alert('Request Cannot be Processed.');
+                }
+            });
+            return false;
+        });
+
+        $("#Country").on("change", function () {
+            if ($("#Country").val() == "OTH" || $("#Country").val() == "ITA" || $("#Country").val() == "ESP" || $("#Country").val() == "CAN" || $("#Country").val() == "UK") {
+                loadDeliveryServices($("#Country").val(), "OT");
+            } else if ($("#Country").val() != undefined && $("#State").val() != undefined) {
+                loadDeliveryServices($("#Country").val(), $("#State").val());
+            } else {
+                $("#DeliveryService_Id").empty();
+                $("#deliveryService").hide();
+            }
+
+            if ($("#Country").val() != undefined && $("#State").val() != undefined && $("#DeliveryService_Id").val() != undefined) {
+                loadDeliveryServiceZones($("#Country").val(), $("#State").val(), $("#DeliveryService_Id").val());
+            } else {
+                $("#DeliveryServiceZone_Id").empty();
+                $("#deliveryServiceZone").hide();
+            }
+
+            return;
+        });
+
+        $("#State").on("change", function () {
+            if ($("#Country").val() != undefined && $("#State").val() != undefined) {
+                loadDeliveryServices($("#Country").val(), $("#State").val());
+            } else {
+                $("#DeliveryService_Id").empty();
+                $("#deliveryService").hide();
+            }
+            
+            if ($("#Country").val() != undefined && $("#State").val() != undefined && $("#DeliveryService_Id").val() != undefined) {
+                loadDeliveryServiceZones($("#Country").val(), $("#State").val(), $("#DeliveryService_Id").val());
+            } else {
+                $("#DeliveryServiceZone_Id").empty();
+                $("#deliveryServiceZone").hide();
+            }
+
+            return;
+        });
+
+        $("#DeliveryService_Id").on("change", function () {
+
+            if ($("#Country").val() != undefined && $("#State").val() != undefined && $("#DeliveryService_Id").val() != undefined) {
+                if ($("#Country").val() == "OTH" || $("#Country").val() == "ITA" || $("#Country").val() == "ESP" || $("#Country").val() == "CAN" || $("#Country").val() == "UK") {
+                    $("#State").val("OT");
+                }
+                loadDeliveryServiceZones($("#Country").val(), $("#State").val(), $("#DeliveryService_Id").val());
+            } else {
+                $("#DeliveryServiceZone_Id").empty();
+                $("#deliveryServiceZone").hide();
+            }
+
+            return;
+        });
+
+        $("#StudentLevel_Programme_Id").change(function () {
+
+            var programme = $("#StudentLevel_Programme_Id").val();
+            if (programme == 1) {
+                $("#divDepartmentOption").hide();
+            }
+            else if (programme == 2) {
+                $("#divDepartmentOption").hide();
+            }
+            else if (programme == 3) {
+                $("#divDepartmentOption").show();
+            }
+            else if (programme == 4) {
+                $("#divDepartmentOption").show();
+            }
+            else {
+                $("#divDepartmentOption").hide();
+            }
+
+            $("#StudentLevel_Department_Id").empty();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartmentByProgrammeId")', // we are calling json method
+                dataType: 'json',
+                data: { id: programme },
+                success: function (departments) {
+                    $("#StudentLevel_Department_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+
+                    $.each(departments, function (i, department) {
+                        $("#StudentLevel_Department_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve departments.' + ex);
+                }
+            });
+        })
+        $("#StudentCopyOnlyRequest").change(function () {
+
+            $("#dest_add").toggle()
+            $("#dest_country").toggle()
+            $("#dest_state").toggle()
+            $("#stud_copy").toggle()
+
+        })
+        //Load Department Option
+        $("#StudentLevel_Department_Id").change(function () {
+
+            var department = $("#StudentLevel_Department_Id").val();
+            var programme = $("#StudentLevel_Programme_Id").val();
+            
+            $("#StudentLevel_DepartmentOption_Id").empty();
+
+            //if (department == 9 || department == 15 || department == 20) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDepartmentOptionByDepartment")', // we are calling json method
+                    dataType: 'json',
+                    data: { id: department, programmeid: programme },
+                    success: function (departmentOptions) {
+                        //$("#hfDepartmentOptionExist").val(departmentOptions[0]);
+
+                        if (departmentOptions == "" || departmentOptions == null || departmentOptions == undefined) {
+                            $("#divDepartmentOption").hide();
+                        }
+                        else {
+                            $("#StudentLevel_DepartmentOption_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+                            $.each(departmentOptions, function (i, Option) {
+                                $("#StudentLevel_DepartmentOption_Id").append('<option value="' + Option.Value + '">' + Option.Text + '</option>');
+                            });
+                            if (programme > 2)
+                            {
+                                $("#divDepartmentOption").show();
+                            }
+
+                        }
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve department Options.' + ex);
+                    }
+                });
+
+        })
+
+
+
+        $("#DeliveryServiceZone_Id").on("change", function () {
+            $("#submit").attr("disabled", false);
+        });
+
+    });
+
+    function loadDeliveryServices(country, state) {
+
+        $("#DeliveryService_Id").empty();
+
+        if (country != undefined && state != undefined) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDeliveryServices", "Transcript")', // Calling json method
+                dataType: 'json',
+                data: { countryId: country, stateId: state},
+                success: function(services) {
+                    $("#DeliveryService_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+                    $.each(services, function (i, service) {
+
+                        $("#DeliveryService_Id").append('<option value="' + service.Value + '">' +
+                             service.Text + '</option>');
+                    });
+                },
+                error: function(ex) {
+                    alert('Request Cannot be Processed.');
+                }
+            });
+
+            $("#deliveryService").show();
+        }
+    }
+
+    function loadDeliveryServiceZones(country, state, deliveryService) {
+
+        $("#DeliveryServiceZone_Id").empty();
+
+        if (country != undefined && state != undefined && deliveryService != undefined) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDeliveryServiceZones", "Transcript")', // Calling json method
+                dataType: 'json',
+                data: { countryId: country, stateId: state, deliveryServiceId: deliveryService},
+                success: function(zones) {
+                    $("#DeliveryServiceZone_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+                    $.each(zones, function (i, zone) {
+
+                        $("#DeliveryServiceZone_Id").append('<option value="' + zone.Value + '">' +
+                             zone.Text + '</option>');
+                    });
+
+                    $("#submit").attr("disabled", false);
+                },
+                error: function(ex) {
+                    alert('Request Cannot be Processed.');
+                }
+            });
+
+            $("#deliveryServiceZone").show();
+        }
+    }
+
+    function checkTranscriptZone() {
+        var studentCopyOnly = $("#StudentCopyOnlyRequest").val();
+        if (studentCopyOnly != undefined && studentCopyOnly == 1) {
+            return;
+        }
+        if ($("#Country").val() != undefined) {
+
+            if ($("#DeliveryService_Id").val() == undefined || $("#DeliveryServiceZone_Id").val() == undefined || $("#DeliveryService_Id").val() == 0 || $("#DeliveryServiceZone_Id").val() == 0) {
+                alert("You did not select a delivery service or zone.");
+                $("#submit").attr("disabled", "disabled");
+            } else {
+                $("#submit").attr("disabled", false);
+            }
+        }
+    }
+
+</script>
+<div class="container">
+
+
+    <div class="card card-shadow">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    @if (Model.RequestType == null)
+                    {
+                        <h2>
+                            Transcript
+                            <span class="label label-default"> Request Form</span>
+                        </h2>
+                    }
+                    @if (Model.RequestType == "Certificate Collection")
+                    {
+                        <h2>
+                            Certificate
+                            <span class="label label-default"> Request Form</span>
+                        </h2>
+                    }
+                    @if (Model.RequestType == "Transcript Verification")
+                    {
+                        <h2>
+                            Transcript Verification
+                            <span class="label label-default"> Request Form</span>
+                        </h2>
+                    }
+                    @if (Model.RequestType == "Certificate Verification")
+                    {
+                        <h2>
+                            Certificate Verification
+                            <span class="label label-default"> Request Form</span>
+                        </h2>
+                    }
+                    @if (Model.RequestType == "Convocation Fee")
+                    {
+                        <h2>
+                            Convocation Fee
+                            <span class="label label-default"> Payment Form</span>
+                        </h2>
+                    }
+                </div>
+                <hr />
+            </div>
+            @using (Html.BeginForm("Request", "Transcript", FormMethod.Post, new { id = "frmIndex", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.transcriptRequest.student.Id)
+                @Html.HiddenFor(model => model.transcriptRequest.Id)
+                @Html.HiddenFor(model => model.transcriptRequest.transcriptClearanceStatus.TranscriptClearanceStatusId)
+                @Html.HiddenFor(model => model.transcriptRequest.transcriptStatus.TranscriptStatusId)
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-md-12">
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.transcriptRequest.student.LastName)
+                                        @if (Model.transcriptRequest.student == null)
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.LastName, new { @class = "form-control", @placeholder = "Enter Surname" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.LastName, new { @class = "form-control", @readonly = "readonly" })
+                                        }
+                                        @Html.ValidationMessageFor(model => model.transcriptRequest.student.LastName)
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.transcriptRequest.student.FirstName)
+                                        @if (Model.transcriptRequest.student == null)
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.FirstName, new { @class = "form-control", @placeholder = "Enter Firstname" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.FirstName, new { @class = "form-control", @readonly = "readonly" })
+                                        }
+                                        @Html.ValidationMessageFor(model => model.transcriptRequest.student.FirstName)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.transcriptRequest.student.OtherName, new { @class = "control-label " })
+                                        @if (Model.transcriptRequest.student == null)
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.OtherName, new { @class = "form-control", @placeholder = "Enter Other Name" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.OtherName, new { @class = "form-control", @readonly = "readonly" })
+
+                                        }
+                                        @Html.ValidationMessageFor(model => model.transcriptRequest.student.OtherName)
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.transcriptRequest.student.MatricNumber, new { @class = "control-label " })
+                                        @if (Model.transcriptRequest.student == null)
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.MatricNumber, new { @class = "form-control", @placeholder = "Enter Matric Number" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.MatricNumber, new { @class = "form-control", @readonly = "readonly" })
+
+                                        }
+                                        @Html.ValidationMessageFor(model => model.transcriptRequest.student.MatricNumber)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Person.MobilePhone, "Phone NO.", new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Person.MobilePhone, new { @class = "form-control", required = "required" })
+                                        @*@Html.ValidationMessageFor(model => model.Person.MobilePhone, null, new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Person.ContactAddress, "Contact Address", new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Person.ContactAddress, new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Person.ContactAddress, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.StudentLevel, "Programme", new { @class = "control-label" })
+
+                                        @Html.DropDownListFor(model => model.StudentLevel.Programme.Id, (IEnumerable<SelectListItem>)ViewBag.Programmes, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.StudentLevel.Programme.Id, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.StudentLevel.Department.Id, "Department", new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.StudentLevel.Department.Id, (IEnumerable<SelectListItem>)ViewBag.Departments, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.StudentLevel.Department.Id, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="divDepartmentOption" class="form-group" style="display:none">
+                                        @Html.LabelFor(model => model.StudentLevel.DepartmentOption.Id, "Course Option", new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.StudentLevel.DepartmentOption.Id, (IEnumerable<SelectListItem>)ViewBag.DepartmentOptions, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.StudentLevel.DepartmentOption.Id, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div id="divJambNo" class="form-group">
+                                        @Html.LabelFor(model => model.WorkPlace, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.WorkPlace, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.WorkPlace, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.YearOfGraduation, "Year Of Graduation:", new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.YearOfGraduation, (IEnumerable<SelectListItem>)ViewBag.YearOfGraduation, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.YearOfGraduation)
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.transcriptRequest.student.Email, new { @class = "control-label " })
+                                        @if (Model.transcriptRequest.student == null)
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.Email, new { @class = "form-control", @placeholder = "Email", type = "email" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(model => model.transcriptRequest.student.Email, new { @class = "form-control" })
+
+                                        }
+                                        @*@Html.ValidationMessageFor(model => model.transcriptRequest.student.Email)*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.RequestType == "Convocation Fee" || (Model.RequestType != null && Model.RequestType.Contains("Certificate")))
+                        {
+                            @Html.HiddenFor(model => model.transcriptRequest.DestinationAddress)
+                            @Html.HiddenFor(model => model.transcriptRequest.DestinationCountry.Id)
+                            @Html.HiddenFor(model => model.transcriptRequest.DestinationState.Id)
+                            @*@Html.HiddenFor(model => model.transcriptRequest.TranscriptRegion.Id)*@
+                        }
+                        else
+                        {
+                        <div class="">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label title="Student Copy Only?">
+
+                                        Is this a <b>Studeny Copy Only</b> Request?
+                                    </label>
+
+                                    @Html.DropDownListFor(model => model.StudentCopyOnlyRequest, new SelectList(@ViewBag.Response, "Id", "Name"), "--Select Response--",
+                                        new { @class = "form-control", title = "Do you also want student copy of the transcript?" })
+
+                                    @Html.ValidationMessageFor(model => model.StudentCopyRequestType)
+
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="dest_add">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.transcriptRequest.DestinationAddress, "Enter Destination Address", new { @class = "control-label " })
+                                    @Html.TextAreaFor(model => model.transcriptRequest.DestinationAddress, new { @class = "form-control", @placeholder = "The Registrar, Federal Polytechnic Ilaro, P.M.B 50, Oja Odan Road Ilaro, Ogun State" })
+                                    @Html.ValidationMessageFor(model => model.transcriptRequest.DestinationAddress)
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" id="dest_country">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.transcriptRequest.DestinationCountry, new { @class = "control-label " })
+                                    @Html.DropDownListFor(model => model.transcriptRequest.DestinationCountry.Id, (IEnumerable<SelectListItem>)ViewBag.CountryId, new { @class = "form-control", @id = "Country" })
+                                    @Html.ValidationMessageFor(model => model.transcriptRequest.DestinationCountry)
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" id="dest_state">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.transcriptRequest.DestinationState, new { @class = "control-label ", @id = "StateName" })
+                                    @Html.DropDownListFor(model => model.transcriptRequest.DestinationState.Id, (IEnumerable<SelectListItem>)ViewBag.StateId, new { @class = "form-control", @id = "State" })
+                                    @Html.ValidationMessageFor(model => model.transcriptRequest.DestinationState)
+                                </div>
+                            </div>
+                        </div>
+                        }
+
+                        @if (Model.RequestType == null || Model.RequestType.Contains("Transcript"))
+                        {
+                            <div class="row">
+                                <div class="col-md-6" style="display: none" id="deliveryService">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DeliveryService.Name, "Delivery Service", new { @class = "control-label " })
+                                        @Html.DropDownListFor(model => model.DeliveryService.Id, (IEnumerable<SelectListItem>)ViewBag.DeliveryServices, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryService.Id)
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="display: none" id="deliveryServiceZone">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DeliveryServiceZone.Id, "Zone", new { @class = "control-label " })
+                                        @Html.DropDownListFor(model => model.DeliveryServiceZone.Id, (IEnumerable<SelectListItem>)ViewBag.DeliveryServiceZones, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryServiceZone.Id)
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                        <div class="col-md-6" id="stud_copy">
+                            <div class="form-group">
+                                <label title="Do you also want student copy of the transcript?">
+
+                                    Do you also want student copy of the transcript?
+                                </label>
+
+                                @Html.DropDownListFor(model => model.StudentCopyRequestType, new SelectList(@ViewBag.Response, "Id", "Name"), "--Select Response--",
+               new { @class = "form-control", title = "Do you also want student copy of the transcript?" })
+
+                                @Html.ValidationMessageFor(model => model.StudentCopyRequestType)
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="btn btn-success btn-lg mr5" type="submit" onclick="checkTranscriptZone()" name="submit" id="submit" value="Submit" />
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    </div>
+                    }
+
+</div>
+</div>
+                </div>

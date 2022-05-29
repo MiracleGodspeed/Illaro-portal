@@ -1,0 +1,547 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.SupportViewModel
+@using Abundance_Nk.Business
+@{
+    ViewBag.Title = "Verified Payments";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(22, 21, 21, 0.932);
+        z-index: 99999;
+        display: none;
+    }
+
+    #status {
+        width: 150px;
+        height: 131px;
+        position: absolute;
+        left: 44%;
+        /* centers the loading animation horizontally one the screen */
+        top: 40%;
+        /* centers the loading animation vertically one the screen */
+        /* background-image: url(./images/icon-1.png); */
+        /* path to your loading animation */
+        background-repeat: no-repeat;
+        background-position: center;
+        /* margin: -100px 0 0 -100px; */
+        background-size: 400px;
+        background-color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        /* is width and height divided by two */
+    }
+
+    .ld-img {
+        left: 0rem !important;
+        top: 0rem !important;
+        width: 31px !important;
+        margin-top: 25px !important;
+        margin-bottom: 10px !important;
+        position: relative !important;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 55px;
+        height: 27px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 23px;
+            left: 2px;
+            bottom: 3px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2d8d67;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+    /*table.dataTable td {
+        font-size: 14px !important;
+    }
+
+    table.dataTable tr.dtrg-level-0 td {
+        font-size: 14px !important;
+    }*/
+    #date__range {
+        display: none
+    }
+</style>
+@section Scripts {
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.js"></script>
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+
+    <script type="text/javascript">
+    //var jqueryVersion = $.noConflict(true);
+
+        $(document).ready(function () {
+            $("#FeeType_Id[Value='14']").remove();
+              $("#FeeType_Id[Value='16']").remove();
+            $("#v_all_btn").click(function () {
+
+                $('#preloader').show()
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("VerifyPaymentBulk")',
+                    dataType: 'json',
+                    data: { verifyAll:1 },
+                    success: function (response) {
+                        //alert("verified");
+                        swal("Verified!", "All payments were succesfully verified!", "success");
+                        var verified__all = document.querySelectorAll(".veified_all_btn");
+                        for (var i = 0; i < verified__all.length; i++) {
+                            verified__all[i].attr('disabled', true);
+                        }
+                        //$("#" + pmid).attr('disabled', true);
+                        $('#preloader').hide()
+
+
+                    },
+                    error: function (ex) {
+                        $('#preloader').hide()
+                        alert(ex);
+                    }
+                });
+
+            });
+
+
+
+        $("#Programme_Id").change(function () {
+
+            $("#Department_Id").empty();
+
+            var programme = $("#Programme_Id").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartmentByProgrammeId")', // we are calling json method
+                dataType: 'json',
+                data: { id: programme },
+                success: function (departments) {
+                    $("#Department_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+
+                    $.each(departments, function (i, department) {
+                        $("#Department_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve departments.' + ex);
+                }
+            });
+        });
+
+        })
+    $(function () {
+
+
+        $.extend($.fn.dataTable.defaults, {
+            responsive: false
+        });
+
+
+        $('#myTable').DataTable({
+            dom: 'Bfrtip',
+            ordering: true,
+            buttons: [
+                {
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+
+
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+
+
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+
+
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+
+
+                }, , 'colvis'
+            ]
+
+                    @* serverSide: true,
+            ajax: '@Url.Action("StudentIdDataAjaxAsync", "UploadAdmission")' *@
+
+
+                });
+
+
+
+        $("#FeeType_Id").change(function () {
+            var ft = $('#FeeType_Id').val();
+
+            if (ft == 2) {
+                $('#isHide').fadeOut();
+            }
+            else {
+                $('#isHide').fadeIn();
+            }
+        });
+
+
+        $("#submit").click(function () {
+            $('#submit').attr('disable', 'disable');
+        });
+    });
+        function VerifyPayment(pmid) {
+
+            $('#preloader').show()
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("VerifyPaymentSingle")',
+                dataType: 'json',
+                data: { pmid },
+                success: function (response) {
+                    //alert("verified");
+                    swal("Verified!", "Payment verification successful!", "success");
+                    $("#" + pmid).attr('disabled', true);
+                    $('#preloader').hide()
+
+
+                },
+                 error: function (ex) {
+                     $('#preloader').hide()
+                    alert(ex);
+                }
+            });
+
+        }
+        function isChecked() {
+            var bulkToggle = document.getElementById("isBulk");
+            if (bulkToggle.checked) {
+                $("#date__range").fadeIn();
+            }
+            else {
+                $("#date__range").fadeOut();
+            }
+        }
+        function isLoading() {
+            $('#preloader').fadeIn()
+            $('#load-txt').html("Loading...")
+        }
+    </script>
+}
+
+@if (TempData["Message"] != null)
+{
+    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+}
+
+<div id="preloader">
+    <div id="status">
+        @*<div style="background-color:white;width:200px;height:200px">*@
+
+        <img src="~/Content/Images/bx_loader.gif" class="ld-img" />
+
+        <p style="font-size:10px" id="load-txt"><b>initializing...</b></p>
+
+        @*</div>*@
+    </div>
+</div>
+<br />
+<div class="card card-shadow">
+    <div class="card-header">
+        <h3>VERIFIED PAYMENTS</h3>
+    </div>
+    @using (Html.BeginForm("VerifiedPaymentsReport", "Support", new { area = "admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+    <div class="card-body">
+        <div class="col-md-12" style="padding: 20px;">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FeeType.Id, new { @class = "control-label custom-text-black" })
+                        @Html.DropDownListFor(model => model.FeeType.Id, (IEnumerable<SelectListItem>)ViewBag.FeeType, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FeeType.Id, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Session.Id, new { @class = "control-label custom-text-black" })
+                        @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Session.Id, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Programme.Id, new { @class = "control-label custom-text-black" })
+                        @Html.DropDownListFor(model => model.Programme.Id, (IEnumerable<SelectListItem>)ViewBag.Programme, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Programme.Id, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <label class="control-label custom-text-black">School</label>
+                        @*@Html.LabelFor(model => model.Department.Id, new { @class = "control-label custom-text-black" })*@
+                        @Html.DropDownListFor(model => model.Department.Faculty.Id, (IEnumerable<SelectListItem>)ViewBag.School, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Department.Faculty.Id, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4" id="isHide">
+
+                    <div class="form-group">
+                        <label class="control-label custom-text-black">Level</label>
+                        @*@Html.LabelFor(model => model.Department.Id, new { @class = "control-label custom-text-black" })*@
+                        @Html.DropDownListFor(model => model.Level.Id, (IEnumerable<SelectListItem>)ViewBag.Level, new { @class = "form-control" })
+                        @*@Html.ValidationMessageFor(model => model.Level.Id, null, new { @class = "text-danger" })*@
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="margin-bottom:15px; margin-top:20px">
+                    <label class="label-control">
+
+                        Date Range? &nbsp;
+                    </label>
+
+                    <label class="switch">
+                        <input id="isBulk" type="checkbox" onchange="isChecked()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row" id="date__range">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateFrom, "Date From", new { @class = "control-label" })
+
+                        @Html.TextBoxFor(model => model.DateFrom, new { @class = "form-control txtDatePicker", placeholder = "dd/mm/yyyy e.g 01/01/2018", type = "date" })
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateTo, "Date To", new { @class = "control-label" })
+
+                        @Html.TextBoxFor(model => model.DateTo, new { @class = "form-control txtDatePicker", placeholder = "dd/mm/yyyy e.g 01/01/2018", type = "date" })
+
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RequestType, "WES Verification", new { @class = "control-label" })
+                        @Html.RadioButtonFor(model => model.RequestType, "wesverification", new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.RequestType, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>*@
+            <div class="col-md-6">
+                <br />
+                <input type="submit" class="btn btn-primary" value="Search Payments" onclick="isLoading()" />
+            </div>
+        </div>
+    </div>
+    }
+
+
+    @*@if (Model.Active)
+        {*@
+    <div class="col-sm-12" style="padding: 20px;">
+
+        <div class="alert alert-success fade in nomargin">
+            <h3 style="text-align: center">VERIFIED PAYMENTS</h3>
+        </div>
+
+
+
+
+
+        @if (Model != null && Model.PaymentVerificationList != null && Model.PaymentVerificationList.Count > 0)
+        {
+            <div class="card-body">
+                @*<div class="table-responsive">*@
+                @*<h3>@Model.TranscriptRequests.FirstOrDefault().DateRequested.Year - @ViewBag.Title2</h3>*@
+                <table class="table table-responsive table-bordered table-striped table-hover" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                SN
+                            </th>
+                            <th>
+                                Student Name
+                            </th>
+                            <th>
+                                Department Name
+                            </th>
+                            <th>
+                                Invoice No
+                            </th>
+                            <th>
+                                RRR
+                            </th>
+                            <th>
+                                Verified By
+                            </th>
+                            <th>
+                                Verification Date
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            @*<th>
+            Status
+        </th>*@
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.PaymentVerificationList.Count; i++)
+                        {
+                            int sn = i + 1;
+                            //var paymentId = Model.PaymentVerificationList[i].paymentId;
+                            //PaymentVerificationLogic paymentVerificationLogic = new PaymentVerificationLogic();
+                            //var verifiedPayment = paymentVerificationLogic.GetModelsBy(p => p.Payment_Id == paymentId).LastOrDefault();
+                        <tr>
+                            <td>
+                                @sn
+
+                            </td>
+                            <td>
+                                @Model.PaymentVerificationList[i].fullname
+                            </td>
+                            <td>
+                                @Model.PaymentVerificationList[i].departmentName
+
+                            </td>
+
+                            <td>
+                                @Model.PaymentVerificationList[i].invoiceNumber
+
+                            </td>
+                            <td>
+                                @Model.PaymentVerificationList[i].rrr
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                @Model.PaymentVerificationList[i].verifiedDate
+                            </td>
+                            <td>
+                                @Model.PaymentVerificationList[i].amount
+                            </td>
+
+
+
+
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        }
+
+        @*</div>*@
+
+
+
+        @*}*@
+    </div>
+</div>
+

@@ -1,0 +1,44 @@
+﻿@model Abundance_Nk.Model.Model.RemitaPayment
+
+@{
+    ViewBag.Title = "Update Payment Status";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="col-md-1"></div>
+<div class="col-md-10">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>Update Payment Status</h4></div>
+        <div class="panel-body">
+
+            <div>
+                @if (TempData["Message"] != null)
+                {
+                    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                }
+            </div>
+
+            @using (Html.BeginForm("UpdateRRRStatus", "RemitaReport", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.payment.InvoiceNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.payment.InvoiceNumber, new { @class = "form-control", @placeholder = "Enter Invoice Number / RRR" })
+                        @Html.ValidationMessageFor(model => model.payment.InvoiceNumber, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Search" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+<div class="col-md-1"></div>

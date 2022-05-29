@@ -1,0 +1,40 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJAMBFormPaymentViewModel
+@{
+    ViewBag.Title = "Remita Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            document.getElementById("form1").submit();
+        });
+
+    </script>
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="row">
+        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+    </div>
+}
+<div>
+    Processing... <span><img src="~/Content/Images/bx_loader.gif" /></span>
+</div>
+
+<form id="form1" action="https://login.remita.net/remita/ecomm/init.reg" name="SubmitRemitaForm" method="POST">
+    <input type="hidden" value="@Model.Remita.payerName" name="payerName" id="payerName" />
+    <input type="hidden" value="@Model.Remita.payerEmail" name="payerEmail" id="payerEmail" />
+    <input type="hidden" value="@Model.Remita.payerPhone" name="payerPhone" id="payerPhone" />
+    <input type="hidden" value="@Model.Remita.orderId" name="orderId" id="orderId" />
+    <input type="hidden" value="@Model.Remita.merchantId" name="merchantId" id="merchantId" />
+    <input type="hidden" value="@Model.Remita.serviceTypeId" name="serviceTypeId" id="serviceTypeId" />
+    <input type="hidden" value="@Model.Remita.responseurl" name="responseurl" id="responseurl" />
+    <input type="hidden" value="@Model.Remita.amt" name="amt" id="amt" />
+    <input type="hidden" value="@Model.Remita.hash" name="hash" id="hash" />
+    <input type="hidden" value="@Model.Remita.paymenttype" name="paymenttype" id="paymenttype" />
+</form>
+

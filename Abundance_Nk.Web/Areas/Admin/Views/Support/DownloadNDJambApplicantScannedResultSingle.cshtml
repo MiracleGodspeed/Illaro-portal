@@ -1,0 +1,282 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.SupportViewModel
+@{
+    ViewBag.Title = "DownloadNDJambApplicantScannedResultSingle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+
+
+
+    <script src="~/Scripts/bootstrap.js"></script>
+
+
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <link href="~/Content/jquery-ui-1.10.3.css" rel="stylesheet" />
+    @*<script src="~/Scripts/file-upload/jquery-ui-1.9.2.min.js"></script>*@
+    <script src="~/Scripts/jquery.print.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("#Programme option[value=3]").remove();
+            $("#Programme option[value=4]").remove();
+            $("#Programme option[value=5]").remove();
+            $("#Programme option[value=2]").remove();
+
+            $('.date').datepicker({
+                dateFormat: "mm/dd/yy",
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                autoclose: true,
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $('link[rel=stylesheet][href~="/Content/sbCss/bootstrap.min.css"]').remove();
+
+            $("#loading").hide();
+
+            //Programme Drop down Selected-change event
+            $("#Programme").change(function() {
+                $("#Department").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDepartments", "Support")', // Calling json method
+                    dataType: 'json',
+                    data: { id: $("#Programme").val() },
+                    // Get Selected Country ID.
+                    success: function(departments) {
+                        $("#Department").append('<option value="' + 0 + '">' +
+                            '-- Select Department --' + '</option>');
+                        $.each(departments, function(i, department) {
+                            $("#Department").append('<option value="' + department.Value + '">' +
+                                department.Text + '</option>');
+                        });
+                    },
+                    error: function(ex) {
+                        alert('Failed to retrieve departments.' + ex);
+                    }
+                });
+                return false;
+            });
+
+            $("#aPrint").on('click', function () {
+                $(".printable").print();
+                return false;
+            });
+        });
+
+        function previewFile(personId, fileId) {
+            if (!personId && !fileId) {
+                alert("Id is undefined.");
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetFileForPreview", "Support")',
+                dataType: 'json',
+                data: { personId: personId, fileId: fileId },
+                beforeSend: function() {
+                    $("#load").show();
+                },
+                complete: function() {
+                    $("#load").hide();
+                },
+                success: function(result) {
+                    if (result.IsError === false) {
+
+                        if (!result.Url) {
+                            alert("This document was not uploaded.");
+                        } else {
+                            $("#filePreview").attr('src', 'https://applications.federalpolyilaro.edu.ng' + result.Url);
+                            $('#infoModal').modal('show');
+                        }
+
+                    } else {
+                        alert(result.Message);
+                    }
+                },
+                error: function(ex) {
+                    alert('Operation failed.' + ex);
+                }
+            });
+        }
+
+    </script>
+}
+
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+
+            @if (TempData["Message"] != null)
+            {
+                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+@using (Html.BeginForm("DownloadNDJambApplicantScannedResultSingle", "Support", new {area = "Admin"}, FormMethod.Post))
+{
+    <div class="card card-shadow">
+        <div class="card-header">
+            <h3 class="card-title">Download Scanned O'Level Results
+            </h3>
+        </div>
+        <div class="card-body">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateFrom, "Date Range", new {@class = "col-sm-12 control-label "})
+               <div class="col-md-12">
+                   <div class="row">
+                       <div class="col-sm-6">
+                           @Html.TextBoxFor(model => model.DateFrom, new { @class = "form-control date", required = "required", placeholder = "From...", autocomplete = "off" })
+                           @Html.ValidationMessageFor(model => model.DateFrom)
+                       </div>
+                       <div class="col-sm-6">
+                           @Html.TextBoxFor(model => model.DateTo, new { @class = "form-control date", required = "required", placeholder = "To...", autocomplete = "off" })
+                           @Html.ValidationMessageFor(model => model.DateTo)
+                       </div>
+                   </div>
+               </div>
+            </div>
+
+           <div class="col-md-12">
+               <div class="row">
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.Session.Name, "Session", new { @class = "col-sm-12 control-label " })
+                           <div class="col-sm-12">
+                               @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control", @id = "Session", @required = "required" })
+                               @Html.ValidationMessageFor(model => model.Session.Id, null, new { @class = "text-danger" })
+                           </div>
+                       </div>
+                   </div>
+
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.Programme.Name, "Programme", new { @class = "col-sm-12 control-label " })
+                           <div class="col-sm-12">
+                               @Html.DropDownListFor(model => model.Programme.Id, (IEnumerable<SelectListItem>)ViewBag.Programme, new { @class = "form-control", @id = "Programme", @required = "required" })
+                               @Html.ValidationMessageFor(model => model.Programme.Id, null, new { @class = "text-danger" })
+                           </div>
+                       </div>
+                   </div>
+
+
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.Department.Name, "Department", new { @class = "col-sm-12 control-label " })
+                           <div class="col-sm-12">
+                               @Html.DropDownListFor(model => model.Department.Id, (IEnumerable<SelectListItem>)ViewBag.Department, new { @class = "form-control", @id = "Department", @required = "required" })
+                               @Html.ValidationMessageFor(model => model.Department.Id, null, new { @class = "text-danger" })
+                           </div>
+                       </div>
+                   </div>
+
+                   <div class="col-md-12">
+                       <div class="form-group">
+                           
+                           <div class="col-sm-12">
+                               <input class="btn btn-success mr5 " type="submit" name="submit" id="submit" value="Download" />
+                           </div>
+                       </div>
+                   </div>
+
+               </div>
+           </div>
+        </div>
+    </div>
+}
+
+                @if (Model.ApplicantResults != null && Model.ApplicantResults.Count > 0)
+                {
+                    <div class="card card-danger">
+                        <div class="card-body">
+                           
+                                <table class="table-bordered table-hover table-striped table-responsive table">
+                                    <tr>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Application Number
+                                        </th>
+                                        <th>
+                                            Department
+                                        </th>
+                                        <th>
+                                            Jamb Reg. Number
+                                        </th>
+                                        <th>
+                                            First Sitting
+                                        </th>
+                                        <th>
+                                            Second Sitting
+                                        </th>
+                                    </tr>
+
+                                    @for (int i = 0; i < Model.ApplicantResults.Count; i++)
+                                    {
+                                        <tr>
+                                            @Html.HiddenFor(model => model.ApplicantResults[i].PersonId)
+
+                                            <td>
+                                                @Model.ApplicantResults[i].Name.ToUpper()
+                                            </td>
+                                            <td>
+                                                @Model.ApplicantResults[i].ApplicationFormNumber.ToUpper()
+                                            </td>
+                                            <td>
+                                                @Model.ApplicantResults[i].Department.ToUpper()
+                                            </td>
+                                            <td>
+                                                @Model.ApplicantResults[i].JambRegNumber.ToUpper()
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-success btn-sm" onclick="previewFile(@Model.ApplicantResults[i].PersonId, 1)">Preview</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-success btn-sm" onclick="previewFile(@Model.ApplicantResults[i].PersonId, 2)">Preview</button>
+                                            </td>
+                                            @*<td>
+                                        @Html.ActionLink("Download", "DownloadScannedResultND", "Support", new { Area = "Admin", pid = Model.ApplicantResults[i].PersonId }, new { @class = "btn btn-success " })
+                                    </td>*@
+                                        </tr>
+                                    }
+
+                                </table>
+                                
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+<div class="col-md-1"></div>
+
+
+<div id="infoModal" role="dialog" class="modal fade">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">File Preview</h4>
+            </div>
+            <div class="modal-body printable">
+                <img id="filePreview" height="800px" width="550px" src="" />
+            </div>
+            <div class="modal-footer">
+                <button id="aPrint" class="btn btn-default"><i class="fa fa-print mr5"></i> Print</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

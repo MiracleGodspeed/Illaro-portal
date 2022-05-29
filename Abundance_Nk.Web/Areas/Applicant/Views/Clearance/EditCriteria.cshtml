@@ -1,0 +1,415 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.ClearanceViewModel
+@using System.Linq
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".loadBtn").hide();
+        });
+
+        function AddAlternative(admissionCriteriaForOLevelSubjectId) {
+
+            var subjectId = admissionCriteriaForOLevelSubjectId;
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetSubjectAlternatives")',
+                dataType: 'json',
+                data: { criteriaForOLevelSubjectId: subjectId },
+                beforeSend: function () {
+                    $(".clickBtn").val('<img src="~/Content/Images/loading.gif" />');
+                    // $(".loadBtn").show();
+                },
+                complete: function () {
+                    $(".clickBtn").val('More');
+                    //$(".loadBtn").hide();
+                },
+                success: function (result) {
+                    if (result.IsError === false) {
+
+                        $('#criteriaForOLevelSubjectId').val(subjectId);
+                        $('#allAlternatives').val(result.Alternatives);
+                        $('#alternativeModalHeader').text(result.Subject + ' Alternatives');
+
+                        $(".load").hide();
+                        $('#alternativeModal').modal('show');
+                    }
+                    else {
+                        swal("Oops!", result.Message, "error");
+                    }
+                },
+                error: function (ex) {
+                    swal("Oops!", 'Operation failed.' + ex, "error");
+                }
+            });
+        }
+
+        function SaveAlternative() {
+
+            var subjectId = $('#criteriaForOLevelSubjectId').val();
+            var oLevelSubjectId = $('#oLevelSubject').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddSubjectAlternative")',
+                dataType: 'json',
+                data: { criteriaForOLevelSubjectId: subjectId, oLevelSubjectIdToAdd: oLevelSubjectId },
+                beforeSend: function () {
+                    $(".load").show();
+                },
+                complete: function () {
+                    $(".load").hide();
+                },
+                success: function (result) {
+                    if (result.IsError === false) {
+
+                        $('#criteriaForOLevelSubjectId').val(subjectId);
+                        $('#allAlternatives').val(result.Alternatives);
+                        $('#alternativeModalHeader').text(result.Subject + ' Alternatives');
+
+                        $(".load").hide();
+                        $('#alternativeModal').modal('show');
+                    }
+                    else {
+                        swal("Oops!", result.Message, "error");
+
+                        //$('#criteriaForOLevelSubjectId').val(subjectId);
+                        //$('#allAlternatives').val(result.Alternatives);
+                        //$('#alternativeModalHeader').text(result.Subject + ' Alternatives');
+
+                        //$(".load").hide();
+                        //$('#alternativeModal').modal('show');
+                    }
+                },
+                error: function (ex) {
+                    swal("Oops!", 'Operation failed.' + ex, "error");
+                }
+            });
+        }
+
+        function clearAlternatives(admissionCriteriaForOLevelSubjectId) {
+            var subjectId = admissionCriteriaForOLevelSubjectId;
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ClearSubjectAlternatives")',
+                dataType: 'json',
+                data: { criteriaForOLevelSubjectId: subjectId },
+                beforeSend: function () {
+                    //$(".clickBtn").val('<img src="~/Content/Images/loading3.gif" />');
+                    $(".loadBtn").show();
+                    $(".clickBtn").hide();
+                },
+                complete: function () {
+                    //$(".clickBtn").val('More');
+                    $(".loadBtn").hide();
+                    $(".clickBtn").show();
+                },
+                success: function (result) {
+                    if (result.IsError === false) {
+
+                        swal("Good job!", result.Message, "success");
+                        location.reload(true);
+                    }
+                    else {
+                        swal("Oops!", result.Message, "error");
+                    }
+                },
+                error: function (ex) {
+                    swal("Oops!", 'Operation failed.' + ex, "error");
+                }
+            });
+        }
+
+        function removeCriteria(admissionCriteriaForOLevelSubjectId) {
+            var subjectId = admissionCriteriaForOLevelSubjectId;
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteAdmissionCriteria")',
+                dataType: 'json',
+                data: { criteriaForOLevelSubjectId: subjectId },
+                beforeSend: function () {
+                    //$(".clickBtn").val('<img src="~/Content/Images/loading3.gif" />');
+                    $(".loadBtn").show();
+                    $(".clickBtn").hide();
+                },
+                complete: function () {
+                    //$(".clickBtn").val('More');
+                    $(".loadBtn").hide();
+                    $(".clickBtn").show();
+                },
+                success: function (result) {
+                    if (result.IsError === false) {
+
+                        swal("Good job!", result.Message, "success");
+                        location.reload(true);
+                    }
+                    else {
+                        swal("Oops!", result.Message, "error");
+                    }
+                },
+                error: function (ex) {
+                    swal("Oops!", 'Operation failed.' + ex, "error");
+                }
+            });
+        }
+
+    </script>
+}
+
+
+@using (Html.BeginForm("EditCriteria", "Clearance", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+
+    </div>
+
+    <div class="row table-responsive">
+        <h5>Choose Programme</h5>
+        <hr style="margin-top: 0" />
+        <div class="col-md-12">
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.admissionCriteriaForOLevelSubject[0].MainCriteria.Programme.Id, new { @class = "control-label custom-text-black" })
+                        @Html.DisplayFor(model => model.admissionCriteriaForOLevelSubject[0].MainCriteria.Programme.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.admissionCriteriaForOLevelSubject[0].MainCriteria.Programme.Id, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.HiddenFor(model => model.admissionCriteriaForOLevelSubject[0].Id)
+                        @Html.HiddenFor(model => model.admissionCriteriaForOLevelSubject[0].MainCriteria.Department.Id, new { @class = "control-label custom-text-black" })
+                        @Html.DisplayFor(model => model.admissionCriteriaForOLevelSubject[0].MainCriteria.Department.Name, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="divJambNo" class="form-group" style="display: none">
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div>
+
+        <div class="row table-responsive" id="divOLevel" style="color: black">
+            <div class="col-md-4">
+                <h5>Main Subject</h5>
+                <hr class="no-top-padding" />
+
+                <table class="table table-condensed table-responsive" style="background-color: whitesmoke">
+                    <tr>
+                        <th>
+                            Compulsory
+                        </th>
+                        <th>
+                            Subject
+                        </th>
+                        <th>
+                            Grade
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @for (int i = 0; i < Model.admissionCriteriaForOLevelSubject.Count(); i++)
+                    {
+                        @Html.HiddenFor(model => model.admissionCriteriaForOLevelSubject[i].MainCriteria.Id)
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(model => Model.admissionCriteriaForOLevelSubject[i].IsCompulsory, new { @class = "ckb3" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => Model.admissionCriteriaForOLevelSubject[i].Subject.Id, (IEnumerable<SelectListItem>)ViewData["FirstSittingOLevelSubjectId" + i], new { @class = "form-control olevel" })
+                                @Html.HiddenFor(model => model.admissionCriteriaForOLevelSubject[i].Id)
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => Model.admissionCriteriaForOLevelSubject[i].MinimumGrade.Id, (IEnumerable<SelectListItem>)ViewData["FirstSittingOLevelGradeId" + i], new { @class = "form-control olevel" })
+
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+
+            <div class="col-md-4">
+                <h5>Subject Alternative</h5>
+                <hr class="no-top-padding" />
+
+
+                <table class="table table-condensed table-responsive" style="background-color: whitesmoke">
+                    <tr>
+                        <th>
+                            Subject
+                        </th>
+                        <th>
+
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @for (int i = 0; i < Model.admissionCriteriaForOLevelSubject.Count(); i++)
+                    {
+                        if (Model.admissionCriteriaForOLevelSubject[i].Alternatives.Count > 0)
+                        {
+                            <tr>
+                                <td>
+
+                                    @Html.DropDownListFor(model => Model.admissionCriteriaForOLevelSubject[i].Alternatives[0].OLevelSubject.Id, (IEnumerable<SelectListItem>)ViewData["SecondSittingOLevelSubjectId" + i], new { @class = "form-control olevel" })
+                                    @*@Html.HiddenFor(model => model.admissionCriteriaForOLevelSubject[i].Alternatives[0].Id)*@
+                                    @* @Html.HiddenFor(model => model.admissionCriteriaForOLevelSubject[i].Alternatives[0].OLevelSubject.Name)*@
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+
+                                    @Html.DropDownListFor(model => Model.admissionCriteriaForOLevelSubject[i].Alternatives[0].OLevelSubject.Id, (IEnumerable<SelectListItem>)ViewData["SecondSittingOLevelSubjectId" + i], new { @class = "form-control olevel" })
+                                    @Html.HiddenFor(model => Model.admissionCriteriaForOLevelSubject[i].Id)
+
+                                </td>
+                                <td></td>
+                            </tr>}
+                    }
+
+                </table>
+
+            </div>
+
+
+            <div class="col-md-4">
+                <h5>Third Subject Alternative</h5>
+                <hr class="no-top-padding" />
+
+                <table class="table table-condensed table-responsive" style="background-color: whitesmoke">
+                    <tr>
+                        <th>
+                            Subject
+                        </th>
+                        <th>
+
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @for (int i = 0; i < Model.admissionCriteriaForOLevelSubject.Count(); i++)
+                    {
+                        if (Model.admissionCriteriaForOLevelSubject[i].OtherAlternatives != null && Model.admissionCriteriaForOLevelSubject[i].OtherAlternatives.Count > 1)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="row table-responsive">
+                                        <div class="col-md-3">
+                                            @Html.DropDownListFor(model => Model.admissionCriteriaForOLevelSubject[i].OtherAlternatives[0].OLevelSubject.Id, (IEnumerable<SelectListItem>)ViewData["OtherOLevelSubjectId" + i], new { @class = "form-control olevel" })
+                                            @*@Html.HiddenFor(model => model.admissionCriteriaForOLevelSubject[i].Alternatives[0].Id)*@
+                                            @* @Html.HiddenFor(model => model.admissionCriteriaForOLevelSubject[i].Alternatives[0].OLevelSubject.Name)*@
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span class="clickBtn">
+                                                <button type="button" class="btn btn-sm btn-primary" onclick="AddAlternative(@Model.admissionCriteriaForOLevelSubject[i].Id)">More</button>
+                                                <button type="button" class="btn btn-sm btn-primary" onclick="clearAlternatives(@Model.admissionCriteriaForOLevelSubject[i].Id)">Clear</button>
+                                                <button type="button" class="btn btn-sm btn-primary" onclick="removeCriteria(@Model.admissionCriteriaForOLevelSubject[i].Id)">Remove Criteria</button>
+                                            </span>
+                                            <span class="loadBtn"><button type="button" class="btn btn-sm btn-primary"><img src="~/Content/Images/loading3.gif" /></button></span>
+                                        </div>
+                                    </div>
+
+
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+                                    <div class="row table-responsive">
+                                        <div class="col-md-3">
+                                            @Html.DropDownListFor(model => Model.admissionCriteriaForOLevelSubject[i].OtherAlternatives[0].OLevelSubject.Id, (IEnumerable<SelectListItem>)ViewData["OtherOLevelSubjectId" + i], new { @class = "form-control olevel" })
+                                            @Html.HiddenFor(model => Model.admissionCriteriaForOLevelSubject[i].Id)
+                                        </div>
+                                        <div class="col-md-9">
+                                            <span class="clickBtn">
+                                                <button type="button" class="btn btn-sm btn-primary" onclick="AddAlternative(@Model.admissionCriteriaForOLevelSubject[i].Id)">More</button>
+                                                <button type="button" class="btn btn-sm btn-primary" onclick="clearAlternatives(@Model.admissionCriteriaForOLevelSubject[i].Id)">Clear</button>
+                                                <button type="button" class="btn btn-sm btn-primary" onclick="removeCriteria(@Model.admissionCriteriaForOLevelSubject[i].Id)">Remove Criteria</button>
+                                            </span>
+                                            <span class="loadBtn"><button type="button" class="btn btn-sm btn-primary"><img src="~/Content/Images/loading3.gif" /></button></span>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td></td>
+                            </tr>}
+                    }
+
+                </table>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div>
+
+        <input class="btn btn-success mr5" type="submit" name="submit" id="submit" value="Update Criteria" />
+
+    </div>
+}
+
+<div class="modal fade" role="dialog" tabindex="-1" id="alternativeModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h4 class="modal-title" id="alternativeModalHeader">Subject Alternatives</h4> &nbsp;
+
+                <span class="load"><img src="~/Content/Images/loading3.gif" /></span>
+            </div>
+            <div class="modal-body">
+                <div class="row table-responsive">
+                    <div class="form-group">
+                        @Html.Label("Alternatives:", new { @class = "control-label" })
+                        <input type="text" id="allAlternatives" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AdmissionCriteriaForOLevelSubjectModel.Id, "ID:", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.AdmissionCriteriaForOLevelSubjectModel.Id, new { @class = "form-control", id = "criteriaForOLevelSubjectId", disabled = true })
+                    @Html.ValidationMessageFor(model => model.AdmissionCriteriaForOLevelSubjectModel.Id)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OLevelSubject.Id, "OLevel Subject:", new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.OLevelSubject.Id, (IEnumerable<SelectListItem>)ViewBag.OLevelSubjects, new { @class = "form-control", id = "oLevelSubject" })
+                    @Html.ValidationMessageFor(model => model.OLevelSubject.Id)
+                </div>
+            </div>
+            <div class="modal-footer form-group">
+                <button type="button" id="addAlternative" class="btn btn-success" onclick="SaveAlternative()">Add</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

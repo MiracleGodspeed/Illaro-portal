@@ -1,0 +1,315 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.ApplicantSetupViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    body {
+        font-family: Montserrat!important;
+    }
+    .dwn {
+        font-size: 10px;
+        color: blue;
+        cursor: pointer
+    }
+
+    #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(22, 21, 21, 0.932);
+        /* change if the mask should have another color then white */
+        z-index: 99999;
+        display: none
+        /* makes sure it stays on top */
+    }
+
+    #status {
+        width: 150px;
+        height: 131px;
+        position: absolute;
+        left: 42%;
+        /* centers the loading animation horizontally one the screen */
+        top: 40%;
+        /* centers the loading animation vertically one the screen */
+        /* background-image: url(./images/icon-1.png); */
+        /* path to your loading animation */
+        background-repeat: no-repeat;
+        background-position: center;
+        /* margin: -100px 0 0 -100px; */
+        background-size: 400px;
+        background-color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        /* is width and height divided by two */
+    }
+
+    .ld-img {
+        left: 0rem !important;
+        top: 0rem !important;
+        width: 31px !important;
+        margin-top: 25px !important;
+        margin-bottom: 10px !important;
+        position: relative !important;
+    }
+</style>
+
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery-ui-1.9.2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery.fileupload-ui.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="~/Scripts/file-upload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.print.js"></script>
+
+<script type="text/javascript">
+    var jqXHRData;
+    $(document).ready(function () {
+
+          $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartmentByProgrammeId")', // we are calling json method
+                dataType: 'json',
+                data: { id: 1 },
+                success: function (departments) {
+                    $("#AdmissionListDetail_Deprtment_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+
+                    $.each(departments, function (i, department) {
+                        $("#AdmissionListDetail_Deprtment_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve departments.' + ex);
+                }
+            });
+
+        $("#submit").click(function () {
+            $('#preloader').fadeIn();
+            $('#loading-text').html("Reading excel sheet...");
+
+        })
+
+
+        $("#divDepartmentOption").hide();
+        $("#AdmissionListDetail_Form_ProgrammeFee_Programme_Id").change(function () {
+
+            $("#AdmissionListDetail_Deprtment_Id").empty();
+
+            var selectedProgramme = $("#AdmissionListDetail_Form_ProgrammeFee_Programme_Id").val();
+            var programme = $("#AdmissionListDetail_Form_ProgrammeFee_Programme_Id").val();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartmentByProgrammeId")', // we are calling json method
+                dataType: 'json',
+                data: { id: 1 },
+                success: function (departments) {
+                    $("#AdmissionListDetail_Deprtment_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+
+                    $.each(departments, function (i, department) {
+                        $("#AdmissionListDetail_Deprtment_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve departments.' + ex);
+                }
+            });
+        });
+
+        //Load Department Option
+
+
+        $("#submit").on('click', function () {
+            $("#submit").hide();
+            $("#submitDisabled").show();
+        });
+
+        $("#save").on('click', function () {
+            $("#save").hide();
+            $("#saveDisabled").show();
+        });
+})
+</script>
+
+<div id="preloader">
+    <div id="status">
+        @*<div style="background-color:white;width:200px;height:200px">*@
+
+        <img src="~/Content/Images/bx_loader.gif" class="ld-img" />
+
+        <p style="font-size:10px" id="loading-text"></p>
+
+        @*</div>*@
+    </div>
+</div>
+
+@*<div class="alert alert-success fade in nomargin">
+        <h3>@ViewBag.Title</h3>
+    </div>*@
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <div class="col-md-12">
+            @if (TempData["Message"] != null)
+            {
+                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+            <div>
+                <p class="custom-text-black text-center "><b>UPLOAD CANDIDATE O'LEVEL RECORDS</b></p>
+            </div>
+            @using (Html.BeginForm("UploadCandidateOLevel", "Support", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="panel panel-default ">
+                    <div class="panel-body ">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <cite><small class="custom-text-black"> Select Session and excel file, for which upload action should be applicable.</small></cite>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CurrentSession.Id, new { @class = "control-label custom-text-black" })
+                                    @Html.DropDownListFor(model => model.CurrentSession.Id, (IEnumerable<SelectListItem>)ViewBag.SessionId, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.CurrentSession.Id, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        @*@Html.ActionLink("Download Sample Sheet", "SampleJambOlevelRecordUpload", new { Controller = "Support", area = "Admin" }, new { @class = "dwn" })
+                                        &nbsp;  &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;*@
+
+                                        <span class="text-danger text-right"><small>Supported Format(.xlsx)</small></span>
+                                    </label>
+                                    @Html.TextBoxFor(m => m.File, new { id = "file", type = "file", style = "color:white; background-color: darkslategray;", @class = "form-control custom-text-black" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button class="btn btn-primary mr5" type="submit" name="submit" id="submit">Upload &nbsp;<i class="fa fa-upload"></i></button>
+                                    <button class="btn btn-success mr5" disabled="disabled" style="display:none;" name="submitDisabled" id="submitDisabled">
+                                        <img src="~/Content/Images/bx_loader.gif" width="20px" height="20px" />
+                                    </button> &nbsp; &nbsp;
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                        @*<div class="col-md-12">
+
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <button class="btn btn-success-custom mr5" type="submit" name="submit" id="submit">Upload &nbsp;<i class="fa fa-upload"></i></button>
+                                        <button class="btn btn-success mr5" disabled="disabled" style="display:none;" name="submitDisabled" id="submitDisabled">
+                                            <img src="~/Content/Images/bx_loader.gif" width="20px" height="20px" />
+                                        </button> &nbsp; &nbsp;
+
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+
+            }
+
+        </div>
+        @if (Model != null && Model.IsUploadFailed == true)
+        {
+            <div class="row container">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <small class="text-danger"><b>Some records failed to initialize for upload. Download Failed Uploads for more details.</b></small> <br />
+                        @Html.ActionLink("Download Failed Uploads", "ProblemOlevelUploads", new { Controller = "Support", area = "Admin" }, new { @class = "btn btn-danger btn-sm" })
+                    </div>
+                </div>
+            </div>
+            <br />
+
+        }
+        @if (Model == null || Model.JambRecordList == null) { return; }
+
+        @if (Model != null && Model.JambRecordList != null)
+        {
+            using (Html.BeginForm("SaveJambRecordList", "Support", FormMethod.Post))
+            {
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @Html.HiddenFor(model => model.CurrentSession.Id)
+                @Html.HiddenFor(model => model.AdmissionListType.Id)
+                @Html.HiddenFor(model => model.AdmissionListDetail.Form.ProgrammeFee.Programme.Id)
+                @Html.HiddenFor(model => model.AdmissionListDetail.Deprtment.Id)
+                @Html.HiddenFor(model => model.AppliedCourseList)
+
+                <div class="col-md-12">
+
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>@Html.ActionLink("JAMB Registration Number", "Index")</th>
+                                <th>@Html.ActionLink("Fullname", "Index")</th>
+                                <th>@Html.ActionLink("Gender", "Index")</th>
+                                <th>@Html.ActionLink("State", "Index")</th>
+                                <th>@Html.ActionLink("Jamb Score", "Index")</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody style="color:black;">
+                            @{ int N = 0;}
+                            @for (var itemIndex = 0; itemIndex < Model.JambRecordList.Count; itemIndex++)
+                            {
+                                <tr>
+                                    @{ N = itemIndex + 1; }
+                                    <td>@N</td>
+                                    <td class="text-uppercase">@Html.DisplayTextFor(m => m.JambRecordList[itemIndex].JambRegistrationNumber)</td>
+                                    <td><p class="text-uppercase">@Html.DisplayTextFor(m => m.JambRecordList[itemIndex].CandidateName)</p></td>
+                                    <td><p class="text-uppercase">@Html.DisplayTextFor(m => m.JambRecordList[itemIndex].Sex.Name)</p></td>
+                                    <td><p class="text-uppercase">@Html.DisplayTextFor(m => m.JambRecordList[itemIndex].State.Name)</p></td>
+                                    <td><p class="text-uppercase">@Html.DisplayTextFor(m => m.JambRecordList[itemIndex].TotalJambScore)</p></td>
+                                    @Html.HiddenFor(m => m.JambRecordList[itemIndex].JambRegistrationNumber)
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button class="btn btn-success-flat mr5" type="submit" name="save" id="save" value="Save Upload">Save Upload &nbsp; <i class="fa fa-save"></i></button>
+
+                        <button class="btn btn-success mr5" disabled="disabled" style="display:none;" name="saveDisabled" id="saveDisabled">
+                            <img src="~/Content/Images/bx_loader.gif" width="20px" height="20px" />
+                        </button>
+                    </div>
+                </div>
+
+            }
+        }
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+
+
+    }*@
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/responsive-tabs.js"></script>
+
+<script type="text/javascript">
+    function resizeIframe(obj) {
+        return false;
+        obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+    }
+</script>
+
+
+
+
+
+@*<div class="col-md-11 ml-auto mr-auto">
+
+    <div class="card card-shadow">
+
+        <div class="card-header">*@
+            <h3>
+                Department Attendance Sheet
+            </h3>
+        @*</div>*@
+
+        @*<div class="card-body">*@
+
+            <div class="alert alert-dismissible alert-success">
+                <p>
+                    <b>Department Attendance Sheet</b> returns a zip file that contains all the attendance sheets for each course registered in a given department.
+                </p>
+            </div>
+
+            <iframe src="~/Reports/Presenter/AttendanceReportBulk.aspx" style="width:100%; height:450px; " frameborder="0" scrolling="no" id="iframe" onload='javascript:resizeIframe(this);'></iframe>
+
+
+            <br />
+        @*</div>
+    </div>
+</div>*@

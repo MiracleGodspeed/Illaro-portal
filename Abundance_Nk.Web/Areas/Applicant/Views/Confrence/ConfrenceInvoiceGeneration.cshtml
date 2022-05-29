@@ -1,0 +1,312 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.ConfrencePaymentViewModels
+
+
+@{
+    ViewBag.Title = "INTERNATIONAL CONFERENCE REGISTRATION FORM";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/style.default.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var myTotalfee = 20000;
+        $("#TouristFee").click(function () {
+            var checkbox2 = $("#TouristFee");
+            if (checkbox2.is(":checked")) {
+
+                $("#TotalFee").text(myTotalfee + 10000);
+
+            }
+            else {
+                $("#TotalFee").text(myTotalfee);
+
+
+            }
+
+        });
+       
+    })
+
+</script>
+
+@*@using (Html.BeginForm("PostJambFormInvoiceGeneration", "Form", FormMethod.Post, new { target = "_blank" }))*@
+
+@using (Html.BeginForm("ConfrenceInvoiceGeneration", "Confrence", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-success-head">
+                <div class="panel-heading">
+                    <h2>
+                        INTERNATIONAL CONFERENCE
+                        REGISTRATION FORM
+                    </h2>
+                    <p class="text-center">Please fill in the form below</p>
+                </div>
+            </div>
+
+            <div class="panel panel-custom">
+                <div class="panel-body">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div>
+                                @if (TempData["Message"] != null)
+                                 {
+                                    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                                 }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <h3>Please enter other personal details</h3>
+                            <hr style="margin-top:0" />
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    @Html.Label("Title", new { @class = "control-label custom-text-white" })
+                                    @Html.DropDownListFor(model => model.Title.Id, (IEnumerable<SelectListItem>)ViewBag.TitleId, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Title.Id, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    @Html.Label("Last (Family) Name", new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.Person.LastName, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Person.LastName, null, new { @class = "text-danger" })
+                                </div><!-- form-group -->
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    @Html.Label("Given Names", new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.Person.FirstName, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Person.FirstName, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Sex.Id, new { @class = "control-label custom-text-white" })
+                                    @Html.DropDownListFor(model => model.Sex.Id, (IEnumerable<SelectListItem>)ViewBag.SexId, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Sex.Id, null, new { @class = "text-danger" })
+                                </div>
+                            </div><!-- form-group -->
+
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PhoneCode, new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.PhoneCode, new { @class = "form-control", @placeholder = "+234" })
+                                    @Html.ValidationMessageFor(model => model.PhoneCode, null, new { @class = "text-danger" })
+                                </div>
+                            </div><!-- form-group -->
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PhoneNO, new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.PhoneNO, new { @class = "form-control", @placeholder = "80XXXXXXXX", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.PhoneNO, null, new { @class = "text-danger" })
+                                </div>
+                            </div><!-- form-group -->
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Person.Email, new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.Person.Email, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Person.Email, null, new { @class = "text-danger" })
+                                </div>
+                            </div><!-- form-group -->
+
+                        </div><!-- row -->
+
+                        <div class="row">
+                            <h2>Institution Address</h2>
+                            <hr style="margin-top:0" />
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.InstDepartment, new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.InstDepartment, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.InstDepartment, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Institution, new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.Institution, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Institution, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.InCity, new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.InCity, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.InCity, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.InstState, new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.InstState, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.InstState, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.InstPostal, new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.InstPostal, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.InstPostal, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.InstsCountry, new { @class = "control-label custom-text-white" })
+                                    @Html.TextBoxFor(model => model.InstsCountry, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.InstsCountry, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <h2>Payments</h2>
+                            <hr style="margin-top:0" />
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div id="ConfrenceRegFee" class="col-md-1">
+                                            @Html.HiddenFor(model => model.ConfrenceRegFee, new { @class = "form-control custom -text-white", required = "required", @id = "ConfrenceFee", @checked = "checked" })
+                                            @Html.ValidationMessageFor(model => model.InstDepartment, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-11" style="font-size:24px">
+                                            @Html.LabelFor(model => model.ConfrenceRegFee, new { @class = "control-label custom-text-white" })
+
+                                        </div>
+                                    </div>
+                                    Registration Rate | International Participant
+
+                                </div>
+
+                            </div>
+                            <hr style="margin-top:0" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div id="TouristFeeDiv" class="col-md-3" oncl>
+                                            @Html.CheckBoxFor(model => model.TouristAttractionFee, new { @class = "form-control", @id = "TouristFee" })
+                                            @Html.ValidationMessageFor(model => model.TouristAttractionFee, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-9" style="font-size:24px">
+                                            @Html.LabelFor(model => model.TouristAttractionFee, new { @class = "control-label custom-text-white text-large" })
+                                        </div>
+
+                                    </div>
+                                    Tour Sights | Olusegun Obasanjo Presidential Library
+                                </div>
+                            </div>
+                            <hr style="margin-top:0" />
+                            <h2>Total Amount to be Paid - ₦ <span id="TotalFee" class="text-right">100</span></h2>
+                            <hr style="margin-top:0" />
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-1"></div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-sm-10 ">
+
+                            <div class="form-group">
+
+                                <div class="col-md-8" style="font-size:24px">
+                                    @Html.LabelFor(m => m.File, new { @class = "control-label custom-text-black" })
+
+                                </div>
+                                <div class="col-md-4" style="font-size:24px">
+                                    @Html.TextBoxFor(m => m.File, new { id = "file", type = "file", style = "color:blue; padding:10px;", @class = "form-control custom-text-black", required = "required" })
+                                      @Html.ValidationMessageFor(m => m.File, null, new { @class = "text-danger" })
+                                       
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    
+                </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-sm-10 ">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <input class="btn btn-success btn-lg mr5" type="submit" name="submit" id="submit" value="Register" />
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <!-- panel-footer -->
+
+
+            </div><!-- panel -->
+        </div><!-- panel-body -->
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+

@@ -1,0 +1,97 @@
+﻿
+@model Abundance_Nk.Web.Areas.Admin.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "DeleteStaff";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@if (TempData["Message"] != null)
+{
+    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+}
+
+
+<div class="col-md-8 ml-auto mr-auto">
+    <div class="card card-shadow">
+        <div class="card-header">
+            <h3 class="card-title">Delete Staff</h3>
+        </div>
+
+
+
+        <div class="card-body">
+            @using (Html.BeginForm("DeleteStaff", "User", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <p class="alert alert-success">Please add username in the box provided</p>
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.User.Username, "User Name", htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.TextBoxFor(model => model.User.Username, new { @class = "form-control" })
+                    </div>
+
+                </div>
+                <div class="form-group col-md-12">
+                    <input class="btn btn-success mr5 col-md-2 " type="submit" name="submit" id="submit" value="Submit" />
+                </div>
+            }
+
+
+
+
+            <div class="col-md-12">
+
+                @if (Model == null || Model.Users == null)
+            {
+                return;
+            }
+                @if (Model != null)
+            {
+                if (Model.Users != null && Model.Users.Count > 0)
+                {
+                        <div class="col-md-12">
+                            <hr/>
+                            <table class="table table-responsive table-bordered table-striped table-hover">
+
+                                <tr>
+                                    <th>
+                                        Staff Name
+                                    </th>
+                                    <th>
+                                        Delete
+                                    </th>
+                                </tr>
+
+
+
+                                @for (int i = 0; i < Model.Users.Count; i++)
+                    {
+                                    <tr>
+                                        <td class="col-lg-3 col-md-3 col-sm-3">
+                                            @Model.Users[i].Username
+                                        </td>
+                                        <td>
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> @Html.ActionLink("Delete", "DeleteStaffAction", new { id = Model.Users[i].Id })
+                                        </td>
+                                    </tr>
+                                }
+
+
+                            </table>
+
+                        </div>
+
+                    }
+                }
+            </div>
+
+
+        </div>
+      
+    </div>
+
+</div>
+
+<div class="clearfix"></div>

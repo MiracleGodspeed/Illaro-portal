@@ -1,0 +1,63 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.SupportViewModel
+@{
+    ViewBag.Title = "Reset Invoice";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="col-md-6 ml-auto mr-auto">
+
+        <div class="col-md-12">
+            @if (TempData["Message"] != null)
+            {
+                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+      
+    </div>
+
+
+
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+
+        <div class="card card-shadow ">
+
+            <div class="card-header">
+                <h3>Reset Invoice</h3>
+            </div>
+            <div class="card-body ">
+                <p>Enter Invoice Number or Confirmation Order Number</p>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.InvoiceNumber, new { @class = " control-label " })
+                        
+                            @Html.TextBoxFor(model => model.InvoiceNumber, new { @class = "form-control", @placeholder = "Enter Invoice No" })
+                            @Html.ValidationMessageFor(model => model.InvoiceNumber, null, new { @class = "text-danger" })
+                  
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                            <input class="btn btn-danger" type="submit" name="submit" id="submit" value="Delete" />
+                            <div class="btn btn-secondary">
+                                @Html.ActionLink("Back to Home", "Index", "Home", new { Area = "" }, null)
+                       
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    }
+
+</div>

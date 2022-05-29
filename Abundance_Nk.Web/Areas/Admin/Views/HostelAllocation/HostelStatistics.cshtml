@@ -1,0 +1,442 @@
+﻿
+@model Abundance_Nk.Web.Areas.Admin.ViewModels.HostelViewModel
+@{
+    ViewBag.Title = "Hostel Statistics";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<style>
+    .progress {
+        height: 6px;
+        margin-bottom: 10px;
+        -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+        box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    }
+
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid #e3e6f0;
+        border-radius: .35rem;
+        margin-bottom: 10px;
+    }
+
+    .card-body {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 1.25rem;
+    }
+
+    .align-items-center {
+        -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+        align-items: center !important;
+    }
+
+    .no-gutters {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .h-100 {
+        height: 100% !important;
+    }
+
+    .shadow {
+        -webkit-box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15) !important;
+        box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15) !important;
+    }
+
+    .pb-2, .py-2 {
+        padding-bottom: .5rem !important;
+    }
+
+    .pt-2, .py-2 {
+        padding-top: .5rem !important;
+    }
+
+    .text-xs {
+        font-size: 1.2rem;
+    }
+
+    .border-left-info {
+        border-left: .25rem solid #36b9cc !important;
+    }
+
+    .border-left-success {
+        border-left: .25rem solid #1cc88a !important;
+    }
+
+    .border-left-primary {
+        border-left: .25rem solid #4e73df !important;
+    }
+
+    .border-left-warning {
+        border-left: .25rem solid #f6c23e !important;
+    }
+</style>
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jquery")
+
+        <link href="~/Content/sweetalert.css" rel="stylesheet" />
+        <script src="~/Scripts/sweetalert.min.js"></script>*@
+    @*<link href="~/Content/NewScript/css/sb-admin-2.min.css" rel="stylesheet" />*@
+    <script src="~/Content/NewScript/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/NewScript/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/NewScript/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/Content/NewScript/js/sb-admin-2.min.js"></script>
+}
+<div class="col-md-12">
+
+    <div>
+        @if (TempData["Message"] != null)
+            {
+            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+        }
+    </div>
+    <!-- Content Row -->
+    <div class="row">
+
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Hostel Count</div>
+
+                                <div class="row">
+                                    <div class="col-md-6 h5 mb-0 font-weight-bold text-gray-800 text-left">
+                                        @ViewBag.HostelCount
+                                    </div>
+                                    <div class="col-md-6 card-body text-right">
+                                        <a href="@Url.Action("Index", "Hostel", new { area = "Admin" })" class="btn btn-primary">View</a>
+                                    </div>
+                                </div>
+</div>
+                            <div class="col">
+                                <div class="progress progress-sm mr-2">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            @*<div class="col-auto">
+                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                        </div>*@
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Hostel Capacity</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.TotalCapacity</div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Male Slot</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.MaleHostelCapacity </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: @ViewBag.PerMaleCapacity%" aria-valuenow=@ViewBag.MaleHostelCapacity aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Female Slot</div>
+                          
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">@ViewBag.FemaleHostelCapacity</div>
+                                </div>
+                                <div class="col">
+                                    <div class="progress progress-sm mr-2">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: @ViewBag.PerFemaleCapacity%" aria-valuenow=@ViewBag.FemaleApprovedRequest aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Content Row -->
+    </div>
+    <!-- Content Row -->
+    <div class="row">
+
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Approved Request</div>
+                            <div class="row">
+                                <div class="col-md-6 h5 mb-0 font-weight-bold text-gray-800 text-left">
+                                    @ViewBag.TotalApprovedRequest
+                                </div>
+                                <div class="col-md-6 card-body text-right">
+                                    <a href="@Url.Action("AllApprovedHostelRequest", "HostelAllocation", new { area = "Admin" })" class="btn btn-primary ">View</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">  Approved Request (Female)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.FemaleApprovedRequest</div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: @ViewBag.PerFemaleApprovedRequest%" aria-valuenow=@ViewBag.FemaleApprovedRequest aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">  Approved Request (Male)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.MaleApprovedRequest </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: @ViewBag.PerMaleApprovedRequest%" aria-valuenow=@ViewBag.MaleApprovedRequest aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Occupied Space</div>
+
+                            <div class="row">
+                                <div class="col-md-6 h5 mb-0 font-weight-bold text-gray-800 text-left">
+                                    @ViewBag.OccupiedSpace
+                                </div>
+                                <div class="col-md-6 card-body text-right">
+                                    <a href="@Url.Action("AllCurrentAllocations", "HostelAllocation", new { area = "Admin" })" class="btn btn-primary ">View</a>
+                                </div>
+                            </div>
+
+
+                            <div class="row no-gutters align-items-center">
+                                @*<div class="col-auto">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">@ViewBag.OccupiedSpace</div>
+                                </div>*@
+                                <div class="col">
+                                    <div class="progress progress-sm mr-2">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: @ViewBag.PerOccupiedSpace%" aria-valuenow=@ViewBag.OccupiedSpace aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Content Row -->
+    </div>
+    <div class="row">
+
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Pending Request</div>
+
+                            <div class="row">
+                                <div class="col-md-6 h5 mb-0 font-weight-bold text-gray-800 text-left">
+                                    @ViewBag.TotalRequest
+                                </div>
+                                <div class="col-md-6 card-body text-right">
+                                    <a href="@Url.Action("ViewHostelPendingRequest", "HostelAllocation", new { area = "Admin" })" class="btn btn-primary">View</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">  Pending Request (Female)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.FemaleRequest</div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: @ViewBag.PerFemaleRequest%" aria-valuenow=@ViewBag.FemaleRequest aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">  Pending Request (Male)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.MaleRequest </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: @ViewBag.PerMaleRequest%" aria-valuenow=@ViewBag.MaleRequest aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        @*<div class="col-xl-3 col-md-3 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1"></div>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                                </div>
+                                <div class="col">
+                                    <div class="progress progress-sm mr-2">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: @ViewBag.PerOccupiedSpace%" aria-valuenow=@ViewBag.OccupiedSpace aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
+
+
+        <!-- Content Row -->
+    </div>
+</div>

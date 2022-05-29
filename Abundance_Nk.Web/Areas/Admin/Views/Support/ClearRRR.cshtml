@@ -1,0 +1,151 @@
+﻿
+@model Abundance_Nk.Web.Areas.Admin.ViewModels.SupportViewModel
+
+@{
+    ViewBag.Title = "Clear Remita Payment Reference";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+}
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="col-md-12">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div style="font-size: large">Clear Remita Payment Reference</div>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm("ClearRRR", "Support", new { area = "Admin" }, FormMethod.Post))
+                {
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InvoiceNumber, "RRR", new { @class = "control-label col-md-6" })
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(model => model.InvoiceNumber, new { @class = "form-control", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.InvoiceNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AccessCode, "Authorization Code", new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(model => model.AccessCode, new { @class = "form-control", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.AccessCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-offset-2">
+                                <input class="btn btn-success btn-sm mr5" type="submit" name="submit" id="submit" value="Submit" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @if (Model == null || Model.RemitaPayment == null) { return; }
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div style="margin-top: 40px">
+
+                    <div class="tab-content" style="margin-top: 20px">
+                        @if (Model.RemitaPayment != null)
+                        {
+                            @Html.HiddenFor(model => model.RemitaPayment.payment.Id)
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <dl>
+
+                                        <dt>Name:</dt>
+                                        <dd>@Model.RemitaPayment.payment.Person.FullName</dd>
+                                        <dt>Phone Number</dt>
+                                        <dd>@Model.RemitaPayment.payment.Person.MobilePhone</dd>
+                                        <dt>Payment Purpose</dt>
+                                        <dd>@Model.RemitaPayment.payment.FeeType.Name</dd>
+                                        <dt>Amount</dt>
+                                        <dd>₦ @string.Format("{0:0,0.00}", Model.RemitaPayment.TransactionAmount)</dd>
+                                        <dt>Status</dt>
+                                        @if (Model.RemitaPayment.Status != null && Model.RemitaPayment.Status.Contains("01"))
+                                        {
+                                            <dd>Paid</dd>
+                                        }
+                                        else
+                                        {
+                                            <dd> Not Paid</dd>
+                                        }
+
+                                        <dt>RRR No:</dt>
+                                        <dd>@Model.RemitaPayment.RRR</dd>
+                                        <dt>Invoice No:</dt>
+                                        <dt>@Model.RemitaPayment.OrderId</dt>
+
+                                        
+                                        <dt><input type="text" id="accessCode" placeholder="authorization code" /></dt>
+                                        <dt><button class="btn btn-danger" onclick="ClearRRR.call(this)">Clear</button></dt>
+                                    </dl>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-1"></div>
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<script>
+    function ClearRRR() {
+        let accessCode = $('#accessCode').val();
+        let id = $('#RemitaPayment_payment_Id').val();
+        if (accessCode != null && id > 0) {
+            $(this).attr('disabled', true);
+            let originalText = $(this).text();
+            $(this).text("Clearing...");
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveClearedRRR", "Support")', // Calling json method
+                dataType: 'json',
+                 data: { id, accessCode},
+
+                success: function(result) {
+                    if (!result.IsError) {
+                        alert(result.Message);
+                    }
+                    else {
+                        alert(result.Message);
+                    }
+                    //$(this).attr('disabled', false);
+                    //$(this).text(originalText);
+                    window.location.reload(true);
+                    //setTimeout(() => window.location.reload(true), 2000);
+                },
+                error: function(ex) {
+                    alert('Failed.' + ex);
+                    window.location.reload(true);
+                }
+            });
+        }
+        else {
+            alert("please enter the your authorization code!");
+            return;
+        }
+    }
+</script>
+

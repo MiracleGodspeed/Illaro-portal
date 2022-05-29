@@ -1,0 +1,1428 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.SupportViewModel
+@{
+    ViewBag.Title = "DownloadHNDApplicantScannedResultSingle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+
+
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.js"></script>
+
+    <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <link href="~/Content/jquery-ui-1.10.3.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+    @*<script src="~/Scripts/file-upload/jquery-ui-1.9.2.min.js"></script>*@
+    <script src="~/Scripts/jquery.print.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.extend($.fn.dataTable.defaults, {
+                responsive: false
+            });
+
+            $(".myTable").DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible',
+                            header: true,
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+
+
+
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    }, , 'colvis'
+                ]
+            });
+
+            $("#submit").click(function () {
+                $('#submit').attr('disable', 'disable');
+            });
+
+            $("#printBtn").on('click', function () {
+                //$(".hide-away").css("display", "none");
+                //window.print();
+                var doc = new jsPDF();
+                var elementHTML = $('#printable').html();
+                //var specialElementHandlers = {
+                //    '#elementH': function (element, renderer) {
+                //        return true;
+                //    }
+                //};
+                doc.fromHTML(elementHTML, 15, 15, {
+                    'width': 170
+                    //'elementHandlers': specialElementHandlers
+                });
+
+                // Save the PDF
+                doc.save('sample-document.pdf');
+                $("#printable").show();
+                window.print();
+                return false;
+            });
+            window.addEventListener("click", () => $(".hide-away").css("display", "block"));
+
+
+
+            $(".aPrintClass").on('click', function () {
+                $("#printable").print();
+
+                //return false;
+            });
+            //bulk download
+            $('#bulkDownload').on('click', function () {
+                var programmeId=$('#Programme').val();
+                var departmentId=$('#Department').val();
+               var sessionId= $('#Session').val();
+                var dateTo=$('#DateTo').val();
+                var dateFrom = $('#DateFrom').val();
+                if (programmeId > 0 && programmeId != undefined && departmentId > 0 && departmentId != undefined && sessionId > 0 && sessionId != undefined) {
+                    var url = "/Admin/Support/BulkDownloadUploadedCredentials?sessionId=" + sessionId + "&programmeId=" + programmeId + "&departmentId=" + departmentId + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo;
+                    window.location.href = url;
+                }
+                else {
+                    alert("Please select all the necessary fields");
+                    return;
+                }
+                
+            })
+            $('.date').datepicker({
+                dateFormat: "mm/dd/yy",
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                autoclose: true,
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $('link[rel=stylesheet][href~="/Content/sbCss/bootstrap.min.css"]').remove();
+
+            $("#loading").hide();
+
+            //Programme Drop down Selected-change event
+            $("#Programme").change(function() {
+                $("#Department").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDepartments", "Support")', // Calling json method
+                    dataType: 'json',
+                    data: { id: $("#Programme").val() },
+                    // Get Selected Country ID.
+                    success: function(departments) {
+                        $("#Department").append('<option value="' + 0 + '">' +
+                            '-- Select Department --' + '</option>');
+                        $.each(departments, function(i, department) {
+                            $("#Department").append('<option value="' + department.Value + '">' +
+                                department.Text + '</option>');
+                        });
+                    },
+                    error: function(ex) {
+                        alert('Failed to retrieve departments.' + ex);
+                    }
+                });
+                return false;
+            });
+
+            $("#aPrint").on('click', function () {
+                $(".printable").print();
+                return false;
+            });
+        });
+
+        function previewFile(personId, fileId) {
+            if (!personId && !fileId) {
+                alert("Id is undefined.");
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetFileForPreview", "Support")',
+                dataType: 'json',
+                data: { personId: personId, fileId: fileId },
+                beforeSend: function() {
+                    $("#load").show();
+                },
+                complete: function() {
+                    $("#load").hide();
+                },
+                success: function(result) {
+                    if (result.IsError === false) {
+
+                        if (!result.Url) {
+                            alert("This document was not uploaded.");
+                        } else {
+                            var url = 'https://applications.federalpolyilaro.edu.ng' + result.Url;
+                            previewPdf(url)
+                            //$("#filePreview").attr('src', 'https://applications.federalpolyilaro.edu.ng' + result.Url);
+                            $('#infoModal').modal('show');
+                        }
+
+                    } else {
+                        alert(result.Message);
+                    }
+                },
+                error: function(ex) {
+                    alert('Operation failed.' + ex);
+                }
+            });
+        }
+
+             function previewAcknowledgementSlip(personId) {
+            if (!personId) {
+                alert("Id is undefined.");
+                return;
+                 }
+                 $('#acknoledgementHeader').empty();
+                 $('#NDApplicationNo').empty();
+                 $('#passport').empty();
+                 $('#fullName').empty();
+                 $('#NDApplicationNoRejected').empty();
+                 $('#reason').empty();
+                 $('#DepartmentNotRejected').empty();
+                 $('#NDDepartment').empty();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetAcknowledgementSlipForPreview", "Support")',
+                dataType: 'json',
+                data: { personId },
+                beforeSend: function() {
+                    $("#load").show();
+                },
+                complete: function() {
+                    $("#load").hide();
+                },
+                success: function(result) {
+                    if (result.IsError === false) {
+
+                        if (result.ApplicationPreviewModel != null) {
+                            AssignFormInfo(result.ApplicationPreviewModel);
+                        }
+
+
+
+                        //$('#acknoledgementHeader').text("Acknowledgment Slip For " + result.Sessionname + "Session Admission");
+
+                        //$('#fullName').text(result.Fullname);
+                        //var url = 'https://applications.federalpolyilaro.edu.ng' + result.ImageFileUrl;
+                        //$("#passport").attr('src', url);
+
+                        //if (result.ProgrammeId == 1 || result.ProgrammeId == 2) {
+                        //    $('#NDApplicationNo').text(result.ApplicationNo);
+                        //    $('#NDDepartment').text(result.DepartmentName);
+                        //    $('#DivND').show();
+                        //    $('#DivNotRejected').hide();
+                        //    $('#DivRejected').hide();
+                        //}
+                        //else {
+                        //    if (result.IsRejected) {
+                        //        $('#reason').text(ReasonForRejection);
+                        //        $('#DivRejected').show();
+                        //        $('#DivNotRejected').hide();
+                        //        $('#DivND').hide();
+
+
+                        //    }
+                        //    else {
+                        //        $('#NDApplicationNoNotRejected').text(result.ApplicationNo);
+                        //        $('#DepartmentNotRejected').text(result.DepartmentName);
+
+                        //        $('#DivNotRejected').show();
+                        //        $('#DivRejected').hide();
+                        //        $('#DivND').hide();
+                        //    }
+
+                        //}
+                        $('#slipModal').modal('show');
+
+
+                    } else {
+                        alert(result.Message);
+                    }
+                },
+                error: function(ex) {
+                    alert('Operation failed.' + ex);
+                }
+            });
+        }
+        //Assign values to application form preview
+        function AssignFormInfo(form) {
+            $('#firstName').empty();
+            $('#lastName').empty();
+            $('#otherName').empty();
+            $('#state').empty();
+            $('#lga').empty();
+            $('#sex').empty();
+            $('#phoneNo').empty();
+            $('#passport').empty();
+            $('#religion').empty();
+            $('#email').empty();
+            $('#homeTown').empty();
+            $('#address').empty();
+            $('#dob').empty();
+            $('#ability').empty();
+            $('#otherAbility').empty();
+            $('#extracurriculumActivity').empty();
+            $('#sponsorName').empty();
+            $('#sponsorPhoneNo').empty();
+            $('#sponsorAddress').empty();
+            $('#sponsorRelationship').empty();
+            $('#firstResultType').empty();
+            $('#firstExamNumber').empty();
+            $('#firstExamYear').empty();
+            $('#firstPin').empty();
+            $('#secondResultType').empty();
+            $('#secondExamNumber').empty();
+            $('#secondExamYear').empty();
+            $('#secondPin').empty();
+            $('#previousEducation').empty();
+            $('#previousCourse').empty();
+            $('#startDate').empty();
+            $('#endDate').empty();
+            $('#qualification').empty();
+            $('#iTDuration').empty();
+            $('#attendConvocation').empty();
+            $('#resultGrade').empty();
+            $('#collectedCertificate').empty();
+            $('#jambChoice').empty();
+            $('#jambNo').empty();
+            $('#jambScore').empty();
+            $('#subject1').empty();
+            $('#subject2').empty();
+            $('#subject3').empty();
+            $('#subject4').empty();
+            $('#programmeHeader').empty();
+
+            $('#firstOlevelDetail').empty();
+            $('#DivSecondSitting').hide();
+            $('#DivJambDetail').hide();
+            $('#DivTertiaryEducation').hide();
+            if (form != null) {
+                if (form.Person != null) {
+                    $('#firstName').text(form.Person.FirstName);
+                    $('#lastName').text(form.Person.LastName);
+                    $('#otherName').text(form.Person.OtherName);
+                    $('#state').text(form.Person.State.Name);
+                    $('#lga').text(form.Person.LocalGovernment.Name);
+                    $('#sex').text(form.Person.Sex.Name);
+                    $('#phoneNo').text(form.Person.MobilePhone);
+                    $('#religion').text(form.Person.Religion.Name);
+                    $('#email').text(form.Person.Email);
+                    $('#homeTown').text(form.Person.HomeTown);
+                    $('#address').text(form.Person.HomeAddress);
+                    if (form.Person.DateOfBirth != null) {
+                        let dtStr = form.Person.DateOfBirth.replace(/\//g, "").replace("Date(", "").replace(")", "")
+                        var dt = parseInt(dtStr);
+                        let date = new Date(dt);
+                        let dob = date.toLocaleDateString();
+                        $('#dob').text(dob);
+                    }
+
+                    var url = 'https://applications.federalpolyilaro.edu.ng' + form.Person.ImageFileUrl;
+                        $("#passport").attr('src', url);
+                }
+                if (form.Applicant != null) {
+                    $('#ability').text(form.Applicant.Ability.Name);
+                    $('#otherAbility').text(form.Applicant.OtherAbility);
+                    $('#extracurriculumActivity').text(form.Applicant.ExtraCurricullarActivities);
+                }
+                if (form.Sponsor != null) {
+                    $('#sponsorName').text(form.Sponsor.Name);
+                    $('#sponsorPhoneNo').text(form.Sponsor.MobilePhone);
+                    $('#sponsorAddress').text(form.Sponsor.ContactAddress);
+                    $('#sponsorRelationship').text(form.Sponsor.Relationship.Name);
+                }
+                //First Sitting Olevel result
+                if (form.FirstSittingDetail.length > 0) {
+                    $('#firstOlevelDetail').empty();
+                    $('#firstResultType').text(form.FirstOlevel.Type.Name);
+                    $('#firstExamNumber').text(form.FirstOlevel.ExamNumber);
+                    $('#firstExamYear').text(form.FirstOlevel.ExamYear);
+                    $('#firstPin').text(form.FirstOlevel.ScratchCardPin);
+                    for (i = 0; i < form.FirstSittingDetail.length; i++) {
+                        var sn = 1 + i;
+                        $('#firstOlevelDetail').append('<tr><td>' + sn + '</td>' +
+                            '<td class="custom-text-black">' + form.FirstSittingDetail[i].Subject.Name +
+
+                            '</td>' +
+                            '<td class="custom-text-black">' + form.FirstSittingDetail[i].Grade.Name +
+                            '</td>' +
+                            '</tr>');
+                    }
+
+                }
+                //Second Sitting Olevel result
+                if (form.SecondSittingDetail.length > 0) {
+                    $('#secondOlevelDetail').empty();
+                    $('#secondResultType').text(form.SecondOlevel.Type.Name);
+                    $('#secondExamNumber').text(form.SecondOlevel.ExamNumber);
+                    $('#secondExamYear').text(form.SecondOlevel.ExamYear);
+                    $('#secondPin').text(form.SecondOlevel.ScratchCardPin);
+                    for (i = 0; i < form.SecondSittingDetail.length; i++) {
+                        var sn = 1 + i;
+                        $('#secondOlevelDetail').append('<tr><td>' + sn + '</td>' +
+                            '<td class="custom-text-black">' + form.SecondSittingDetail[i].Subject.Name +
+
+                            '</td>' +
+                            '<td class="custom-text-black">' + form.SecondSittingDetail[i].Grade.Name +
+                            '</td>' +
+                            '</tr>');
+                    }
+                    $('#DivSecondSitting').show();
+
+                }
+                //Previous education
+                if (form.PreviousEducation != null) {
+                    $('#previousEducation').text(form.PreviousEducation.SchoolName);
+                    $('#previousCourse').text(form.PreviousEducation.Course);
+
+                    if (form.PreviousEducation.StartDate != null) {
+                        let dtStr = form.PreviousEducation.StartDate.replace(/\//g, "").replace("Date(", "").replace(")", "")
+                        var dt = parseInt(dtStr);
+                        let date = new Date(dt);
+                        let startDate = date.toLocaleDateString();
+                        $('#startDate').text(startDate);
+                    }
+                    if (form.PreviousEducation.EndDate != null) {
+                        let dtStr = form.PreviousEducation.EndDate.replace(/\//g, "").replace("Date(", "").replace(")", "")
+                        var dt = parseInt(dtStr);
+                        let date = new Date(dt);
+                        let endDate = date.toLocaleDateString();
+                        $('#endDate').text(endDate);
+                    }
+                    $('#qualification').text(form.PreviousEducation.Qualification.Name);
+                    $('#iTDuration').text(form.PreviousEducation.ITDuration.Name);
+                    $('#attendConvocation').text();
+                    $('#resultGrade').text(form.PreviousEducation.ResultGrade.LevelOfPass);
+                    if (form.PreviousEducation.ConvocationStatus) {
+                        $('#attendConvocation').text("Attended");
+                    }
+                    else {
+                        $('#attendConvocation').text("Did not attend");
+                    }
+                    if (form.PreviousEducation.CertificateStatus) {
+                        $('#collectedCertificate').text("Collected");
+                    }
+                    else {
+                        $('#collectedCertificate').text("Yet to collect");
+                    }
+                    $('#DivTertiaryEducation').show();
+
+                }
+                //Jamb Detail
+                if (form.ApplicantJambDetail != null) {
+                    $('#jambChoice').text(form.ApplicantJambDetail.InstitutionChoice.Name);
+                    $('#jambNo').text(form.ApplicantJambDetail.JambRegistrationNumber);
+                    $('#jambScore').text(form.ApplicantJambDetail.JambScore);
+                    $('#subject1').text(form.ApplicantJambDetail.Subject1.Name);
+                    $('#subject2').text(form.ApplicantJambDetail.Subject2.Name);
+                    $('#subject3').text(form.ApplicantJambDetail.Subject3.Name);
+                    $('#subject4').text(form.ApplicantJambDetail.Subject4.Name);
+                    $('#DivJambDetail').show();
+                }
+                if (form.AppliedCourse != null) {
+                    $('#programmeHeader').text(form.AppliedCourse.Programme.ShortName + " " + form.AppliedCourse.Department.Name);
+                }
+            }
+
+
+
+        }
+
+        function previewPdf(url) {
+            $('#filePreview').html("");
+            var pdfLink = url;
+            var iframe = '<object type="application/pdf" data="' + pdfLink + '" width="100%" height="500"></object>'
+            $('#filePreview').append(iframe);
+            return false;
+        }
+
+
+    </script>
+}
+
+
+
+<div class="col-md-10 ml-auto mr-auto">
+
+    @if (TempData["Message"] != null)
+    {
+        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+    }
+
+    <div class="card card-shadow">
+        <div class="card-header">
+            <h3 class="card-title">Download Uploaded Creadentials</h3>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("DownloadHNDApplicantScannedResultSingle", "Support", new { area = "Admin" }, FormMethod.Post))
+            {
+
+                <div class="row">
+                    <div class=" col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateFrom, "Date Range", new { @class = "col-sm-2 control-label " })
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(model => model.DateFrom, new { @class = "form-control date", required = "required", placeholder = "From...", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.DateFrom)
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(model => model.DateTo, new { @class = "form-control date", required = "required", placeholder = "To...", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.DateTo)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(model => model.Session.Name, "Session", new { @class = "col-sm-12 control-label " })
+                        <div class="col-sm-12">
+                            @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control", @id = "Session", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.Session.Id, null, new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(model => model.Programme.Name, "Programme", new { @class = "col-sm-12 control-label " })
+                        <div class="col-sm-12">
+                            @Html.DropDownListFor(model => model.Programme.Id, (IEnumerable<SelectListItem>)ViewBag.Programme, new { @class = "form-control", @id = "Programme", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.Programme.Id, null, new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(model => model.Department.Name, "Department", new { @class = "col-sm-12 control-label " })
+                        <div class="col-sm-12">
+                            @Html.DropDownListFor(model => model.Department.Id, (IEnumerable<SelectListItem>)ViewBag.Department, new { @class = "form-control", @id = "Department", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.Department.Id, null, new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="row  col-md-12">
+
+                        <div class="col-sm-7">
+                            <input class="btn btn-success mr5 " type="submit" name="submit" id="submit" value="View" />
+
+                        </div>
+                        <div class="col-sm-5">
+                                <input class="btn btn-success mr5 " type="button" name="submit" id="bulkDownload" value="Bulk Download" />
+
+                            </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        @if (Model.ApplicantResults != null && Model.ApplicantResults.Count > 0)
+        {
+                <div class="card-body">
+                    <span style="display: none" id="load"><img src="~/Content/Images/bx_loader.gif" /></span>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped myTable">
+                            <thead>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Application Number
+                                    </th>
+                                    <th>
+                                        Department
+                                    </th>
+                                    <th>
+                                        Exam Number
+                                    </th>
+                                    <th>
+                                        Application Form
+                                    </th>
+                                    <th>
+                                        First Sitting
+                                    </th>
+                                    <th>
+                                        Second Sitting
+                                    </th>
+                                    <th>
+                                        ND Result
+                                    </th>
+                                    <th>
+                                        Certificate
+                                    </th>
+                                    <th>
+                                        IT Letter Of Completion
+                                    </th>
+                                </tr>
+                                </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.ApplicantResults.Count; i++)
+                                {
+                                    var sn = i + 1;
+                                <tr>
+                                    
+                                    @Html.HiddenFor(model => model.ApplicantResults[i].PersonId)
+                                    <td>
+                                        @sn
+                                    </td>
+                                    <td>
+                                        @Model.ApplicantResults[i].Name.ToUpper()
+                                    </td>
+                                    <td>
+                                        @Model.ApplicantResults[i].ApplicationFormNumber.ToUpper()
+                                    </td>
+                                    <td>
+                                        @Model.ApplicantResults[i].Department.ToUpper()
+                                    </td>
+                                    <td>
+                                        @Model.ApplicantResults[i].ExamNumber.ToUpper()
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="previewAcknowledgementSlip(@Model.ApplicantResults[i].PersonId)">Preview</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="previewFile(@Model.ApplicantResults[i].PersonId, 1)">Preview</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="previewFile(@Model.ApplicantResults[i].PersonId, 2)">Preview</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="previewFile(@Model.ApplicantResults[i].PersonId, 3)">Preview</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="previewFile(@Model.ApplicantResults[i].PersonId, 4)">Preview</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="previewFile(@Model.ApplicantResults[i].PersonId, 5)">Preview</button>
+                                    </td>
+                                    @*<td>
+            @Html.ActionLink("Download", "DownloadScannedResult", "Support", new { Area = "Admin", pid = Model.ApplicantResults[i].PersonId }, new { @class = "btn btn-success " })
+        </td>*@
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+            </div>
+        }
+        @if (Model.NDApplicantResults != null && Model.NDApplicantResults.Count > 0)
+        {
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped myTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Application Number
+                                    </th>
+                                    <th>
+                                        Department
+                                    </th>
+                                    <th>
+                                        Jamb Reg. Number
+                                    </th>
+                                    <th>
+                                        Application Form
+                                    </th>
+                                    <th>
+                                        First Sitting
+                                    </th>
+                                    <th>
+                                        Second Sitting
+                                    </th>
+                                </tr>
+                                </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.NDApplicantResults.Count; i++)
+                                {
+                                <tr>
+                                    @Html.HiddenFor(model => model.NDApplicantResults[i].PersonId)
+
+                                    <td>
+                                        @Model.NDApplicantResults[i].Name.ToUpper()
+                                    </td>
+                                    <td>
+                                        @Model.NDApplicantResults[i].ApplicationFormNumber.ToUpper()
+                                    </td>
+                                    <td>
+                                        @Model.NDApplicantResults[i].Department.ToUpper()
+                                    </td>
+                                    <td>
+                                        @Model.NDApplicantResults[i].JambRegNumber.ToUpper()
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="previewAcknowledgementSlip(@Model.NDApplicantResults[i].PersonId)">Preview</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="previewFile(@Model.NDApplicantResults[i].PersonId, 1)">Preview</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="previewFile(@Model.NDApplicantResults[i].PersonId, 2)">Preview</button>
+                                    </td>
+                                    @*<td>
+            @Html.ActionLink("Download", "DownloadScannedResultND", "Support", new { Area = "Admin", pid = Model.ApplicantResults[i].PersonId }, new { @class = "btn btn-success " })
+        </td>*@
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+        }
+
+    </div>
+</div>
+
+
+<div id="infoModal" role="dialog" class="modal fade">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">File Preview</h4>
+            </div>
+            @*<div class="modal-body printable">
+                    <img id="filePreview" height="800px" width="550px" src="" />
+                </div>*@
+            <div id="filePreview"></div>
+            <div class="modal-footer">
+                <button id="aPrint" class="btn btn-default "><i class="fa fa-print mr5"></i> Print</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="slipModal" role="dialog" class="modal fade">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Acknowledgement Slip Preview</h4>
+            </div>
+            <div id="printable">
+                <div class="card-body">
+
+
+                    <div class="col-md-12">
+
+
+                        <div id="slip">
+
+
+                            <center>
+                                <div class="alert alert-success">
+                                    <h2><b id="programmeHeader"></b></h2>
+                                </div>
+
+                                <br />
+                            </center>
+
+                            <div class="card card-shadow">
+                                <div class="card-header" style="color: white;background-color: #005123;padding: 8px 15px;border-radius: 5px 5px 0 0;">
+                                    <h3>Bio Data</h3>
+
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 custom-text-black">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <img id="passport" src="" alt=" " style=" max-width:150px" />
+
+
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <table class="col-md-12">
+                                        <tr>
+                                            <td>
+                                                <label class="control-label">Surname</label>
+                                                <p class="col-md-8 text-bold custom-text-black" id="lastName"></p>
+                                            </td>
+                                            <td>
+                                                <label class="control-label">First Name</label>
+                                                <p class="col-md-8 text-bold custom-text-black" id="firstName"></p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    @*<div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group margin-bottom-0">
+                                                    <div class="col-md-4">
+                                                        <label class="control-label">Surname</label>
+                                                    </div>
+                                                    <div class="col-md-8 text-bold custom-text-black" id="lastName">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group margin-bottom-0">
+                                                    <div class="col-md-4">
+                                                        <label class="control-label">First Name</label>
+                                                    </div>
+                                                    <div class="col-md-8 text-bold custom-text-black" id="firstName">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Other Name</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="otherName">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Sex</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="sex">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">DOB</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="dob">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">State</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="state">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">LGA</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="lga">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Home Town</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="homeTown">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Phone No.</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="phoneNo">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Email</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Religion</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="religion">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Address</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="address">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Ability</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="ability">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Other Ability</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="otherAbility">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Extracurriculum Activity</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="extracurriculumActivity">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="card card-shadow">
+                                <div class="card-header" style="color: white;background-color: #005123;padding: 8px 15px;border-radius: 5px 5px 0 0;">
+                                    <div style="font-size:x-large">Next of Kin</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Sponsor</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="sponsorName">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Sponsor Address</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="sponsorAddress">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Sponsor Phone No.</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="sponsorPhoneNo">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-0">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Sponsor RelationShip</label>
+                                                </div>
+                                                <div class="col-md-8 text-bold custom-text-black" id="sponsorRelationship">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--------------------------------------------Olevel Result---------------------------------------------------------->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div style="font-size:x-large">O-Level Result</div>
+                                </div>
+                                <div class="panel-body">
+
+
+
+
+                                    <div class="row">
+                                        <div class="col-md-6 custom-text-black">
+                                            <h5>First Sitting</h5>
+                                            <hr class="no-top-padding" />
+
+
+
+                                            <div>
+                                                <div class="form-group margin-bottom-3">
+                                                    <label class="control-label col-md-3 custom-text-black">Type</label>
+                                                    <div class="col-md-9 text-bold custom-text-black" id="firstResultType">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group margin-bottom-3">
+                                                    <label class="control-label col-md-3 custom-text-black">Exam Number</label>
+                                                    <div class="col-md-9 text-bold custom-text-black" id="firstExamNumber">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group margin-bottom-3">
+                                                    <label class="control-label col-md-3 custom-text-black">Exam Year</label>
+                                                    <div class="col-md-9 text-bold custom-text-black" id="firstExamYear">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group margin-bottom-3">
+                                                    <label class="control-label col-md-3 custom-text-black">Scratch Card Pin</label>
+                                                    <div class="col-md-9 text-bold custom-text-black" id="firstPin">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <table class="table table-condensed table-responsive" style="background-color:whitesmoke">
+                                                <tr>
+                                                    <th class="custom-text-black">
+                                                        Subject
+                                                    </th>
+                                                    <th class="custom-text-black">
+                                                        Grade
+                                                    </th>
+                                                    <th></th>
+                                                </tr>
+                                                <tbody id="firstOlevelDetail"></tbody>
+
+
+                                            </table>
+
+                                        </div>
+
+
+                                        <div class="col-md-6 custom-text-black" id="DivSecondSitting">
+                                            <h5>Second Sitting</h5>
+                                            <hr class="no-top-padding" />
+
+                                            <div>
+                                                <div class="form-group margin-bottom-3">
+                                                    <label class="control-label col-md-3 custom-text-black">Type</label>
+                                                    <div class="col-md-9 text-bold custom-text-black" id="secondResultType">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group margin-bottom-3">
+                                                    <label class="control-label col-md-3 custom-text-black">Exam Number</label>
+                                                    <div class="col-md-9 text-bold custom-text-black" id="secondExamNumber">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group margin-bottom-3">
+                                                    <label class="control-label col-md-3 custom-text-black">Exam Year</label>
+                                                    <div class="col-md-9 text-bold custom-text-black" id="secondExamYear">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group margin-bottom-3">
+                                                    <label class="control-label col-md-3 custom-text-black">Scratch Card Pin</label>
+                                                    <div class="col-md-9 text-bold custom-text-black" id="secondPin">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <table class="table table-condensed table-responsive" style="background-color:whitesmoke">
+                                                <tr>
+                                                    <th class="custom-text-black">
+                                                        Subject
+                                                    </th>
+                                                    <th class="custom-text-black">
+                                                        Grade
+                                                    </th>
+                                                    <th></th>
+                                                </tr>
+                                                <tbody id="secondOlevelDetail"></tbody>
+
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-------------------------------------------------------------------------------------------------------------------------------------------------->
+                            <!--------------------------------------------------------------------Tertiary Education------------------------------------------->
+                            <div class="panel panel-default" id="DivTertiaryEducation">
+                                <div class="panel-heading">
+                                    <div style="font-size:x-large">Tertiary Education</div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">School</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="previousEducation">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Course</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="previousCourse">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Start Date</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="startDate">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">End Date</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="endDate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Qualification</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="qualification">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Result Grade</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="resultGrade">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">IT Duration</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="iTDuration">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <b>Convocation Status:</b>
+                                                </div>
+                                                <div class="col-md-7 text-bold">
+                                                    <b id="attendConvocation"></b>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <b>Certificate Status:</b>
+                                                </div>
+                                                <div class="col-md-7 text-bold">
+                                                    <b id="collectedCertificate"></b>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <!------------------------------------------------------------------------------------------------------------------------->
+                            <!------------------------------------------------------------------------------------------Jam Detail------------->
+                            <div class="panel panel-default" id="DivJambDetail">
+                                <div class="panel-heading">
+                                    <div style="font-size:x-large">UTME Details/Mode of Reference</div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6 custom-text-black">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Jamb No</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="jambNo">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Jamb Score</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="jambScore">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Choice</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="jambChoice">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    @Html.Label("English")
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="subject1">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Subject-2</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="subject2">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Subject-3</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="subject3">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+                                                <div class="col-md-5">
+                                                    <label class="control-label">Subject-4</label>
+                                                </div>
+                                                <div class="col-md-7 text-bold custom-text-black" id="subject4">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group margin-bottom-3">
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!------------------------------------------------------------------------------------------------------------------>
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-default aPrintClass"><i class="fa fa-print mr5"></i> Print</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

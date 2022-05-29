@@ -1,0 +1,146 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.StudentCourseRegistrationViewModel
+@{
+    ViewBag.Title = "MergeMatricNumber";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+
+    <script type="text/javascript">
+
+        var matricNumbers;
+        
+        function getStudents() {
+            $("#ldGetStudents").show();
+            matricNumbers = $("#Student_MatricNumber").val();
+
+            if (!matricNumbers) {
+                alert("Kindly enter the matric numbers.");
+                $("#ldGetStudents").hide();
+                return;
+            }
+
+            $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetStudents", "StudentCourseRegistration")', // we are calling json method
+                    dataType: 'json',
+                data: { studentMatricNumbers: matricNumbers },
+                success: function (result) {
+                    $("#ldGetStudents").hide();
+                        if (result) {
+                            if (result[0].IsError == false) {
+                                var studentNames = '';
+                                $.each(result, function (i, studentName) {
+                                    studentNames = studentNames + studentName.Message + ', ';
+                                });
+                                $("#studentNames").text(studentNames);
+                                $("#btnMerge").show();
+                            }
+                            else {
+                                alert(result[0].Message);
+                            }
+                        }
+                    },
+                error: function (jqXHR) {
+                    alert(jqXHR.statusText);
+                    $("#ldGetStudents").hide();
+                    }
+            });
+
+            return;
+        }
+
+        function mergeStudents() {
+            $("#ldGetStudents").show();
+
+            if (!matricNumbers) {
+                alert("Kindly enter the matric numbers.");
+                $("#ldGetStudents").hide();
+                return;
+            }
+
+            $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("MergeStudents", "StudentCourseRegistration")', // we are calling json method
+                    dataType: 'json',
+                data: { studentMatricNumbers: matricNumbers },
+                success: function (result) {
+                    $("#ldGetStudents").hide();
+                        if (result) {
+                            alert(result.Message);
+                    }
+                    $("#btnMerge").hide();
+                    },
+                error: function (jqXHR) {
+                    alert(jqXHR.statusText);
+                    $("#ldGetStudents").hide();
+                    $("#btnMerge").hide();
+                    }
+            });
+
+            return;
+        }
+
+    </script>
+}
+
+
+    <div class="col-md-10 ml-auto mr-auto">
+          
+        <div>
+            @if (TempData["Message"] != null)
+            {
+                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+        </div> 
+
+        <div class="row">
+            <div class="card card-shadow">
+                <div class="card-header">
+                    <h3>Merge Matric Number</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <blockquote class="alert alert-info"><small>
+                                "Kindly enter the matric numbers seperated by comma (e.g H/CS/16/XXXX, H/CS/16/XXX). 
+                                 The correct matric number should be placed first.
+                                 Also ensure the names are the same before merging."
+                            </small></blockquote>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(model => model.Student.MatricNumber, "Matric Numbers: ", new { @class = "control-label col-md-12" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.Student.MatricNumber, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Student.MatricNumber, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                           
+                                <div class="form-group col-md-6">
+                                    <div class="col-md-offset-2 col-md-6">
+                                        <p for="studentNames" id="studentNames"></p>
+                                    </div>
+                                </div>
+                           
+                                <div class="form-group col-md-12 pl-3">
+                                    <div class="col-md-6">
+                                        <button class="btn btn-success" onclick="getStudents()">Search</button>
+                                        <span style="display: none" id="ldGetStudents"><img src="~/Content/Images/bx_loader.gif" /></span>
+                                        <button style="display:none" class="btn btn-success" id="btnMerge" onclick="mergeStudents()">Merge</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+            </div>
+
+
+        </div>
+
+</div>
+
+    </div>
+ 
+

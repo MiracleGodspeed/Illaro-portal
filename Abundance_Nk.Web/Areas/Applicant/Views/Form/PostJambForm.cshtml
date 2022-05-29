@@ -1,0 +1,1120 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJambViewModel
+
+@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+    <script type="text/javascript" src="~/Scripts/file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <script type="text/javascript" src="~/Scripts/file-upload/js/jquery.iframe-transport.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script src="~/Scripts/file-upload/js/jquery.fileupload.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/jquery.print.js"></script>
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <link href="~/Content/dropzone.css" rel="stylesheet" />
+    <link href="~/Content/jquery.toast.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.toast.js"></script>
+    <script src="~/Scripts/dropzone.js"></script>
+
+    @*<script type="text/javascript" src="~/Scripts/file-upload/jquery.fileupload-ui.js"></script>
+        <script type="text/javascript" src="~/Scripts/file-upload/jquery.fileupload.js"></script>*@
+
+    <style>
+        blockquote::after {
+            display: none;
+        }
+
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(22, 21, 21, 0.932);
+            /* change if the mask should have another color then white */
+            z-index: 99999;
+            /*display: none*/
+            /* makes sure it stays on top */
+        }
+
+        #preloader2 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(22, 21, 21, 0.932);
+            /* change if the mask should have another color then white */
+            z-index: 99999;
+            display: block
+            /* makes sure it stays on top */
+        }
+
+        #preloader3 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(22, 21, 21, 0.932);
+            /* change if the mask should have another color then white */
+            z-index: 99999;
+            display: none
+            /* makes sure it stays on top */
+        }
+
+        #status {
+            width: 150px;
+            height: 130px;
+            position: absolute;
+            left: 42%;
+            /* centers the loading animation horizontally one the screen */
+            top: 40%;
+            /* centers the loading animation vertically one the screen */
+            /* background-image: url(./images/icon-1.png); */
+            /* path to your loading animation */
+            background-repeat: no-repeat;
+            background-position: center;
+            /* margin: -100px 0 0 -100px; */
+            background-size: 400px;
+            background-color: white;
+            padding-left: 10px;
+            padding-right: 10px;
+            text-align: center;
+            /* is width and height divided by two */
+        }
+
+        .ld-img {
+            left: 0rem !important;
+            top: 0rem !important;
+            width: 31px !important;
+            margin-top: 25px !important;
+            margin-bottom: 10px !important;
+            position: relative !important;
+        }
+
+
+
+
+        #qual-prompt {
+            display: none
+        }
+
+
+
+        .modal-r {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 99999;
+            opacity: 1;
+            transition: opacity 400ms ease-in;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            min-height: 100vh;
+        }
+
+        .content-modal {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            width: 80%;
+            height: 60vh;
+            /*font-family: 'Poppins', sans-serif !important;*/
+        }
+
+        .popps {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+        .content-modal p {
+            font-size: 16px;
+            font-weight: 600 !important
+        }
+
+        .modal-c:target {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-c h1 {
+            font-size: 42px;
+        }
+
+        .content-modal a {
+            font-weight: bold;
+        }
+
+        .close {
+            align-self: flex-end;
+            text-decoration: none;
+            color: red;
+        }
+    </style>
+
+
+    <script type="text/javascript">
+        var jqXHRData;
+        var uploadType;
+        var personId;
+
+        $(document).ready(function() {
+
+            var src = $('#passport').attr('src');
+            if (src == undefined) {
+                $('#passport').attr('src', '/Content/Images/shadow_avatar.png');
+            }
+            //------------------------------
+
+            $("#Person_State_Id").change(function() {
+                $("#Person_LocalGovernment_Id").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetLocalGovernmentsByState")', //we are calling json method
+                    dataType: 'json',
+                    data: { id: $("#Person_State_Id").val() },
+                    success: function(lgas) {
+                        $("#Person_LocalGovernment_Id").append('<option value="' + 0 + '">-- Select --</option>');
+
+                        $.each(lgas, function(i, lga) {
+                            $("#Person_LocalGovernment_Id").append('<option value="' + lga.Value + '">' + lga.Text + '</option>');
+                        });
+                    },
+                    error: function(ex) {
+                        alert('Failed to retrieve lgas.' + ex);
+                    }
+                });
+
+                return false;
+            });
+
+            //------------------------------
+
+            $("#Person_MonthOfBirth_Id").change(function() {
+                $("#Person_DayOfBirth_Id").empty();
+                var selectedMonth = $("#Person_MonthOfBirth_Id").val();
+                var selectedYear = $("#Person_YearOfBirth_Id").val();
+
+                if (selectedYear == '') {
+                    alert('Please select Year of Birth!');
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDayOfBirthBy")', // we are calling json method
+                    dataType: 'json',
+                    data: { monthId: selectedMonth, yearId: selectedYear },
+                    success: function(days) {
+                        $("#Person_DayOfBirth_Id").append('<option value="' + 0 + '">--DD--</option>');
+
+                        $.each(days, function(i, day) {
+                            $("#Person_DayOfBirth_Id").append('<option value="' + day.Value + '">' + day.Text + '</option>');
+                        });
+                    },
+
+                    beforeSend: function() {
+                        $('#spDob').show();
+                    },
+                    complete: function() {
+                        $('#spDob').hide();
+                    },
+
+                    error: function(ex) {
+                        if (selectedMonth == '') {
+                            return;
+                        } else {
+                            alert('Failed to retrieve days.' + ex);
+                        }
+                    }
+                });
+
+                return false;
+            });
+            //------------------------------
+            $("#PreviousEducation_StartMonth_Id").change(function() {
+                $("#PreviousEducation_StartDay_Id").empty();
+                var selectedMonth = $("#PreviousEducation_StartMonth_Id").val();
+                var selectedYear = $("#PreviousEducation_StartYear_Id").val();
+
+                if (selectedYear == '') {
+                    alert('Please select Start Year!');
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDayOfBirthBy", "Form")', //We are calling json method
+                    dataType: 'json',
+                    data: { monthId: selectedMonth, yearId: selectedYear },
+                    beforeSend: function() {
+                        $('#spSDate').show();
+                    },
+                    complete: function() {
+                        $('#spSDate').hide();
+                    },
+
+                    success: function(days) {
+                        $("#PreviousEducation_StartDay_Id").append('<option value="' + 0 + '">--DD--</option>');
+
+                        $.each(days, function(i, day) {
+                            $("#PreviousEducation_StartDay_Id").append('<option value="' + day.Value + '">' + day.Text + '</option>');
+                        });
+                    },
+                    error: function(ex) {
+                        if (selectedMonth == '') {
+                            return;
+                        } else {
+                            alert('Failed to retrieve days.' + ex);
+                        }
+                    }
+                });
+
+                return false;
+            });
+            //------------------------------
+
+            $("#PreviousEducation_EndMonth_Id").change(function() {
+                $("#PreviousEducation_EndDay_Id").empty();
+                var selectedMonth = $("#PreviousEducation_EndMonth_Id").val();
+                var selectedYear = $("#PreviousEducation_EndYear_Id").val();
+
+                if (selectedYear == '') {
+                    alert('Please select End Year!');
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDayOfBirthBy", "Form")', // we are calling json method
+                    dataType: 'json',
+                    data: { monthId: selectedMonth, yearId: selectedYear },
+                    beforeSend: function() {
+                        $('#spEDate').show();
+                    },
+                    complete: function() {
+                        $('#spEDate').hide();
+                    },
+                    success: function(days) {
+                        $("#PreviousEducation_EndDay_Id").append('<option value="' + 0 + '">--DD--</option>');
+
+                        $.each(days, function(i, day) {
+                            $("#PreviousEducation_EndDay_Id").append('<option value="' + day.Value + '">' + day.Text + '</option>');
+                        });
+                    },
+                    error: function(ex) {
+                        if (selectedMonth == '') {
+                            return;
+                        } else {
+                            alert('Failed to retrieve days.' + ex);
+                        }
+                    }
+                });
+
+                return false;
+            });
+            //------------------------------
+            initSimpleFileUpload();
+            $("#hl-start-upload").on('click', function() {
+                if (jqXHRData) {
+                    jqXHRData.submit();
+                }
+                return false;
+            });
+            //------------------------------
+            $("#fu-my-simple-upload").on('change', function() {
+                $("#tbx-file-path").val(this.files[0].name);
+            });
+
+//------------------------------
+            function initSimpleFileUpload() {
+                'use strict';
+
+                $('#fu-my-simple-upload').fileupload({
+                    url: '@Url.Content("~/Applicant/Form/UploadFile")',
+                    dataType: 'json',
+
+                    add: function(e, data) {
+                        jqXHRData = data
+                    },
+                    send: function(e) {
+                        $('#fileUploadProgress').show();
+                    },
+                    done: function(event, data) {
+                        if (data.result.isUploaded) {
+                            //alert("success");
+                            $("#hfPassportUrl").val(data.result.imageUrl);
+                        } else {
+                            $("#tbx-file-path").val("");
+                            alert(data.result.message);
+                        }
+
+                        $('#passport').attr('src', data.result.imageUrl);
+                        $('#fileUploadProgress').hide();
+                    },
+                    fail: function(event, data) {
+                        if (data.files[0].error) {
+                            alert(data.files[0].error);
+                        }
+                    }
+                });
+            }
+
+//------------------------------
+
+            //Upload First Sitting Result
+            initSimpleFileUploadForCredential();
+            $("#cr-start-upload").on('click', function() {
+                if (jqXHRData) {
+                    jqXHRData.submit();
+                }
+                return false;
+            });
+
+            $("#cu-credential-simple-upload").on('change', function() {
+                $("#crx-file-path").val(this.files[0].name);
+            });
+
+//------------------------------
+            function initSimpleFileUploadForCredential() {
+                'use strict';
+
+                $('#cu-credential-simple-upload').fileupload({
+                    url: '@Url.Content("~/Applicant/Form/UploadCredentialFile")',
+                    dataType: 'json',
+
+                    add: function(e, data) {
+                        jqXHRData = data;
+                    },
+                    send: function(e) {
+                        $('#fileUploadProgress2').show();
+                    },
+                    done: function(event, data) {
+                        if (data.result.isUploaded) {
+                            $("#hfCredentialUrl").val(data.result.imageUrl);
+                            //alert("success");
+                        } else {
+                            $("#crx-file-path").val("");
+                            alert(data.result.message);
+                        }
+
+                        //$('#scannedCredential1').attr('src', data.result.imageUrl);
+                        $('#fileUploadProgress2').hide();
+                    },
+                    fail: function(event, data) {
+                        if (data.files[0].error) {
+                            alert(data.files[0].error);
+                        }
+                    }
+                });
+            }
+
+//------------------------------
+
+            //Upload Second Sitting Result
+            initSimpleFileUploadForCredential2();
+            $("#cr-start-upload2").on('click', function() {
+                if (jqXHRData) {
+                    jqXHRData.submit();
+                }
+                return false;
+            });
+
+            $("#cu-credential-simple-upload2").on('change', function() {
+                $("#crx-file-path2").val(this.files[0].name);
+            });
+
+            function initSimpleFileUploadForCredential2() {
+                'use strict';
+
+                $('#cu-credential-simple-upload2').fileupload({
+                    url: '@Url.Content("~/Applicant/Form/UploadCredentialFile2")',
+                    dataType: 'json',
+
+                    add: function(e, data) {
+                        jqXHRData = data;
+                    },
+                    send: function(e) {
+                        $('#fileUploadProgress2').show();
+                    },
+                    done: function(event, data) {
+                        if (data.result.isUploaded) {
+                            $("#hfCredentialUrl2").val(data.result.imageUrl);
+                             alert("success");
+                        } else {
+                            $("#crx-file-path2").val("");
+                            alert(data.result.message);
+                        }
+
+                        //$('#scannedCredential2').attr('src', data.result.imageUrl);
+                        $('#fileUploadProgress2').hide();
+                    },
+                    fail: function(event, data) {
+                        if (data.files[0].error) {
+                            alert(data.files[0].error);
+                        }
+                    }
+                });
+            }
+
+            //------------------------------
+
+            //Upload Certifcate
+            initSimpleFileUploadForCredentialCertificate();
+            $("#cert-start-upload").on('click', function () {
+                if (jqXHRData) {
+                    jqXHRData.submit();
+                }
+                return false;
+            });
+            $("#closeQualPPrompt").click(function () {
+                $("#preloader2").fadeOut();
+            })
+            $("#cu-cert-credential-simple-upload").on('change', function () {
+                $("#cert-file-path").val(this.files[0].name);
+            });
+
+            //------------------------------
+            function initSimpleFileUploadForCredentialCertificate() {
+                'use strict';
+
+                $('#cu-cert-credential-simple-upload').fileupload({
+                    url: '@Url.Content("~/Applicant/Form/UploadCretificateFile")',
+                    dataType: 'json',
+
+                    add: function (e, data) {
+                        jqXHRData = data;
+                    },
+                    send: function (e) {
+                        $('#CertfileUploadProgress').show();
+                    },
+                    done: function (event, data) {
+                        if (data.result.isUploaded) {
+                            $("#hfCredentialCertUrl").val(data.result.imageUrl);
+                            alert("success");
+                        } else {
+                            $("#cert-file-path").val("");
+                            alert(data.result.message);
+                        }
+
+                        $('#CertfileUploadProgress').hide();
+                    },
+                    fail: function (event, data) {
+                        if (data.files[0].error) {
+                            alert(data.files[0].error);
+                        }
+                    }
+                });
+            }
+
+            //------------------------------
+
+            initSimpleFileUploadForCredentialITLetterOfCompletion();
+            $("#itletter-start-upload").on('click', function () {
+                if (jqXHRData) {
+                    jqXHRData.submit();
+                }
+                return false;
+            });
+
+            $("#it-letter-of-completion-simple-upload").on('change', function () {
+                $("#itLetter-file-path").val(this.files[0].name);
+            });
+
+            //------------------------------
+
+              //-----------Upload IT letter of completion-------------------
+            function initSimpleFileUploadForCredentialITLetterOfCompletion() {
+                'use strict';
+
+                $('#it-letter-of-completion-simple-upload').fileupload({
+                    url: '@Url.Content("~/Applicant/Form/UploadITLetterOfCompletionFile")',
+                    dataType: 'json',
+
+                    add: function (e, data) {
+                        jqXHRData = data;
+                    },
+                    send: function (e) {
+                        $('#itLetterFileUploadProgress').show();
+                    },
+                    done: function (event, data) {
+                        if (data.result.isUploaded) {
+                            $("#hfITCompletiontUrl").val(data.result.imageUrl);
+                            alert("success");
+                        } else {
+                            $("#itLetter-file-path").val("");
+                            alert(data.result.message);
+                        }
+
+                        $('#itLetterFileUploadProgress').hide();
+                    },
+                    fail: function (event, data) {
+                        if (data.files[0].error) {
+                            alert(data.files[0].error);
+                        }
+                    }
+                });
+            }
+
+            //------------------------------
+
+            function beginRequest() {
+                $("#busy").hide();
+            }
+
+            function endRequest(request, status) {
+                $("#busy").show();
+            }
+
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+            });
+
+            $(function() {
+                $('#rdYesRadio').click(function() {
+                    if ($(this).is(':checked')) {
+                        $('.olevel').attr('disabled', 'disabled');
+                    }
+                });
+            });
+
+            $(function() {
+                $('#rdNoRadio').click(function() {
+                    if ($(this).is(':checked')) {
+                        $('.olevel').removeAttr('disabled');
+                    }
+                });
+            });
+
+            personId = $("#@Html.IdFor(m => m.Person.Id)").val();
+
+            uploadType = "Certificate";
+
+            $('input[type=radio][name=UploadType]').change(function () {
+                if (this.value == 'Certificate') {
+                    $("#UploadType").val('Certificate');
+                    uploadType = 'Certificate';
+                }
+                else if (this.value == 'Result') {
+                    $("#UploadType").val('Result');
+                    uploadType = 'Result';
+                }
+            });
+
+        });
+
+        function showNotification(msg, type, title) {
+            $.toast({
+                heading: title,
+                text: msg,
+                position: 'top-right',
+                loaderBg: '#ff6849',
+                icon: type,
+                hideAfter: 6500,
+                stack: 6
+            });
+        }
+    </script>
+
+}
+
+
+@if (Model.Programme.Id == 1 && Model.HasAwaitingResult)
+{
+    <div id="preloader2">
+        <div id="status2">
+            @*<div style="background-color:white;width:200px;height:200px">*@
+
+            <div class="content-modal text-center" style="margin-left:auto; margin-right:auto;margin-top:10em">
+
+                <h1>Awaiting Result Detected!</h1>
+
+                <p id="qual-text">
+
+                    <b>@Model.Person.FullName</b>, your results from the JAMB portal are still being updated on the system. Please try again after some time.
+                </p>
+
+
+
+                <p id="">
+                    <a href="PostJambProgramme" id="closeQualPPrompt">Close</a>
+                </p>
+
+                <a href="#close" title="Close" class="close"> <img src="~/Content/Images/school_logo.jpg" style="width:79px;" /></a>
+            </div>
+
+            @*</div>*@
+        </div>
+    </div>
+
+}
+
+<div class="container">
+
+
+    <div class="card card-shadow">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="col-md-12">
+                        <div>
+                            @if (TempData["Message"] != null)
+                            {
+                                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                            }
+                        </div>
+
+                        @using (Html.BeginForm("PostJambForm", "Form", FormMethod.Post, new { id = "frmPostJAMB", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+
+                            <center>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="custom-text-black">
+                                            <h2><b>@Model.AppliedCourse.Programme.Name</b></h2>
+                                            <p>Kindly fill all the fields provided in this form before clicking the Submit button</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <br />
+                            </center>
+
+
+                            <div class="card card-shadow">
+                                <div class="card-heading">
+                                    <div style="font-size:x-large">Bio Data</div>
+
+                                    @if (Model.ApplicationForm != null && Model.ApplicationForm.Id > 0)
+                                    {
+                                        @Html.HiddenFor(model => model.ApplicationForm.Id)
+                                        @Html.HiddenFor(model => model.ApplicationForm.Number)
+                                        @Html.HiddenFor(model => model.ApplicationForm.ExamNumber)
+                                        @Html.HiddenFor(model => model.ApplicationForm.Rejected)
+                                        @Html.HiddenFor(model => model.ApplicationForm.RejectReason)
+                                    }
+
+                                    @Html.HiddenFor(model => model.Session.Id)
+                                    @Html.HiddenFor(model => model.Session.Name)
+
+                                    @Html.HiddenFor(model => model.ApplicationFormSetting.Id)
+                                    @Html.HiddenFor(model => model.ApplicationFormSetting.PaymentMode.Id)
+                                    @Html.HiddenFor(model => model.ApplicationFormSetting.PaymentType.Id)
+                                    @Html.HiddenFor(model => model.ApplicationFormSetting.PersonType.Id)
+                                    @Html.HiddenFor(model => model.ApplicationFormSetting.Session.Id)
+                                    @Html.HiddenFor(model => model.ApplicationFormSetting.ExamDate)
+                                    @Html.HiddenFor(model => model.ApplicationFormSetting.ExamVenue)
+                                    @Html.HiddenFor(model => model.ApplicationFormSetting.ExamTime)
+
+                                    @Html.HiddenFor(model => model.ApplicationProgrammeFee.FeeType.Id)
+                                    @Html.HiddenFor(model => model.ApplicationProgrammeFee.Id)
+
+                                    @Html.HiddenFor(model => model.Programme.Id)
+                                    @Html.HiddenFor(model => model.Programme.Name)
+                                    @Html.HiddenFor(model => model.Programme.ShortName)
+
+                                    @Html.HiddenFor(model => model.AppliedCourse.Programme.Id)
+                                    @Html.HiddenFor(model => model.AppliedCourse.Programme.Name)
+                                    @Html.HiddenFor(model => model.AppliedCourse.Department.Id)
+                                    @Html.HiddenFor(model => model.AppliedCourse.Department.Name)
+                                    @Html.HiddenFor(model => model.AppliedCourse.Department.Code)
+                                    @Html.HiddenFor(model => model.Person.Id)
+                                    @Html.HiddenFor(model => model.Payment.Id)
+                                    @Html.HiddenFor(model => model.remitaPyament.payment.Id)
+
+                                    @Html.HiddenFor(model => model.Person.DateEntered)
+                                    @Html.HiddenFor(model => model.Person.FullName)
+
+                                    @Html.HiddenFor(model => model.ApplicationAlreadyExist)
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.LastName)
+                                                @Html.TextBoxFor(model => model.Person.LastName, new { @class = "form-control", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.Person.LastName)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.FirstName)
+                                                @Html.TextBoxFor(model => model.Person.FirstName, new { @class = "form-control", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.Person.FirstName)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.OtherName, new { @class = "control-label " })
+                                                @Html.TextBoxFor(model => model.Person.OtherName, new { @class = "form-control", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.Person.OtherName)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.Sex.Id, new { @class = "control-label " })
+                                                @Html.DropDownListFor(f => f.Person.Sex.Id, (IEnumerable<SelectListItem>)ViewBag.SexId, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Person.Sex.Id)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="form-inline">
+                                                    <div class="form-inline" style="color:black">Date of Birth <span id="spDob" style="color:green; font-weight:bold; display:none">...Loading</span></div>
+                                                    @Html.DropDownListFor(m => m.Person.YearOfBirth.Id, (IEnumerable<SelectListItem>)ViewBag.YearOfBirthId, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.Person.MonthOfBirth.Id, (IEnumerable<SelectListItem>)ViewBag.MonthOfBirthId, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.Person.DayOfBirth.Id, (IEnumerable<SelectListItem>)ViewBag.DayOfBirthId, new { @class = "form-control" })
+                                                    <div>
+                                                        <div class="form-group">
+                                                            @Html.ValidationMessageFor(m => m.Person.YearOfBirth.Id, "The Year of Birth Field is required!", new { @class = "text-danger" })
+                                                            @Html.ValidationMessageFor(m => m.Person.MonthOfBirth.Id, "The Month of Birth Field is required!", new { @class = "text-danger" })
+                                                            @Html.ValidationMessageFor(m => m.Person.DayOfBirth.Id, "The Day of Birth Field is required!", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        @if (Model.Person != null && Model.Person.State != null && Model.Person.State.Id != null)
+                                        {
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Person.State.Id, new { @class = "control-label " })
+                                                    @Html.DropDownListFor(f => f.Person.State.Id, (IEnumerable<SelectListItem>)ViewBag.StateId, new { @class = "form-control", @disabled = true })
+                                                    @Html.ValidationMessageFor(model => model.Person.State.Id)
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Person.State.Id, new { @class = "control-label " })
+                                                    @Html.DropDownListFor(f => f.Person.State.Id, (IEnumerable<SelectListItem>)ViewBag.StateId, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Person.State.Id)
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.LocalGovernment.Id, new { @class = "control-label " })
+                                                @Html.DropDownListFor(f => f.Person.LocalGovernment.Id, (IEnumerable<SelectListItem>)ViewBag.LgaId, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Person.LocalGovernment.Id)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.HomeTown, new { @class = "control-label " })
+                                                @Html.TextBoxFor(model => model.Person.HomeTown, new { @class = "form-control " })
+                                                @Html.ValidationMessageFor(model => model.Person.HomeTown)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.MobilePhone, new { @class = "control-label " })
+                                                @Html.TextBoxFor(model => model.Person.MobilePhone, new { @class = "form-control", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.Person.MobilePhone)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.Email, new { @class = "control-label " })
+                                                @Html.TextBoxFor(model => model.Person.Email, new { @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.Religion.Id, new { @class = "control-label " })
+                                                @Html.DropDownListFor(model => model.Person.Religion.Id, (IEnumerable<SelectListItem>)ViewBag.ReligionId, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Person.Religion.Id)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Person.HomeAddress, new { @class = "control-label " })
+                                                @Html.TextBoxFor(model => model.Person.HomeAddress, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Applicant.Ability.Id, new { @class = "control-label " })
+                                                @Html.DropDownListFor(model => model.Applicant.Ability.Id, (IEnumerable<SelectListItem>)ViewBag.AbilityId, new { @class = "form-control" })
+                                                @*@Html.ValidationMessageFor(model => model.Sponsor.Ability.Id)*@
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Applicant.OtherAbility)
+                                                @Html.TextBoxFor(model => model.Applicant.OtherAbility, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Applicant.ExtraCurricullarActivities)
+                                                @Html.TextBoxFor(model => model.Applicant.ExtraCurricullarActivities, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="card card-shadow">
+                                <div class="card-heading">
+                                    <div style="font-size:x-large">Next of Kin</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Sponsor.Name)
+                                                @Html.TextBoxFor(model => model.Sponsor.Name, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Sponsor.Name)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Sponsor.ContactAddress, new { @class = "control-label " })
+                                                @Html.TextBoxFor(model => model.Sponsor.ContactAddress, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Sponsor.ContactAddress)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Sponsor.Relationship.Id, new { @class = "control-label " })
+                                                @Html.DropDownListFor(model => model.Sponsor.Relationship.Id, (IEnumerable<SelectListItem>)ViewBag.RelationshipId, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Sponsor.Relationship.Id)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Sponsor.MobilePhone, new { @class = "control-label " })
+                                                @Html.TextBoxFor(model => model.Sponsor.MobilePhone, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Sponsor.MobilePhone)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            if (Model != null)
+                            {
+                                if (Model.Programme.Id == 1)
+                                {
+                                    @Html.Partial("_FullTimeOLevelResult", Model)
+                                }
+                                else
+                                {
+                                    @Html.Partial("_OLevelResult", Model)
+
+                                }
+                            }
+
+                            if (Model != null && Model.Programme != null)
+                            {
+                                if (Model.Programme.Id == 3 || Model.Programme.Id == 4 || Model.Programme.Id == 5 || Model.Programme.Id == 8)
+                                {
+                                    @Html.Partial("_TertiaryEducation", Model)
+
+                                    @Html.Partial("_ResultUpload", Model)
+                                }
+
+                                else if (Model.Programme.Id == 1 || Model.Programme.Id == 2 || Model.Programme.Id == 9)
+                                {
+                                    @Html.Partial("_JambDetail", Model)
+                                }
+                            }
+
+                            <div class="card card-shadow">
+                                <div class="card-heading">
+                                    <div style="font-size: x-large">Academic Details</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.AppliedCourse.Programme.Name, new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.AppliedCourse.Programme.Name, new { @class = "form-control", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.AppliedCourse.Programme.Name)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.AppliedCourse.Department.Faculty.Name, new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.AppliedCourse.Department.Faculty.Name, new { @class = "form-control", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.AppliedCourse.Department.Faculty.Name)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.AppliedCourse.Department.Name, new { @class = "control-label " })
+                                                @Html.TextBoxFor(model => model.AppliedCourse.Department.Name, new { @class = "form-control", @readonly = "readonly" })
+                                                @Html.ValidationMessageFor(model => model.AppliedCourse.Department.Name)
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="card card-shadow">
+                                <div class="card-heading">
+                                    <div style="font-size:x-large">Passport Photograph</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row ">
+                                        <div class="col-md-6 ">
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-12 padding-bottom-3">
+                                                        @*<img id="passport" src="@Model.PassportUrl" alt="" style="max-width:150px" />*@
+
+                                                        <img id="passport" src="@Model.Person.ImageFileUrl" alt="" style="max-width:150px" />
+
+                                                        @*<img id="passport" src="@Url.Content(Model.Person.ImageFileUrl)" alt="" style="max-width:150px" />*@
+                                                        @*<img id="passport" src="@Url.Content('~' + Model.Person.ImageFileUrl)" alt="" style="max-width:150px" />*@
+                                                        @*<img id="passport" src="/ilaropoly@Model.Person.ImageFileUrl" alt="" style="max-width:150px" />*@
+                                                    </div>
+                                                </div>
+
+                                                <div class="row padding-bottom-5">
+                                                    <div class="col-md-6 ">
+                                                        @Html.HiddenFor(model => model.Person.ImageFileUrl, new { id = "hfPassportUrl", name = "hfPassportUrl" })
+                                                        <input type="text" id="tbx-file-path" readonly="readonly" />
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        @Html.TextBoxFor(m => m.MyFile, new { id = "fu-my-simple-upload", type = "file", style = "color:transparent;" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row padding-bottom-10">
+                                                    <div class="col-md-12">
+                                                        <input class="btn btn-shadow btn-metro" type="button" name="hl-start-upload" id="hl-start-upload" value="Upload Passport" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div id="fileUploadProgress" style="display:none">
+                                                            <img src="@Url.Content("~/Content/Images/bx_loader.gif")" />
+                                                            <span>Uploading ...</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <blockquote>
+                                                <i class="fa fa-quote-left"></i>
+                                                <p>
+                                                    To upload your passport, scan and save the passport in the computer file
+                                                    system. Click on the Choose File button shown above to display the file dialog box. Select
+                                                    the passport file from the saved location. Then click on the Upload Passport button above to upload your passport to the system.
+                                                </p>
+                                                <small>Please note that the passport photo background should be plain (white or clear) and passport size should not be more than 50kb. The file format must be in either .gif, .jpeg, .jpg or .bmp file format.<cite title="Source Title"></cite></small>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="card card-shadow">
+                                <input class="btn btn-success btn-lg" type="submit" name="submit" id="submit" value="Submit" />
+                                <div id="busy" style="display:none">Processing ...</div>
+                                <div id="result"></div>
+                            </div>
+
+                            <div>
+                                @if (TempData["Message"] != null)
+                                {
+                                    <br />
+                                    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                                }
+                            </div>
+
+                        }
+
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

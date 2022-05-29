@@ -1,0 +1,130 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.ProfileViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@*<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Staff Profile</h1>
+    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+</div>*@
+
+
+<div class="col-md-8 ml-auto mr-auto">
+
+    <div class="card shadow mb-4">
+    
+       <div class="card-body">
+           <div class="row">
+               <div>
+                   @if (TempData["Message"] != null)
+                   {
+                       @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                   }
+               </div>
+           </div>
+
+           @using (Html.BeginForm("Index", "Profile", FormMethod.Post))
+           {
+               @Html.AntiForgeryToken()
+               @Html.ValidationSummary(true)
+               @Html.HiddenFor(model => model.staffDetail.Id)
+
+               <div class="row">
+                   <div class="col-md-12">
+                       <h3 class="h3 mb-0 text-gray-800">Staff Profile</h3>
+                       <h5>Please enter personal details</h5>
+                       <hr style="margin-top: 0" />
+                   </div>
+
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.staffDetail.LastName, new { @class = "control-label" })
+                           @Html.TextBoxFor(model => model.staffDetail.LastName, new { @class = "form-control" })
+                           @Html.ValidationMessageFor(model => model.staffDetail.LastName, null, new { @class = "text-danger" })
+                       </div><!-- form-group -->
+                   </div>
+
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.staffDetail.FirstName, new { @class = "control-label" })
+                           @Html.TextBoxFor(model => model.staffDetail.FirstName, new { @class = "form-control" })
+                           @Html.ValidationMessageFor(model => model.staffDetail.FirstName, null, new { @class = "text-danger" })
+                       </div>
+                   </div>
+
+               </div>
+
+               <div class="row">
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.staffDetail.OtherName, new { @class = "control-label" })
+                           @Html.TextBoxFor(model => model.staffDetail.OtherName, new { @class = "form-control" })
+                           @Html.ValidationMessageFor(model => model.staffDetail.OtherName, null, new { @class = "text-danger" })
+                       </div>
+                   </div><!-- form-group -->
+
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.staffDetail.State.Id, new { @class = "control-label" })
+                           @Html.DropDownListFor(model => model.staffDetail.State.Id, (IEnumerable<SelectListItem>)ViewBag.StateId, new { @class = "form-control" })
+                           @Html.ValidationMessageFor(model => model.staffDetail.State.Id, null, new { @class = "text-danger" })
+                       </div>
+                   </div><!-- form-group -->
+               </div>
+
+               <div class="row">
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.staffDetail.MobilePhone, new { @class = "control-label" })
+                           @Html.TextBoxFor(model => model.staffDetail.MobilePhone, new { @class = "form-control", @placeholder = "080XXXXXXXX" })
+                           @Html.ValidationMessageFor(model => model.staffDetail.MobilePhone, null, new { @class = "text-danger" })
+                       </div>
+                   </div><!-- form-group -->
+
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.staffDetail.Email, new { @class = "control-label" })
+                           @Html.TextBoxFor(model => model.staffDetail.Email, new { @class = "form-control" })
+                           @Html.ValidationMessageFor(model => model.staffDetail.Email, null, new { @class = "text-danger" })
+                       </div>
+                   </div><!-- form-group -->
+
+               </div>
+        <!-- row -->
+               <div class="row">
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.staffDetail.MaritalStatus.Id, new { @class = "control-label" })
+                           @Html.DropDownListFor(model => model.staffDetail.MaritalStatus.Id, (IEnumerable<SelectListItem>)ViewBag.MaritalStatusId, new { @class = "form-control" })
+                           @Html.ValidationMessageFor(model => model.staffDetail.MaritalStatus.Id, null, new { @class = "text-danger" })
+                       </div>
+                   </div><!-- form-group -->
+
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           @Html.LabelFor(model => model.staffDetail.Religion.Id, new { @class = "control-label" })
+                           @Html.DropDownListFor(model => model.staffDetail.Religion.Id, (IEnumerable<SelectListItem>)ViewBag.ReligionId, new { @class = "form-control" })
+                           @Html.ValidationMessageFor(model => model.staffDetail.Religion.Id, null, new { @class = "text-danger" })
+                       </div>
+                   </div><!-- form-group -->
+
+               </div>
+        <!-- row -->
+               <div class="row">
+           
+                   <div class="col-sm-10 ">
+                       <div class="form-inline">
+                           <div class="form-group">
+                               <input class="btn btn-success btn-lg mr5" type="submit" name="submit" id="submit" value="Save" />
+                           </div>
+                       </div>
+                   </div>
+                   <div class="col-md-1"></div>
+               </div>
+           }
+       </div>
+
+    </div>
+</div>

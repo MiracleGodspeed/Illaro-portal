@@ -1,0 +1,260 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJambViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/style.default.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        $("#aPrint").on('click', function () {
+            $("#printable").print();
+            return false;
+        });
+    </script>
+}
+
+<div class="container">
+
+    <div id="printable">
+        <div>
+            <div class="alert alert-success fade in" style="border:1px solid green">
+                <div>
+                    <table style="margin-bottom:2px">
+                        <tr>
+                            <td style="padding-right:3px"><img src="@Url.Content("~/Content/Images/school_logo.jpg")" width="100px" height="100px" alt="" /></td>
+                            <td>
+                                <h4><strong>THE FEDERAL POLYTECHNIC, ILARO</strong></h4>
+                                <p>
+                                    P.M.B. 50, ILARO, OGUN STATE.
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+            <h4><p class="text-center custom-text-black">Screening Slip For @Model.Session.Name Session Admission </h4>
+
+            <hr class="no-top-padding" />
+            <dl class="dl-horizontal">
+                @if (TempData["Message"] != null)
+            {
+            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+
+                @if (Model == null) { return; }
+
+                <dt>
+
+                </dt>
+                <dd>
+                    <div class="row ">
+                        <div class="col-md-12 custom-text-black">
+                            @*<img src="@Model.Person.ImageFileUrl" alt="" style="max-height:150px" />*@
+                            <img src="@Url.Content('~' + Model.Person.ImageFileUrl)" alt="" style="max-height:150px" />
+
+                        </div>
+                    </div>
+                </dd>
+                <br />
+                <dt class="space-bottom custom-text-black">
+                    @Html.DisplayNameFor(model => model.Person.FullName)
+                </dt>
+                <dd class="space-bottom custom-text-black">
+                    @Html.DisplayFor(model => model.Person.FullName)
+                </dd>
+
+                <dt class="space-bottom custom-text-black">
+                    Application Number
+                </dt>
+                <dd class="space-bottom custom-text-black">
+                    @Model.ApplicationFormNumber
+                </dd>
+                @*<dt class="space-bottom custom-text-black">
+                        Screening Number
+                    </dt>
+                    <dd class="space-bottom custom-text-black">
+                        @Model.ApplicationForm.ExamNumber
+                    </dd>*@
+                @if (Model.ApplicantJambDetail != null)
+            {
+                if (Model.ApplicantJambDetail.JambRegistrationNumber != null)
+                {
+            <dt class="space-bottom custom-text-black">
+                UTME No
+            </dt>
+            <dd class="space-bottom custom-text-black">
+                @Model.ApplicantJambDetail.JambRegistrationNumber
+            </dd>
+                }
+            }
+
+
+
+                <dt class="space-bottom custom-text-black">
+                    @Html.DisplayNameFor(model => model.AppliedCourse.Department.Name)
+                </dt>
+                <dd class="space-bottom custom-text-black">
+                    @Html.DisplayFor(model => model.AppliedCourse.Department.Name)
+                </dd>
+                @if (Model.ApplicantApplicationApproval != null && Model.ApplicantApplicationApproval.ApplicationForm != null && Model.ApplicantApplicationApproval.ApplicationForm.Id > 0 && Model.ApplicantApplicationApproval.IsApproved)
+            {
+            <dt class="space-bottom custom-text-black">
+                Screening Number
+            </dt>
+            <dd class="space-bottom custom-text-black">
+                @Model.ApplicantApplicationApproval.ClearanceCode
+            </dd>
+                if (Model.AppliedCourse.Programme.Id == 1)
+                {
+
+                }
+                else if (Model.AppliedCourse.Programme.Id == 2)
+                {
+            <dt class="space-bottom custom-text-black">
+                @Html.DisplayNameFor(model => model.ApplicationFormSetting.ExamDate)
+            </dt>
+
+            <dd class="space-bottom custom-text-black">
+                To be announced shortly
+            </dd>
+
+
+                }
+                else if (Model.AppliedCourse.Programme.Id == 3)
+                {
+            @*<dd class="space-bottom custom-text-black">
+                       To be announced shortly
+                </dd>*@
+                switch (Model.AppliedCourse.Department.Faculty.Id)
+                {
+                    case 6:
+            <dd class="space-bottom custom-text-black">
+                July 25, 2018<br />
+            </dd>
+                        break;
+                    case 5:
+            <dd class="space-bottom custom-text-black">
+                July 25, 2018<br />
+            </dd>
+                        break;
+                    case 3:
+            <dd class="space-bottom custom-text-black">
+                July 26, 2018<br />
+            </dd>
+                        break;
+                    case 2:
+            <dd class="space-bottom custom-text-black">
+                July 26, 2018<br />
+            </dd>
+                        break;
+                    case 1:
+            <dd class="space-bottom custom-text-black">
+                July 27, 2018<br />
+            </dd>
+                            break;
+                    }
+                }
+                else if (Model.AppliedCourse.Programme.Id == 4)
+                {
+            <dd class="space-bottom custom-text-black">
+                To be announced shortly
+            </dd>
+                }
+                else if (Model.AppliedCourse.Programme.Id == 5)
+                {
+            <dd class="space-bottom custom-text-black">
+                To be announced shortly
+            </dd>
+                }
+
+                if (Model.AppliedCourse.Programme.Id != 1)
+                {
+            <dt class="space-bottom custom-text-black">
+                @Html.DisplayNameFor(model => model.ApplicationFormSetting.ExamVenue)
+            </dt>
+            <dd class="space-bottom custom-text-black">
+                @Html.DisplayFor(model => model.ApplicationFormSetting.ExamVenue)
+            </dd>
+
+            <dt class="space-bottom custom-text-black">
+                @Html.DisplayNameFor(model => model.ApplicationFormSetting.ExamTime)
+            </dt>
+            <dd class="space-bottom custom-text-black">
+                @Html.DisplayFor(model => model.ApplicationFormSetting.ExamTime)
+            </dd>
+                }
+                else
+                {
+
+                }
+                if (Model.AppliedCourse.Programme.Id != 1)
+                {
+            <blockquote>
+                <i class="fa fa-quote-left"></i>
+                <p>
+                    Kindly come with 2 copies of this printout, 2 copies of your acknowledgment slip printout, a biro for filling attendance sheet and a <b>2B Pencil</b> on the date of
+                    screening. Good luck !
+                </p>
+                <p><i>NB: ALL ENTRANCE EXAMINATIONS ARE COMPUTER BASED.</i></p>
+            </blockquote>
+                }
+            }
+            else if (Model.ApplicantApplicationApproval != null && Model.ApplicantApplicationApproval.ApplicationForm != null && Model.ApplicantApplicationApproval.ApplicationForm.Id > 0 && Model.ApplicantApplicationApproval.IsApproved == false)
+            {
+            <dt class="space-bottom custom-text-black">
+                Application Status
+            </dt>
+
+            <dd class="space-bottom custom-text-black">
+                Application was Rejected
+            </dd>
+            <dt class="space-bottom custom-text-black">
+                Reason
+            </dt>
+
+            <dd class="space-bottom custom-text-black">
+                @Model.ApplicantApplicationApproval.Remark
+            </dd>
+            }
+
+
+            </dl>
+            <div>
+
+
+                <small>
+
+                    <br />
+                    <img src=@Url.Content("~/Content/Images/Registrar_signature.jpg") alt="" style="max-height: 25px" />
+                    <br />
+                    <h5>A. F. OSORE (MRS)</h5>
+                    <p> Registrar.</p>
+                </small>
+
+
+            </div>
+
+            <hr />
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-actions no-color">
+                    <div class="panel " style="padding-top:0px">
+                        <button id="aPrint" name="aPrint" class="btn btn-white btn-lg" onclick="window.print()"><i class="fa fa-print mr5"></i> Print Slip</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+

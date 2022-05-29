@@ -1,0 +1,134 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJambViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+}
+
+@if (Model == null || Model.Person == null || Model.AppliedCourse == null) { return; }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jquery")
+            <script type="text/javascript">
+                $("#aPrint").on('click', function() {
+                    $(".printable").print();
+                    return false;
+                });
+            </script>
+        }
+
+    <div id="printable" class="container">
+
+        <div class="custom-text-black" style="border:1px solid green">
+            <center>
+                <div>
+                    <img src="@Url.Content("~/Content/Images/school_logo.jpg")" width="100px" height="100px" alt="" />
+                    <td>
+                        <h3><strong>THE FEDERAL POLYTECHNIC, ILARO</strong></h3>
+                        <p>
+                            P.M.B. 50, ILARO, OGUN STATE.
+                        </p>
+                </div>
+            </center>
+        </div>
+    
+        <br />
+
+        <center>
+            <h2> <p class="custom-text-black">Acknowledgment Slip For @Model.Session.Name Session Admission </p></h2>
+            </center>
+            <hr class="no-top-padding" />
+
+            <div class="row ">
+                <div class="col-md-12">
+                    <img src="@Url.Content('~' + Model.Person.ImageFileUrl)" alt="" style="max-height:150px" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 custom-text-black" style="text-align:justify">
+                    <br />
+                    Dear @Model.Person.FullName,
+                    @if (Model.Programme.Id == 1 || Model.Programme.Id == 2 || Model.Programme.Id == 7 || Model.Programme.Id == 9)
+                    {
+                        <p>
+                            I hereby acknowledge the receipt of your application with Application No. <b>@Model.ApplicationFormNumber</b> for admission to this Polytechnic for a course of study leading to <b>@Model.Programme.ShortName (@Html.DisplayFor(model => model.AppliedCourse.Department.Name))</b>.
+                            Please print your Acknowledgment for record purposes.
+                        </p>
+                    }
+                    else
+                    {
+                        if (Model.ApplicationForm.Rejected == false)
+                        {
+                             <p>
+                            I hereby acknowledge the receipt of your application with Application No. <b>@Model.ApplicationFormNumber</b> for admission to this Polytechnic for a course of study leading to <b>@Model.Programme.ShortName (@Html.DisplayFor(model => model.AppliedCourse.Department.Name))</b>.
+                            Please print your Acknowledgment and Screening Slip by clicking on appropriate button below. Come with the slips on the screening date.
+                            </p>
+                        }
+                    else
+                        {
+                             <p>
+                            I regret to inform you that your application into the polytechnic was declined because you failed to meet the entry requirements for the applied course.<br/>
+                             
+                                 <cite>Reject Reason : @Model.ApplicationForm.RejectReason</cite>
+                             
+                             </p>
+                            
+                        }
+                    }
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 custom-text-black">
+                    <br/>
+                    <img src=@Url.Content("~/Content/Images/Registrar_signature.jpg") alt="" style="max-height: 50px"/>
+                    <br/>
+                    <h5>A. F. OSORE (MRS)</h5>
+                    <p> Registrar.</p>
+                </div>
+            </div>
+
+            <hr class="no-top-padding" />
+</div>
+
+
+
+    <div class="container">
+        <div class="col-md-12">
+            <div class="form-actions no-color">
+                <div class="panel " style="padding-top:0px">
+                    <button id="aPrint" class="btn btn-white btn-lg "><i class="fa fa-print mr5"></i> Print Slip</button>
+                   
+                    @if (Model.Programme.Id == 1 || Model.Programme.Id == 2 || Model.Programme.Id == 9)
+                    {
+                        @Html.ActionLink("Print Screening Slip","ExamSlip",null,new { @class = "btn btn-white btn-lg ",target = "_blank" })
+                    }
+                    else
+                    {
+                        if (Model.ApplicationForm.Rejected == false)
+                        {
+                            @Html.ActionLink("Print Screening Slip", "ExamSlip", null, new { @class = "btn btn-white btn-lg", target = "_blank" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Fill Another Form", "PostJambProgramme", null, new { @class = "btn btn-white btn-lg" })
+                        }
+                    }
+
+                    <a class="btn btn-white btn-lg " href="http://www.federalpolyilaro.edu.ng/web/"><i class="fa fa-home mr5"></i>Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+

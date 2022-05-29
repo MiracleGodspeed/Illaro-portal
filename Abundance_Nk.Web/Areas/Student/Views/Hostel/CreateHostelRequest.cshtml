@@ -1,0 +1,83 @@
+﻿@model Abundance_Nk.Web.Areas.Student.ViewModels.HostelViewModel
+@{
+    ViewBag.Title = "CreateHostelRequest";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    if (!string.IsNullOrEmpty(User.Identity.Name))
+    {
+        Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+    <div class="container margin-both">
+      
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+         
+                <div class="panel">
+                           <div class="panel-heading">
+                    <h3>Request for Hostel Allocation</h3>
+                </div>
+
+               
+
+                    <section id="loginForm">
+                        @using (Html.BeginForm("CreateHostelRequest", "Hostel", new { Area = "Student" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+
+                            <div class="panel-body">
+                                <p>Please enter your <b>Matriculation Number</b> or <b>Acceptance Confirmation Order Number</b> in the box below to submit a request for hostel allocation</p>
+                                <hr class="no-top-padding" />
+
+
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Student.MatricNumber, "Matric Number or CON", new { @class = "col-md-12 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.Student.MatricNumber, new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Student.MatricNumber, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+
+                             
+                                    <div class="form-group">
+                                        <div class="col-md-offset-4 col-md-8 padding-both">
+                                            <input type="submit" value="Submit" class="btn btn-success" />
+                                        </div>
+                                    </div>
+                                </div>
+                        
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @if (TempData["Message"] != null)
+                                        {
+                                            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                                        }
+                                    </div>
+                                </div>
+                                }
+</section>
+
+                </div>
+
+                </div>
+
+
+
+            </div>
+ 
+  
+    </div>
+
+

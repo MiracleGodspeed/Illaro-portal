@@ -1,0 +1,76 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.AdmissionViewModel
+
+
+<br />
+
+<div style="margin-bottom:15px; text-align:justify">
+
+    <p style="color:darkgreen; font-weight:bold">
+        Congratulations! You have been given a Provisional Admission into Federal Polytechnic, Ilaro
+    </p>
+
+    <small>This marks the first step of your admission process. Click on the <b>Next</b> button below, to proceed to the next step.</small>
+    @*<small>
+            This marks the first step of your admission process. Click on the <b>Generate Invoice</b> button below, to generate your invoice and print same by clicking the <b>Print Invoice</b> button.
+            Then proceed to the bank for payment with the generated Invoive Number. Good Luck!<cite title="Source Title"></cite>
+        </small>*@
+
+</div>
+
+@*TempData.Keep("To")*@
+
+@*<h3>Generate Acceptance Invoice</h3>*@
+
+<div class="row">
+    <div class="col-sm-12 ">
+        <div class="well">
+
+            <div class="form-group ">
+                @Html.Label("Application Form Invoice", new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9" style="font-weight:bold">
+                    @Html.DisplayFor(model => model.Payment.InvoiceNumber, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <div class="col-sm-3 "></div>
+                <div class="col-sm-9 ">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            @*<button class="btn btn-success btn-metro mr5" type="button" name="btnGenerateAcceptanceInvoice" id="btnGenerateAcceptanceInvoice">Generate Invoice</button>*@
+                            <button class="btn btn-white btn-lg" type="button" name="btnStep1Next" id="btnStep1Next">Next Step</button>
+                        </div>
+
+                        @*<div class="form-group margin-bottom-0">
+                                <div id="divProcessingAcceptanceInvoice" style="display:none">
+                                    <img src="@Url.Content("~/Content/Images/bx_loader.gif")" />
+                                    <span>Processing ...</span>
+                                </div>
+                            </div>*@
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-inline">
+
+            <div class="form-group margin-bottom-0">
+                @Html.ActionLink("Print Admission Slip", "AdmissionSlip", "Credential", new { Area = "Common", fid = Abundance_Nk.Web.Models.Utility.Encrypt(Model.ApplicationForm.Id.ToString()) }, new { @class = "btn btn-white btn-lg ", target = "_blank", id = "alPrintAcceptanceReceipt" })
+            </div>
+
+
+            @if (Model.ChangeOfCourseApplies == true)
+            {
+                <div id="ChangeOfCourseApplies" class="form-group margin-bottom-0" style="display:none">
+                    @Html.ActionLink("Generate Change of Course Invoice", "GenerateChangeOfCourseInvoice", "Admission", new { formId = Abundance_Nk.Web.Models.Utility.Encrypt(Model.ApplicationForm.Id.ToString()) }, new { @class = "btn btn-white btn-lg", target = "_blank" })
+                </div>
+            }
+
+        </div>
+
+        @*<br />
+            <div id="divAcceptanceInvoiceResult"></div>*@
+
+    </div>
+</div>

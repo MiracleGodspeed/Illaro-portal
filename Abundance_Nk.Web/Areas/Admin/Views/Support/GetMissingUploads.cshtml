@@ -1,0 +1,247 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.SupportViewModel
+@{
+    /**/
+
+    ViewBag.Title = "Missing Uploaded Credentials";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Scripts {
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.js"></script>
+
+    <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+
+    <script type="text/javascript">
+        //var jqueryVersion = $.noConflict(true);
+        $(function () {
+
+
+            $.extend($.fn.dataTable.defaults, {
+                responsive: false
+            });
+
+            $("#myTable").DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible',
+                            header: true,
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+
+
+
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    }, , 'colvis'
+                ]
+            });
+
+            $("#submit").click(function () {
+                $('#submit').attr('disable', 'disable');
+            });
+        });
+    </script>
+}
+<div class="col-md-10 ml-auto mr-auto">
+
+    @if (TempData["Message"] != null)
+    {
+        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+    }
+
+    <div class="card card-shadow">
+        <div class="card-header">
+            <h3 class="card-title">Not Found Credentials</h3>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("GetMissingUploads", "Support", new { area = "Admin" }, FormMethod.Post))
+            {
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(model => model.Session.Name, "Session", new { @class = "col-sm-12 control-label " })
+                        <div class="col-sm-12">
+                            @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control", @id = "Session", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.Session.Id, null, new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(model => model.Programme.Name, "Programme", new { @class = "col-sm-12 control-label " })
+                        <div class="col-sm-12">
+                            @Html.DropDownListFor(model => model.Programme.Id, (IEnumerable<SelectListItem>)ViewBag.Programme, new { @class = "form-control", @id = "Programme", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.Programme.Id, null, new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group  col-md-12">
+
+                        <div class="col-sm-7">
+                            <input class="btn btn-success mr5 " type="submit" name="submit" id="submit" value="View" />
+
+                        </div>
+                    </div>
+                </div>
+
+
+                }
+
+            </div>
+
+        @if (Model.MissingDocumentsList != null && Model.MissingDocumentsList.Count > 0)
+        {
+            
+        <div class="card-body">
+            <span style="display: none" id="load"><img src="~/Content/Images/bx_loader.gif" /></span>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped" id="myTable">
+                    <thead>
+
+                        <tr><th>
+                            S/N
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Application Number
+                            </th>
+                            <th>
+                                Phone No.
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                OLevel Setting
+                            </th>
+                            <th>
+                                Olevel Result
+                            </th>
+
+                            <th>
+                                ND Result
+                            </th>
+                            <th>
+                                Certificate
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.MissingDocumentsList.Count; i++)
+                        {
+                            var sn = i + 1;
+                            <tr>
+
+                                @*@Html.HiddenFor(model => model.ApplicantResults[i].PersonId)*@
+                                <td>@sn</td>
+                                <td>
+                                    @Model.MissingDocumentsList[i].Name.ToUpper()
+                                </td>
+                                <td>
+                                    @Model.MissingDocumentsList[i].ApplicationNumber.ToUpper()
+                                </td>
+                                <td>
+                                    @Model.MissingDocumentsList[i].PhoneNo
+                                </td>
+                                <td>
+                                    @Model.MissingDocumentsList[i].Email
+                                </td>
+                                <td>
+                                    @Model.MissingDocumentsList[i].Department
+                                </td>
+                                <td>
+                                    @Model.MissingDocumentsList[i].OlevelSitting
+                                </td>
+                                <td>
+                                    @Model.MissingDocumentsList[i].Olevel
+                                </td>
+                                <td>
+                                    @Model.MissingDocumentsList[i].NDResult
+                                </td>
+                                <td>
+                                    @Model.MissingDocumentsList[i].Certificate
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
+
+            }
+
+        </div>
+</div>

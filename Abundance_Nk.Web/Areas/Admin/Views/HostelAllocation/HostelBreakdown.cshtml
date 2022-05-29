@@ -1,0 +1,130 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.HostelViewModel
+@{
+    ViewBag.Title = "Allocation Breakdown";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+    var allocationBreakdown = [];
+
+    function reloadTable() {
+        var sessionId = event.target.value;
+
+        if (sessionId > 0) {
+
+            $("#progress").show();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetHostelAllocationBreakdown", "HostelAllocation")', // Calling json method
+                dataType: 'json',
+                data: { sessionId: sessionId },
+                success: function (result) {
+                    if (!result.IsError) {
+                        if (result.AllocationBreakdown && result.AllocationBreakdown.length > 0) {
+                            allocationBreakdown = [];
+                            $.each(result.AllocationBreakdown, function (i, model) {
+                                allocationBreakdown.push(model);
+                            });
+
+                            populateTable();
+                        }
+                    } else {
+                        alert(result.Message);
+                    }
+
+                    $("#progress").hide();
+                },
+                error: function (ex) {
+                    alert('Failed.' + ex);
+                    $("#progress").hide();
+                }
+            });
+        }
+    }
+
+    function populateTable() {
+        $("#tbl_count").empty();
+
+        $.each(allocationBreakdown, function(i, model) {
+            $("#tbl_count").append('<tr><td>' + model.Level + '</td>' +
+                                    '<td>' + model.Sex + '</td>' +
+                                    '<td><input type="number" disabled="disabled" value="' + model.Requested + '"/></td>' +
+                                    '<td><input type="number" disabled="disabled" value="' + model.Approved + '"/></td>' +
+                                    '<td><input type="number" disabled="disabled" value="' + model.Count + '"/></td>' +
+                                    '<td><input type="number" disabled="disabled" value="' + model.Allocated + '"/></td></tr>');
+        });
+    }
+    
+</script>
+
+<div class="col-md-12">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+        <div class="panel panel-default">
+            <div class="panel-heading panel-dark-head">
+                <h4>Hostel Allocation Breakdown</h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="panel panel-danger">
+                    <div class="panel-body">
+
+
+
+                        <div class="row">
+
+                            <div class="form-group col-md-5">
+                                @Html.LabelFor(model => model.Session.Id, "Session", new { @class = "control-label col-md-2" })
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control", onchange = "reloadTable()" })
+                                    @Html.ValidationMessageFor(model => model.Session.Id, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <span id="progress" style="display: none;" class="pull-left"><img src="~/Content/Images/bx_loader.gif" width="30px" height="30px"></span>
+
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <table class="table-bordered table-hover table-striped table-responsive table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Level
+                                    </th>
+                                    <th>
+                                        Hostel Type
+                                    </th>
+                                    <th>
+                                        Requested
+                                    </th>
+                                    <th>
+                                        Approved Request
+                                    </th>
+                                    <th>
+                                        Remaining Allocation Count
+                                    </th>
+                                    <th>
+                                        Allocated BedSpaces
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_count"></tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+

@@ -1,0 +1,442 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJambViewModel
+
+@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model == null || Model.Person == null)
+{
+    return;
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery.print.js"></script>
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#submit').attr('disabled', 'disabled');
+        });
+
+        $(function () {
+            $('#checkboxshadow').click(function () {
+                if ($(this).is(':checked')) {
+                    $('#submit').removeAttr('disabled');
+                } else {
+
+                    $('#submit').attr('disabled', 'disabled');
+                }
+            });
+        });
+
+    </script>
+}
+
+
+    <div class="container">
+
+        <div class="card card-shadow">
+            <div class="card-body">
+               
+                    
+                        <div class="col-md-12">
+                            <div>
+                                @if (TempData["Message"] != null)
+                                {
+
+                                    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                                }
+                            </div>
+
+                            <div id="slip">
+                                @using (Html.BeginForm("PostJambPreview", "Form", FormMethod.Post, new { id = "frmPostJAMBPreview", enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <center>
+                                        <div class="alert alert-success nomargin">
+                                            <h2><b>@Model.AppliedCourse.Programme.Name</b></h2>
+                                            <p>NB: Please, after you have been offered admission, you will not be able to make any modifications</p>
+                                        </div>
+
+                                        <br />
+                                    </center>
+                                    <div class="card card-shadow">
+                                        <div class="card-header" style="color: white;background-color: #005123;padding: 8px 15px;border-radius: 5px 5px 0 0;">
+                                            <h3>Bio Data</h3>
+
+                                            @if (Model.ApplicationForm != null && Model.ApplicationForm.Id > 0)
+                                            {
+                                                @Html.HiddenFor(model => model.ApplicationForm.Id)
+                                                @Html.HiddenFor(model => model.ApplicationForm.Number)
+                                                @Html.HiddenFor(model => model.ApplicationForm.ExamNumber)
+                                                @Html.HiddenFor(model => model.ApplicationForm.Rejected)
+                                                @Html.HiddenFor(model => model.ApplicationForm.RejectReason)
+                                            }
+
+                                            @Html.HiddenFor(model => model.Session.Id)
+                                            @Html.HiddenFor(model => model.Session.Name)
+
+                                            @Html.HiddenFor(model => model.ApplicationFormSetting.Id)
+                                            @Html.HiddenFor(model => model.ApplicationFormSetting.PaymentMode.Id)
+                                            @Html.HiddenFor(model => model.ApplicationFormSetting.PaymentType.Id)
+                                            @Html.HiddenFor(model => model.ApplicationFormSetting.PersonType.Id)
+                                            @Html.HiddenFor(model => model.ApplicationFormSetting.Session.Id)
+                                            @Html.HiddenFor(model => model.ApplicationFormSetting.ExamDate)
+                                            @Html.HiddenFor(model => model.ApplicationFormSetting.ExamVenue)
+                                            @Html.HiddenFor(model => model.ApplicationFormSetting.ExamTime)
+
+                                            @Html.HiddenFor(model => model.ApplicationProgrammeFee.FeeType.Id)
+                                            @Html.HiddenFor(model => model.ApplicationProgrammeFee.Id)
+
+                                            @Html.HiddenFor(model => model.Programme.Id)
+                                            @Html.HiddenFor(model => model.Programme.Name)
+                                            @Html.HiddenFor(model => model.Programme.ShortName)
+
+                                            @Html.HiddenFor(model => model.AppliedCourse.Programme.Id)
+                                            @Html.HiddenFor(model => model.AppliedCourse.Programme.Name)
+                                            @Html.HiddenFor(model => model.AppliedCourse.Department.Id)
+                                            @Html.HiddenFor(model => model.AppliedCourse.Department.Code)
+
+                                            @Html.HiddenFor(model => model.Person.Id)
+                                            @Html.HiddenFor(model => model.Payment.Id)
+                                            @Html.HiddenFor(model => model.remitaPyament.payment.Id)
+
+                                            @Html.HiddenFor(model => model.Person.DateEntered)
+                                            @Html.HiddenFor(model => model.Person.FullName)
+                                            @Html.HiddenFor(model => model.ApplicationAlreadyExist)
+                                        </div>
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 custom-text-black">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <img src="@Url.Content('~' + Model.Person.ImageFileUrl)" alt=" " style=" max-width:150px" />
+                                                    @*<img src="@Url.Content(@Model.PassportUrl)" alt=" " style=" max-width:150px" />*@
+                                                    
+                                                </div>
+                                            </div>
+
+                                            <br />
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.LastName, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.LastName)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.FirstName, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.FirstName)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.OtherName, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.OtherName)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.Sex.Id, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.Sex.Name)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.DateOfBirth, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.DateOfBirth, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.State.Id, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.State.Name)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.LocalGovernment.Id, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.LocalGovernment.Name)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.HomeTown, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.HomeTown)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.MobilePhone, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.MobilePhone)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.Email, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.Email)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.Religion.Id, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.Religion.Name)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Person.HomeAddress, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Person.HomeAddress)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Applicant.Ability.Id, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Applicant.Ability.Name)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Applicant.OtherAbility, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Applicant.OtherAbility)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Applicant.ExtraCurricullarActivities, new { @class = "control-label " })
+                                                        </div> 
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Applicant.ExtraCurricullarActivities)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                      
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="card card-shadow">
+                                        <div class="card-header" style="color: white;background-color: #005123;padding: 8px 15px;border-radius: 5px 5px 0 0;">
+                                            <div style="font-size:x-large">Next of Kin</div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Sponsor.Name, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Sponsor.Name)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Sponsor.ContactAddress, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Sponsor.ContactAddress)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Sponsor.MobilePhone, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Sponsor.MobilePhone)
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group margin-bottom-0">
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Sponsor.Relationship.Id, new { @class = "control-label " })
+                                                        </div>
+                                                        <div class="col-md-8 text-bold custom-text-black">
+                                                            @Html.DisplayFor(model => model.Sponsor.Relationship.Name)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    if (Model != null)
+                                    {
+                                        @Html.Partial("_OLevelResultPreview", Model)
+                                    }
+                                    
+                                    if (Model != null && Model.Programme != null )
+                                    {
+                                        if (Model.Programme.Id == 3 || Model.Programme.Id == 4 || Model.Programme.Id == 5 || Model.Programme.Id == 8)
+                                        {
+                                            @Html.Partial("_TertiaryEducationPreview", Model)
+                                        }
+                                        else if (Model.Programme.Id == 1 || Model.Programme.Id == 2 || Model.Programme.Id == 9) 
+                                        {
+                                            @Html.Partial("_JambDetailPreview", Model)
+                                        }
+                                    }
+
+                                    <div class="card card-shadow">
+                                        <div class="card-header">
+                                            <div style="font-size:x-large">Declaration</div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                
+                                                        @*<i class="fa fa-quote-left"></i>*@
+                                                        <div class="col-md-12 bg-light">
+                                                            I hereby acknowledge by ticking this check box that if it is discovered at any time that I do not possess any of the qualifications which I claim
+                                                            I have obtained, I will be expelled from the Polytechnic and shall not be re-admitted for the same or any other programme, even if I have upgraded my previous qualifications or possess additional qualifications.
+                                                        </div>
+                                            
+
+                                                    <div class="ckbox ckbox-shadow">
+                                                        <input type="checkbox" id="checkboxshadow" />
+                                                        <label for="checkboxshadow"><b style="font-size:13pt">I Agree</b></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card card-shadow">
+
+                                       
+                                        <button class="btn btn-success btn-lg" type="submit" name="submit" id="submit"><i class="fa fa-save mr5"></i> Submit</button>
+                                        @Html.ActionLink("Back to Form", "PostJambForm", null, new { @class = "btn btn-white btn-lg mr5" })
+                                        <div id="busy" style="display:none">Processing ...</div>
+                                    </div>
+
+                                    <br />
+
+                                    <div>
+                                        @if (TempData["Message"] != null)
+                                        {
+                                            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                                        }
+                                    </div>
+                                }
+
+
+
+
+                            </div>
+                        </div>
+                   
+       
+        </div>
+    </div>
+
+        </div>
+

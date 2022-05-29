@@ -1,0 +1,69 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.SupportViewModel
+
+@{
+    ViewBag.Title = "UpdatePayment";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+
+            @if (TempData["Message"] != null)
+            {
+                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div style="font-size:x-large">Re-assign Matric Number</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <blockquote><small>Ensure the student is in the correct department before proceeding.</small></blockquote>
+                    </div>
+
+                    @using (Html.BeginForm("ReassignMatricNumber", "Support", new { area = "Admin" }, FormMethod.Post))
+                    {
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Student.MatricNumber, "Matric Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(model => model.Student.MatricNumber, new { @class = "form-control", @placeholder = "Enter Student Matric Number", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Student.MatricNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Session.Id, "Session", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Submit" class="btn btn-success mr5" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-1"></div>
+        
+       
+    </div>
+</div>
+

@@ -1,0 +1,283 @@
+﻿
+@model Abundance_Nk.Web.Areas.Admin.ViewModels.StudentClearanceViewModel
+@{
+    ViewBag.Title = "LibraryStudentClearance";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Scripts {
+
+
+    <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $.extend($.fn.dataTable.shadows, {
+                responsive: false
+            });
+
+            $("#clearanceTable").DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible',
+                            header: true,
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+
+
+
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    }, , 'colvis'
+                ]
+            });
+        })
+    </script>
+}
+
+<div class="col-md-10 ml-auto mr-auto">
+
+    <div>
+        @if (TempData["Message"] != null)
+            {
+            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+        }
+    </div>
+
+    <div class="card card-shadow">
+        <div class="card-header">
+            <h4>Student Affair Clearance</h4>
+        </div>
+    
+
+        <div class="card-body">
+
+
+            <section class="container">
+
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-pending-tab" data-toggle="tab" href="#nav-pending" role="tab" aria-controls="nav-pending" aria-selected="true">Pending Requests</a>
+
+                        <a class="nav-item nav-link" id="nav-rejected-tab" data-toggle="tab" href="#nav-rejected" role="tab" aria-controls="nav-rejected" aria-selected="false">Rejected</a>
+
+                        <a class="nav-item nav-link" id="nav-approved-tab" data-toggle="tab" href="#nav-approved" role="tab" aria-controls="nav-approved" aria-selected="false">Approved</a>
+                    </div>
+                </nav>
+
+
+                <div class="tab-content pl-0 pr-0 pt-3" id="nav-tabContent">
+
+                    <!--================Tab 1 Content start===============-->
+                    <div class="tab-pane fade show active" id="nav-pending" role="tabpanel" aria-labelledby="nav-pending-tab">
+
+
+                        @*<div class="bg-danger"><br />"ok" + @Model.ClearanceStatus.Name</div>
+                        @if (Model.ClearanceStatus != null)
+                        {
+
+                        }*@
+
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="clearanceTable">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+
+                                        <th>
+                                            Name Of Student
+                                        </th>
+                                        <th>
+                                            Matric Number
+                                        </th>
+                                        <th>
+                                            Department
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                        <th>
+                                            Dispute
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.ClearanceLogs.Count; i++)
+                                    {
+                                        var sn = i + 1;
+                                        <tr>
+
+                                            @Html.HiddenFor(model => model.ClearanceLogs[i].Id)
+                                            <td>@sn</td>
+                                            <td class="text-capitalize">
+                                                @Model.ClearanceLogs[i].Student.FullName
+                                            </td>
+                                            <td>
+                                                @Model.ClearanceLogs[i].Student.MatricNumber
+                                            </td>
+                                            <td>
+                                                Department
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Accept", "ClearStudent", new { area = "Admin", controller = "StudentClearance", Id = @Model.ClearanceLogs[i].Id, unit = "affair" }, new { @class = "btn btn-success mr5" })
+
+                                                @Html.ActionLink("Decline", "IncompleteClearance", new { area = "Admin", controller = "StudentClearance", Id = @Model.ClearanceLogs[i].Id, unit = "affair" }, new { @class = "btn btn-danger mr5" })
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-link">View Dispute</button>
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                    </div>
+                    <!--================Tab 1 Content end===============-->
+                    <!--================Tab 2 Content start===============-->
+                    <div class="tab-pane fade" id="nav-rejected" role="tabpanel" aria-labelledby="nav-rejected-tab">
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>S/No</th>
+                                        <th>Student Name</th>
+                                        <th>Matric Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Joe Abah</td>
+                                        <td>FPN/124/UME</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Jane Ebeh</td>
+                                        <td>FPN/122/DE</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <!--================Tab 2 Content end===============-->
+                    <!--================Tab 3 Content start===============-->
+                    <div class="tab-pane fade" id="nav-approved" role="tabpanel" aria-labelledby="nav-approved-tab">
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>S/No</th>
+                                        <th>Student Name</th>
+                                        <th>Matric Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td>King Promise</td>
+                                        <td>FPN/123/UME</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Qween Precious</td>
+                                        <td>FPN/224/UME</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <!--================Tab 3 Content end===============-->
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+    </div>
+</div>
+
+

@@ -1,0 +1,152 @@
+﻿@*@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJAMBProgrammeViewModel*@
+@model Abundance_Nk.Web.Areas.Student.ViewModels.PaymentViewModel
+
+@{
+    //Layout = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Post JAMB Programme";
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var selectedProgramme = $("#Programme_Id").val();
+        if (selectedProgramme == 1 || selectedProgramme == 2)
+        {
+            $("#divJambNo").show();
+        }
+        else {
+            $("#divJambNo").hide();
+        }
+
+        //if ($('#rdYesRadio').is(':checked')) {
+        //    $('#divOrderNo').hide();
+        //    $('#divProgramme').show();
+        //}
+        //else if ($('#rdNoRadio').is(':checked')) {
+        //    $('#divProgramme').hide();
+        //    $('#divOrderNo').show();
+        //}
+
+        $("#Programme_Id").change(function () {
+            var programme = $("#Programme_Id").val();
+            if (programme == 3) {
+                $("#divJambNo").hide();
+            }
+            else {
+                $("#divJambNo").show();
+            }
+
+            $("#AppliedCourse_Department_Id").empty();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartmentByProgrammeId")', //calling json method
+                dataType: 'json',
+                data: { id: programme },
+                success: function (departments) {
+                    $("#AppliedCourse_Department_Id").append('<option value="' + 0 + '"> -- Select -- </option>');
+
+                    $.each(departments, function (i, department) {
+                        $("#AppliedCourse_Department_Id").append('<option value="' + department.Value + '">' + department.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve departments.' + ex);
+                }
+            });
+        })
+
+        $('#rdNoRadio').click(function () {
+            if ($(this).is(':checked')) {
+                $('#divProgramme').hide();
+                $('#divOrderNo').show();
+            }
+        });
+
+        $('#rdYesRadio').click(function () {
+            if ($(this).is(':checked')) {
+                $('#divOrderNo').hide();
+                $('#divProgramme').show();
+            }
+        });
+    })
+
+    //$(function () {
+    //    $('#rdYesRadio').click(function () {
+    //        if ($(this).is(':checked')) {
+    //            $('#divOrderNo').attr('disabled', 'disabled');
+    //            $('#divProgramme').removeAttr('disabled');
+    //        }
+    //    });
+    //});
+
+    //$(function () {
+    //    $('#rdNoRadio').click(function () {
+    //        if ($(this).is(':checked')) {
+    //            $('#divProgramme').attr('disabled', 'disabled');
+    //            $('#divOrderNo').removeAttr('disabled');
+    //        }
+    //    });
+    //});
+
+</script>
+
+@using (Html.BeginForm("PayShortFallFee", "Form", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <div class="panel">
+                    <div class="panel-heading"><h3>RRR Number</h3></div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+
+                                <div class="bg-light" style="margin-bottom:15px">
+                                    <blockquote>
+                                        <p class="custom-text-black" style="padding:10px;">
+                                            <b>
+                                                Kindly enter your RRR for Shortfall payment to generate receipt
+                                            </b>
+                                        </p>
+
+                                    </blockquote>
+                                </div>
+
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    @if (TempData["Message"] != null)
+                                    {
+                                        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                                    }
+                                    <div class="col-md-8 form-group">
+                                        <label style="font-size:10pt"> Please enter your RRR Number</label>
+                                        @Html.TextBoxFor(model => model.PaymentEtranzact.ConfirmationNo, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.PaymentEtranzact.ConfirmationNo, null, new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-4 form-group" style="padding:20px;">
+                                        <button class="btn btn-success" type="submit" name="submit" id="submit" value="Next">
+                                            Next
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+}

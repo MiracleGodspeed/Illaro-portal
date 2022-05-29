@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2938226f827f4f64a69bba805bedcdbe" Name="Diagram1" ZoomLevel="55">
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_DEFERMENT_LOG1" Width="1.5" PointX="35.75" PointY="102.75" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_DEFERMENT_LOG_SEMESTER1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_DEFERMENT_LOG_SESSION1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_DEFERMENT_LOG_STUDENT1" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ABILITY" Width="1.5" PointX="14.25" PointY="96.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ACADEMIC_STANDING" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ADMISSION_CRITERIA" Width="1.5" PointX="20.25" PointY="86.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ADMISSION_CRITERIA_FOR_O_LEVEL_SUBJECT" Width="1.5" PointX="30.5" PointY="87.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ADMISSION_CRITERIA_FOR_O_LEVEL_SUBJECT_ALTERNATIVE" Width="1.5" PointX="33.75" PointY="95.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ADMISSION_CRITERIA_FOR_O_LEVEL_TYPE" Width="1.5" PointX="22.5" PointY="102.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ADMISSION_LIST" Width="1.5" PointX="19.5" PointY="126.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ADMISSION_LIST_AUDIT" Width="1.5" PointX="24.75" PointY="129.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ADMISSION_LIST_BATCH" Width="1.5" PointX="17.25" PointY="148.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ADMISSION_LIST_TYPE" Width="1.5" PointX="15" PointY="148.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT" Width="1.5" PointX="16.5" PointY="118" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_APPLIED_COURSE" Width="1.5" PointX="22.5" PointY="118.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_APPLIED_COURSE_AUDIT" Width="1.5" PointX="24.75" PointY="122.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_CLEARANCE" Width="1.5" PointX="13.5" PointY="179.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_JAMB_DETAIL" Width="1.5" PointX="19.5" PointY="137.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_LEVEL" Width="1.5" PointX="19.5" PointY="123.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_O_LEVEL_RESULT" Width="1.5" PointX="13.5" PointY="114.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_O_LEVEL_RESULT_AUDIT" Width="1.5" PointX="18.75" PointY="112.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_O_LEVEL_RESULT_DETAIL" Width="1.5" PointX="15.75" PointY="114.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_O_LEVEL_RESULT_DETAIL_AUDIT" Width="1.5" PointX="15.75" PointY="109.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_SPONSOR" Width="1.5" PointX="19.5" PointY="119.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_STATUS" Width="1.5" PointX="14.25" PointY="100.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICATION_FORM" Width="1.5" PointX="11.25" PointY="124.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICATION_FORM_SETTING" Width="1.5" PointX="9" PointY="126.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICATION_PROGRAMME_FEE" Width="1.5" PointX="9" PointY="94.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ATTENDANCE" Width="1.5" PointX="28.75" PointY="100.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ATTENDANCE_STATUS" Width="1.5" PointX="26.5" PointY="86.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.BANK" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.BANK_BRANCH" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.BLOOD_GROUP" Width="1.5" PointX="20.25" PointY="107.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CARD_PAYMENT" Width="1.5" PointX="8.25" PointY="132.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CHANGE_OF_COURSE" Width="1.5" PointX="16.5" PointY="136" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CLASS_ASSESSMENT" Width="1.5" PointX="28.5" PointY="157.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CLASS_ROOM" Width="1.5" PointX="23.25" PointY="153.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CLEARANCE_DISPUTES" Width="1.5" PointX="30" PointY="114.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CLEARANCE_LOG" Width="1.5" PointX="27.75" PointY="121.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CLEARANCE_STATUS" Width="1.5" PointX="25.5" PointY="146" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CLEARANCE_UNITS" Width="1.5" PointX="25.5" PointY="116.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COMPLAIN_LOG" Width="1.5" PointX="23.25" PointY="92.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CONFRENCE" Width="1.5" PointX="8.25" PointY="158.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COUNTRY" Width="1.5" PointX="28.5" PointY="145.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COURSE" Width="1.5" PointX="28.5" PointY="107" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COURSE_ALLOCATION" Width="1.5" PointX="36.75" PointY="121.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COURSE_EVALUATION_ANSWER" Width="1.5" PointX="30.75" PointY="117.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COURSE_EVALUATION_QUESTION" Width="1.5" PointX="28.5" PointY="103.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COURSE_MODE" Width="1.5" PointX="27.75" PointY="115.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COURSE_REGISTRATION_STATUS" Width="1.5" PointX="20.25" PointY="102.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COURSE_TEACHER" Width="1.5" PointX="16.5" PointY="143.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COURSE_TYPE" Width="1.5" PointX="26.25" PointY="107" />
+        <EntityTypeShape EntityType="Abundance_NkModel.COURSE_UNIT" Width="1.5" PointX="31.5" PointY="94.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CURRENT_FEE" Width="1.5" PointX="4.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.CURRENT_SESSION_SEMESTER" Width="1.5" PointX="27.75" PointY="89.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DAY" Width="1.5" PointX="11.25" PointY="144.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DAY_ACTIVITY" Width="1.5" PointX="13.5" PointY="140.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DELIVERY_SERVICE" Width="1.5" PointX="26.25" PointY="92.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DELIVERY_SERVICE_ZONE" Width="1.5" PointX="28.5" PointY="95.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DEPARTMENT" Width="1.5" PointX="18" PointY="88.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DEPARTMENT_CAPACITY" Width="1.5" PointX="20.25" PointY="98.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DEPARTMENT_HEAD" Width="1.5" PointX="10.5" PointY="141.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DEPARTMENT_OPTION" Width="1.5" PointX="20.25" PointY="90.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DISPLAY_MESSAGE" Width="1.5" PointX="6.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.EDUCATIONAL_QUALIFICATION" Width="1.5" PointX="17.25" PointY="154.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FACULTY" Width="1.5" PointX="15.75" PointY="91.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FACULTY_OFFICER" Width="1.5" PointX="22" PointY="139.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FEE" Width="1.5" PointX="26.25" PointY="98.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FEE_DETAIL" Width="1.5" PointX="31.5" PointY="99.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FEE_DETAIL_AUDIT" Width="1.5" PointX="38.75" PointY="135.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FEE_TYPE" Width="1.5" PointX="6.75" PointY="90.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.GENERAL_AUDIT" Width="1.5" PointX="9" PointY="172.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.GENOTYPE" Width="1.5" PointX="20.25" PointY="110.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.GEO_ZONE" Width="1.5" PointX="26.25" PointY="95.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.GRADE_LEVEL" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL" Width="1.5" PointX="9" PointY="85.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_ALLOCATION" Width="1.5" PointX="14.25" PointY="126.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_ALLOCATION_COUNT" Width="1.5" PointX="22.5" PointY="111" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_ALLOCATION_CRITERIA" Width="1.5" PointX="22.5" PointY="106.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_AMOUNT" Width="1.5" PointX="11.25" PointY="86.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_BLACKLIST" Width="1.5" PointX="27.75" PointY="126.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_FEE" Width="1.5" PointX="11.25" PointY="121.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_REQUEST" Width="1.5" PointX="14.25" PointY="119.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_REQUEST_COUNT" Width="1.5" PointX="21.5" PointY="115.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_ROOM" Width="1.5" PointX="12" PointY="151.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_ROOM_CORNER" Width="1.5" PointX="12" PointY="148.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_SERIES" Width="1.5" PointX="9.75" PointY="151.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.HOSTEL_TYPE" Width="1.5" PointX="6.75" PointY="86.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ILLNESS" Width="1.5" PointX="7.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.INSTITUTION" Width="1.5" PointX="5" PointY="3.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.INSTITUTION_CHOICE" Width="1.5" PointX="17.25" PointY="160.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.INSTITUTION_TYPE" Width="1.5" PointX="2.75" PointY="3.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.IT_DURATION" Width="1.5" PointX="17.25" PointY="151.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.JOB_ROLE" Width="1.5" PointX="14.25" PointY="151.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.LEVEL" Width="1.5" PointX="17.25" PointY="99.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.LEVEL_CLASS_ROOM" Width="1.5" PointX="25.5" PointY="160.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.LOCAL_GOVERNMENT" Width="1.5" PointX="3.75" PointY="121.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.MARITAL_STATUS" Width="1.5" PointX="20.25" PointY="148" />
+        <EntityTypeShape EntityType="Abundance_NkModel.MENU" Width="1.5" PointX="7.5" PointY="180" />
+        <EntityTypeShape EntityType="Abundance_NkModel.MENU_GROUP" Width="1.5" PointX="5.25" PointY="180.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.MENU_IN_ROLE" Width="1.5" PointX="9.75" PointY="169.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.MODE_OF_ENTRY" Width="1.5" PointX="33.5" PointY="140.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.MODE_OF_FINANCE" Width="1.5" PointX="25.5" PointY="148.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.MODE_OF_STUDY" Width="1.5" PointX="33.5" PointY="142.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.NATIONALITY" Width="1.5" PointX="1.5" PointY="117.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.NEWS" Width="1.5" PointX="10.5" PointY="136.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.NEXT_OF_KIN" Width="1.5" PointX="22.5" PointY="134.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.O_LEVEL_EXAM_SITTING" Width="1.5" PointX="11.25" PointY="105.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.O_LEVEL_GRADE" Width="1.5" PointX="13.5" PointY="108.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.O_LEVEL_SUBJECT" Width="1.5" PointX="13.5" PointY="103.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.O_LEVEL_TYPE" Width="1.5" PointX="11.25" PointY="108" />
+        <EntityTypeShape EntityType="Abundance_NkModel.OCCUPATION" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.OFFENCE" Width="1.5" PointX="0.75" PointY="4.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.OFFENCE_DEGREE" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.OFFENCE_PUNISHMENT" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ONLINE_PAYMENT" Width="1.5" PointX="8.25" PointY="122.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT" Width="1.5" PointX="3" PointY="125.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT_CHANNEL" Width="1.5" PointX="6" PointY="118.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT_ETRANZACT" Width="1.5" PointX="10.5" PointY="112.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT_ETRANZACT_TYPE" Width="1.5" PointX="8.25" PointY="141.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT_MODE" Width="1.5" PointX="6.75" PointY="111.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT_PAYSTACK" Width="1.5" PointX="5.25" PointY="144.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT_SCHOLARSHIP" Width="1.5" PointX="11.25" PointY="118.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT_TERMINAL" Width="1.5" PointX="8.25" PointY="82.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT_TYPE" Width="1.5" PointX="6.75" PointY="114.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAYMENT_VERIFICATION" Width="1.5" PointX="11.25" PointY="133.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PERIOD" Width="1.5" PointX="11.25" PointY="155.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PERSON" Width="1.5" PointX="6" PointY="122.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PERSON_AUDIT" Width="1.5" PointX="17.25" PointY="121.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PERSON_LOGIN" Width="1.5" PointX="8.25" PointY="118.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PERSON_TYPE" Width="1.5" PointX="0.75" PointY="127" />
+        <EntityTypeShape EntityType="Abundance_NkModel.POST_UTME_RESULT" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PROGRAMME" Width="1.5" PointX="6.75" PointY="93.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PROGRAMME_DEPARTMENT" Width="1.5" PointX="23.25" PointY="86.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PUNISHMENT" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PUNISHMENT_STATUS" Width="1.5" PointX="9.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PUTME_RESULT" Width="1.5" PointX="9" PointY="145.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PUTME_RESULT_AUDIT" Width="1.5" PointX="11.25" PointY="159" />
+        <EntityTypeShape EntityType="Abundance_NkModel.RANKING_DATA" Width="1.5" PointX="8.25" PointY="162.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.RATING" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.RELATIONSHIP" Width="1.5" PointX="17.25" PointY="106.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.RELIGION" Width="1.5" PointX="3.75" PointY="136" />
+        <EntityTypeShape EntityType="Abundance_NkModel.REMITA_PAYMENT" Width="1.5" PointX="5.25" PointY="150.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.REMITA_PAYMENT_SETTINGS" Width="1.5" PointX="10.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.REMITA_SPLIT_DETAILS" Width="1.5" PointX="6.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.REPORT_CARD" Width="1.5" PointX="27.75" PointY="118.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.REPORT_CARD_COMMENT" Width="1.5" PointX="36" PointY="127.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.RESULT_GRADE" Width="1.5" PointX="17.25" PointY="157" />
+        <EntityTypeShape EntityType="Abundance_NkModel.RIGHT" Width="1.5" PointX="4.5" PointY="176.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ROLE" Width="1.5" PointX="4.5" PointY="171" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ROLE_RIGHT" Width="1.5" PointX="6.75" PointY="176.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SCORE_GRADE" Width="1.5" PointX="8.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SCRATCH_CARD" Width="1.5" PointX="14.25" PointY="132" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SCRATCH_CARD_BATCH" Width="1.5" PointX="12" PointY="98.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SCRATCH_CARD_TYPE" Width="1.5" PointX="9.75" PointY="99.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SECURITY_QUESTION" Width="1.5" PointX="4.5" PointY="168.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SEMESTER" Width="1.5" PointX="26.25" PointY="109.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SESSION" Width="1.5" PointX="6.75" PointY="101.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SESSION_SEMESTER" Width="1.5" PointX="25.5" PointY="101.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SEX" Width="1.5" PointX="3.75" PointY="132.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.SHORT_FALL" Width="1.5" PointX="5.25" PointY="156" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STAFF" Width="1.5" PointX="8.25" PointY="135.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STAFF_DEPARTMENT" Width="1.5" PointX="13.5" PointY="144.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STAFF_JOB_ROLE" Width="1.5" PointX="16.5" PointY="140.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STAFF_TYPE" Width="1.5" PointX="6" PointY="136.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STATE" Width="1.5" PointX="1.5" PointY="120.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STATE_GEO_ZONE" Width="1.5" PointX="32.5" PointY="113.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_ACADEMIC_INFORMATION" Width="1.5" PointX="35.75" PointY="134.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_ASSESSMENT_CRITERIA" Width="1.5" PointX="26.25" PointY="157.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_CATEGORY" Width="1.5" PointX="20.25" PointY="143" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_COURSE_REGISTRATION" Width="1.5" PointX="24.75" PointY="134.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_COURSE_REGISTRATION_DETAIL" Width="1.5" PointX="27" PointY="140.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_COURSE_REGISTRATION_DETAIL_AUDIT" Width="1.5" PointX="30" PointY="131.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_DEFERMENT_LOG" Width="1.5" PointX="33.75" PointY="127.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_EMPLOYMENT_INFORMATION" Width="1.5" PointX="24.75" PointY="197.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_EXAM_RAW_SCORE_SHEET_RESULT" Width="1.5" PointX="32.75" PointY="132.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_NOT_REGISTERED" Width="1.5" PointX="38.75" PointY="127.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_EXTRA_YEAR_SESSION" Width="1.5" PointX="14.25" PointY="136" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_FINANCE_INFORMATION" Width="1.5" PointX="27.75" PointY="134.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_LEVEL" Width="1.5" PointX="33.75" PointY="122.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_LEVEL_HISTORY" Width="1.5" PointX="10.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_MATRIC_NUMBER_ASSIGNMENT" Width="1.5" PointX="23.25" PointY="97.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_ND_RESULT" Width="1.5" PointX="24.75" PointY="142.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_PAYMENT" Width="1.5" PointX="24.75" PointY="119.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_RESULT" Width="1.5" PointX="25.5" PointY="151.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_RESULT_DETAIL" Width="1.5" PointX="27.75" PointY="137.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_RESULT_TYPE" Width="1.5" PointX="23.25" PointY="151.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_SCORE" Width="1.5" PointX="30.75" PointY="140.125" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_SEMESTER" Width="1.5" PointX="27.75" PointY="131.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_SPONSOR" Width="1.5" PointX="30.75" PointY="122.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_STATUS" Width="1.5" PointX="20.25" PointY="152.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_TYPE" Width="1.5" PointX="20.25" PointY="145.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_UPDATE_AUDIT" Width="1.5" PointX="35.75" PointY="131.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.TITLE" Width="1.5" PointX="20.25" PointY="150.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.TRANSCRIPT_CLEARANCE_STATUS" Width="1.5" PointX="28.5" PointY="150.5" />
+        <EntityTypeShape EntityType="Abundance_NkModel.TRANSCRIPT_STATUS" Width="1.5" PointX="28.5" PointY="148" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VENUE_DESIGNATION" Width="1.5" PointX="23.25" PointY="89.625" />
+        <EntityTypeShape EntityType="Abundance_NkModel.MIGRA" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PAID" Width="1.5" PointX="12.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.TEMPEVALUATIONTABLE" Width="1.5" PointX="12.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.tmp_CourseReg" Width="1.5" PointX="10.75" PointY="12.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.WRONG_CARRYOVER" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.ACCPTANCE__REPORT" Width="1.5" PointX="4.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ACCEPTANCE_REPORT" Width="1.5" PointX="14.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ADMISSION_AUDIT" Width="1.5" PointX="6.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ADMISSION_LIST" Width="1.5" PointX="14.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ADMISSION_LIST_ALL" Width="1.5" PointX="12.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ALL_PAYMENT_REPORT_NEW_STUDENTS" Width="1.5" PointX="14.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ALL_PAYMENT_REPORT_RETURNING_STUDENT" Width="1.5" PointX="8.75" PointY="15.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_APPLICANT_PAYMENT" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_APPLICANT_RESULT" Width="1.5" PointX="16.75" PointY="11.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_APPLICATION_EXAM_NUMBER" Width="1.5" PointX="18.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_APPLICATION_FORM_SUMMARY" Width="1.5" PointX="2.75" PointY="18.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_APPLIED_COURSE_AUDIT" Width="1.5" PointX="18.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ASSIGNED_MATRIC_NUMBER" Width="1.5" PointX="18.75" PointY="12.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_CERTIFICATE_VERFICATION_REMITA" Width="1.5" PointX="18.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_CONFIRMED_PAYMENTS" Width="1.5" PointX="4.75" PointY="19.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_COURSE_EVALUATION_SCORES" Width="1.5" PointX="10.75" PointY="19.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_COURSE_REGISTRATION_SUMMARY" Width="1.5" PointX="20.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_DEBTORS_NEW_STUDENT" Width="1.5" PointX="20.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_DEBTORS_OLD_STUDENT" Width="1.5" PointX="20.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_DEPARTMENT_OPTION" Width="1.5" PointX="20.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_DUPLICATE_APPLICATION_NUMBER" Width="1.5" PointX="20.75" PointY="17.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_GENERAL_AUDIT" Width="1.5" PointX="14.75" PointY="21.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_HND_APPLICANTS" Width="1.5" PointX="22.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_HOSTEL_ALLOCATION_COUNT" Width="1.5" PointX="0.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_NEW_STUDENT" Width="1.5" PointX="2.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_OLD_STUDENT" Width="1.5" PointX="4.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAID_FEES_NOT_REGISTERED" Width="1.5" PointX="22.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT" Width="1.5" PointX="6.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_ETRANZACT" Width="1.5" PointX="22.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_NEW_STUDENT_COMPREHENSIVE" Width="1.5" PointX="22.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_NEW_STUDENT_FIRST" Width="1.5" PointX="20.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_NEW_STUDENT_FULL" Width="1.5" PointX="22.75" PointY="21.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_OLD_STUDENT_COMPREHENSIVE" Width="1.5" PointX="24.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_OLD_STUDENT_FIRST" Width="1.5" PointX="24.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_OLD_STUDENT_FULL" Width="1.5" PointX="24.75" PointY="12.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_SUMMARY" Width="1.5" PointX="16.75" PointY="24.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_SUMMARY_ETRANZACT" Width="1.5" PointX="24.75" PointY="18.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_SUMMARY_REMITA" Width="1.5" PointX="24.75" PointY="24.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PERSON_APPLICATION" Width="1.5" PointX="26.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_POST_JAMP_APPLICATION" Width="1.5" PointX="26.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_POST_JAMP_APPLICATION_ND_REGULAR" Width="1.5" PointX="26.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PROGRAMME_DEPARTMENT" Width="1.5" PointX="26.75" PointY="22.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PROSPECTIVE_STUDENT" Width="1.5" PointX="26.75" PointY="26.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PUTME_RESULT_DETAILS" Width="1.5" PointX="0.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_REGISTERED_COURSES" Width="1.5" PointX="10.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_REMITA_PAYMENT" Width="1.5" PointX="12.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_RESULT_UPDATES" Width="1.5" PointX="18.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_DETAILS" Width="1.5" PointX="28.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_PAYMENT" Width="1.5" PointX="28.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_REGISTERED_COURSE_CARRYOVER" Width="1.5" PointX="28.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_REGISTERED_COURSES" Width="1.5" PointX="28.75" PointY="21.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_REGISTERED_COURSES_REPORT" Width="1.5" PointX="28.75" PointY="27.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_RESULT" Width="1.5" PointX="2.75" PointY="29.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_RESULT_2" Width="1.5" PointX="4.75" PointY="29.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_RESULT_MASTER_LIST" Width="1.5" PointX="30.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_RESULT_OLD_GRADING_SYSTEM" Width="1.5" PointX="30.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_RESULT_RAW_SCORE_SHEET" Width="1.5" PointX="14.75" PointY="30.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_RESULT_RAW_SCORE_SHEET_UNREGISTERED" Width="1.5" PointX="30.75" PointY="17.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_RESULT_WITH_OPTIONS" Width="1.5" PointX="30.75" PointY="26.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_WITHOUT_RESULT" Width="1.5" PointX="6.75" PointY="31.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENTS_PAID_BUT_UNREGISTERED" Width="1.5" PointX="32.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENTS_WITH_NO_SCHOOL_FEES" Width="1.5" PointX="32.75" PointY="5.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_TRANSCRIPT_REQUEST" Width="1.5" PointX="32.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_TRANSCRIPT_REQUEST_REMITA" Width="1.5" PointX="32.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_TRANSCRIPT_VERIFICATION_REMITA" Width="1.5" PointX="32.75" PointY="23.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_TRANSCRIPT_VERIFICATION_REMITA2" Width="1.5" PointX="32.75" PointY="30.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_UPLOADED_COURSES" Width="1.5" PointX="16.75" PointY="33.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_VACANT_BEDSPACES" Width="1.5" PointX="18.75" PointY="33.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_VERIFICATION_REPORT" Width="1.5" PointX="24.75" PointY="33.75" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_ABILITY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_CRITERIA_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_CRITERIA_FOR_O_LEVEL_TYPE_ADMISSION_CRITERIA" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_CRITERIA_O_LEVEL_SUBJECT_ADMISSION_CRITERIA" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_CRITERIA_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_CRITERIA_FOR_O_LEVEL_SUBJECT_ALTERNATIVE_ADMISSION_CRITERIA_FOR_O_LEVEL_SUBJECT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_CRITERIA_O_LEVEL_SUBJECT_O_LEVEL_GRADE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_CRITERIA_O_LEVEL_SUBJECT_O_LEVEL_SUBJECT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_CRITERIA_FOR_O_LEVEL_SUBJECT_ALTERNATIVE_O_LEVEL_SUBJECT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_CRITERIA_O_LEVEL_TYPE_O_LEVEL_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_ADMISSION_LIST_BATCH" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_AUDIT_ADMISSION_LIST" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_DEPARTMENT_OPTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_AUDIT_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_AUDIT_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_AUDIT_DEPARTMENT_OPTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_BATCH_ADMISSION_LIST_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLICANT_STATUS" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_APPLICANT_APPLIED_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_DEPARTMENT_OPTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_APPLIED_COURSE_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_APPLIED_COURSE_PROGRAMME1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_APPLICATION_FORM1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_DEPARTMENT_OPTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_DEPARTMENT_OPTION1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_DEPARTMENT1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_PROGRAMME1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_CLEARED_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK__APPLICANT__Subje__2E7BCEF5" />
+        <AssociationConnector Association="Abundance_NkModel.FK__APPLICANT__Subje__2F6FF32E" />
+        <AssociationConnector Association="Abundance_NkModel.FK__APPLICANT__Subje__30641767" />
+        <AssociationConnector Association="Abundance_NkModel.FK__APPLICANT__Subje__31583BA0" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_JAMB_DETAIL_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_JAMB_DETAIL_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_DETAIL_INSTITUTION_CHOICE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_LEVEL_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_LEVEL_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_LEVEL_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_LEVEL_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_AUDIT_APPLICANT_O_LEVEL_RESULT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_DETAIL_AUDIT_APPLICANT_O_LEVEL_RESULT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_O_LEVEL_RESULT_DETAIL_STUDENT_O_LEVEL_RESULT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_O_LEVEL_RESULT_O_LEVEL_EXAM_SITTING" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_O_LEVEL_RESULT_O_LEVEL_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_AUDIT_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_AUDIT_O_LEVEL_EXAM_SITTING" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_AUDIT_O_LEVEL_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_AUDIT_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_O_LEVEL_RESULT_DETAIL_O_LEVEL_GRADE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_O_LEVEL_RESULT_DETAIL_O_LEVEL_SUBJECT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_DETAIL_AUDIT_O_LEVEL_GRADE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_DETAIL_AUDIT_O_LEVEL_SUBJECT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_SPONSOR_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_SPONSOR_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SPONSOR_RELATIONSHIP" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_APPLICATION_FORM_SETTING" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_APPLICATION_PROGRAMME_FEE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CHANGE_OF_COURSE_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_NEXT_OF_KIN_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_SETTING_PAYMENT_MODE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_SETTING_PAYMENT_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_SETTING_PERSON_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_SETTING_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_PROGRAMME_FEE_FEE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_PROGRAMME_FEE_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_PROGRAMME_FEE_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ATTENDANCE_ATTENDANCE_STATUS" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ATTENDANCE_SESSION_TERM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CARD_PAYMENT_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CARD_PAYMENT_SCRATCH_CARD" />
+        <AssociationConnector Association="Abundance_NkModel.FK__CHANGE_OF__New_P__0DA4EB0F" />
+        <AssociationConnector Association="Abundance_NkModel.FK__CHANGE_OF__Old_P__0E990F48" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CHANGE_OF_COURSE_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CLASS_ASSESSMENT_STUDENT_ASSESSMENT_CRITERIA" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_SCORE_CLASS_ASSESSMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LEVEL_CLASS_ROOM_CLASS_ROOM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_HEADER_CLASS_ROOM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CLEARANCE_DISPUTES_CLEARANCE_LOG" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CLEARANCE_LOG_CLEARANCE_STATUS" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CLEARANCE_LOG_CLEARANCE_UNITS" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COMPLAIN_LOG_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COMPLAIN_LOG_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CONFRENCE_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DELIVERY_SERVICE_ZONE_COUNTRY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_ALLOCATION_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_COURSE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_DEPARTMENT_OPTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_EVALUATION_ANSWER_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_AUDIT_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_NOT_REGISTERED_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_DETAIL_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_ALLOCATION_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_ALLOCATION_DEPARTMENT1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_ALLOCATION_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_ALLOCATION_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_ALLOCATION_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_ALLOCATION_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_EVALUATION_ANSWER_COURSE_EVALUATION_QUESTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_EVALUATION_ANSWER_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_EVALUATION_ANSWER_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_AUDIT_COURSE_MODE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_COURSE_MODE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_REGISTRATION_STATUS_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_REGISTRATION_STATUS_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_REGISTRATION_STATUS_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_TEACHER_STAFF" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SUBJECT_TEACHER_SUBJECT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_UNIT_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_UNIT_DEPARTMENT_OPTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_UNIT_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_UNIT_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_UNIT_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CURRENT_SESSION_SEMESTER_SESSION_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DAY_ACTIVITY_DAY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DAY_ACTIVITY_PERIOD" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DAY_ACTIVITY_STAFF" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DELIVERY_SERVICE_ZONE_DELIVERY_SERVICE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DELIVERY_SERVICE_ZONE_FEE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DELIVERY_SERVICE_ZONE_GEO_ZONE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DEPARTMENT_CAPACITY_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DEPARTMENT_FACULTY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DEPARTMENT_HEAD_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DEPARTMENT_OPTION_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_AUDIT_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_BLACKLIST_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_REQUEST_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PROGRAMME_DEPARTMENT_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STAFF_DEPARTMENT_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DEPARTMENT1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_LEVEL_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_MATRIC_NUMBER_ASSIGNMENT_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_VENUE_DESIGNATION_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DEPARTMENT_CAPACITY_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DEPARTMENT_CAPACITY_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DEPARTMENT_HEAD_STAFF" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_LEVEL_DEPARTMENT_OPTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FACULTY_OFFICER_FACULTY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_MATRIC_NUMBER_ASSIGNMENT_FACULTY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_AUDIT_FEE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_FEE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_AUDIT_FEE_DETAIL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_FEE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_PAYMENT_MODE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_AUDIT_FEE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_AUDIT_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_AUDIT_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_AUDIT_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_ETRANZACT_TYPE_FEE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_FEE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_TERMINAL_FEE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SCRATCH_CARD_TYPE_FEE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STATE_GEO_ZONE_GEO_ZONE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_CRITERIA_HOSTEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_HOSTEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_AMOUNT_HOSTEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_FEE_HOSTEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_HOSTEL_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_REQUEST_HOSTEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ROOM_HOSTEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_SERIES_HOSTEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_HOSTEL_ROOM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_HOSTEL_ROOM_CORNER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_HOSTEL_SERIES" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_COUNT_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_COUNT_SEX" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_CRITERIA_HOSTEL_ROOM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_CRITERIA_HOSTEL_ROOM_CORNER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_CRITERIA_HOSTEL_SERIES" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ALLOCATION_CRITERIA_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_BLACKLIST_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_BLACKLIST_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_BLACKLIST_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_FEE_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_REQUEST_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_REQUEST_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_REQUEST_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_REQUEST_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_REQUEST_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_Hostel_Request_Count_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_Hostel_Request_Count_SEX" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ROOM_CORNER_ROOM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_ROOM_HOSTEL_SERIES" />
+        <AssociationConnector Association="Abundance_NkModel.FK_INSTITUTION_INSTITUTION_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STAFF_JOB_ROLE_JOB_ROLE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_ETRANZACT_TYPE_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_ACADEMIC_INFORMATION_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_LEVEL1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_NOT_REGISTERED_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_LEVEL_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_MATRIC_NUMBER_ASSIGNMENT_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_PAYMENT_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LOCAL_GOVERNMENT_STATE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_LOCAL_GOVERNMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_LOCAL_GOVERNMENT1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_LOCAL_GOVERNMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_LOCAL_GOVERNMENT_AUDIT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STAFF_MARITAL_STATUS" />
+        <AssociationConnector Association="Abundance_NkModel.FK_MENU_IN_ROLE_MENU" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ROLE_MENU_MENU_GROUP" />
+        <AssociationConnector Association="Abundance_NkModel.FK_MENU_IN_ROLE_ROLE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_ACADEMIC_INFORMATION_MODE_OF_ENTRY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_FINANCE_INFORMATION_MODE_OF_FINANCE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_ACADEMIC_INFORMATION_MODE_OF_STUDY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_NATIONALITY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_NATIONALITY1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_NATIONALITY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_NATIONALITY_AUDIT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STATE_NATIONALITY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_NEWS_SESSION_TERM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_NEWS_STAFF" />
+        <AssociationConnector Association="Abundance_NkModel.FK_NEXT_OF_KIN_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_NEXT_OF_KIN_PERSON_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_NEXT_OF_KIN_RELATIONSHIP" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_SCORE_SUBJECT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_OFFENCE_PUNISHMENT_OFFENCE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_OFFENCE_PUNISHMENT_PUNISHMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ONLINE_PAYMENT_PAYMENT_CHANNEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ONLINE_PAYMENT_PAYMENT1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_ETRANZACT_ONLINE_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_PAYMENT_MODE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_PAYMENT_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_PAYSTACK_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_PERSON_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_VERIFICATION_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_REMITA_PAYMENT_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SHORT_FALL_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_PAYMENT_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_ETRANZACT_PAYMENT_ETRANZACT_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_ETRANZACT_PAYMENT_TERMINAL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_ETRANZACT_TYPE_PAYMENT_MODE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_ETRANZACT_TYPE_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_ETRANZACT_TYPE_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_SCHOLARSHIP_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_SCHOLARSHIP_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_TERMINAL_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_LOGIN_DETAIL_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_PERSON_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_PERSON_TYPE_AUDIT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_RELIGION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_RELIGION_AUDIT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_ROLE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_ROLE_AUDIT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_SEX" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_SEX_AUDIT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_STATE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_STATE_AUDIT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_RANKING_DATA_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SCRATCH_CARD_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STAFF_PERSON1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXTRA_YEAR_SESSION_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_PERSON_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_PERSON_TYPE1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_RELIGION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_RELIGION1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_ROLE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_ROLE1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_SEX" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_SEX1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_STATE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_STATE1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_LOGIN_DETAIL_SECURITY_QUESTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PROGRAMME_DEPARTMENT_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_PROGRAMME1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_NOT_REGISTERED_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_LEVEL_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_MATRIC_NUMBER_ASSIGNMENT_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_VENUE_DESIGNATION_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ILAROPOLY_2015_PUTME_RESULT_AUDIT_ILAROPOLY_2015_PUTME_RESULT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PUTME_RESULT_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_SPONSOR_RELATIONSHIP" />
+        <AssociationConnector Association="Abundance_NkModel.FK_REPORT_CARD_COMMENT_REPORT_CARD" />
+        <AssociationConnector Association="Abundance_NkModel.FK_REPORT_CARD_SESSION_TERM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_REPORT_CARD_COMMENT_STAFF" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ROLE_RIGHT_RIGHT1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ROLE_RIGHT_ROLE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SCRATCH_CARD_SCRATCH_CARD_BATCH" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SCRATCH_CARD_BATCH_SCRATCH_CARD_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SESSION_SEMESTER_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_AUDIT_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_SEMESTER1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_DEFERMENT_LOG_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_NOT_REGISTERED_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SESSION_TERM_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_DEFERMENT_LOG_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_NOT_REGISTERED_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXTRA_YEAR_SESSION_DEFERRED_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXTRA_YEAR_SESSION_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXTRA_YEAR_SESSION_STUDENT_EXTRA_YEAR_LAST_REGISTERED_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_LEVEL_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_MATRIC_NUMBER_ASSIGNMENT_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STAFF_DEPARTMENT_SESSION_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_PAYMENT_SESSION_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_SESSION_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_TERM_SESSION_TERM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STAFF_DEPARTMENT_STAFF" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STAFF_JOB_ROLE_STAFF1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STAFF_STAFF_TYPE1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_STAFF1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_SCORE_STAFF" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STATE_GEO_ZONE_STATE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_AUDIT_STUDENT_COURSE_REGISTRATION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_STUDENT_COURSE_REGISTRATION1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_DETAIL_STUDENT_RESULT1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_STUDENT_RESULT_TYPE" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT_RESULT_STATUS" Width="1.5" PointX="31.5" PointY="104.5" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_STATUS_FACULTY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_STATUS_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_STATUS_SEMESTER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_STATUS_SESSION" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_STUDENT_RESULT_SUMMARY" Width="1.5" PointX="21.375" PointY="31.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_VERIFIED_CERTIFICATE_VERIFICATION_PAYMENT" Width="1.5" PointX="27.375" PointY="33.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_VERIFIED_TRANSCRIPT_PAYMENT" Width="1.5" PointX="9.375" PointY="34.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_VERIFIED_TRANSCRIPT_VERIFICATION_PAYMENT" Width="1.5" PointX="11.375" PointY="34.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.E_COURSE_CONTENT_DOWNLOAD" Width="1.5" PointX="39" PointY="116.625" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_COURSE_CONTENT_DOWNLOAD_PERSON" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ELEARNING_COURSE_CONTENT" Width="1.5" PointX="35.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.E_ASSIGNMENT_SUBMISSION" Width="1.5" PointX="41.25" PointY="121.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.E_CHAT_RESPONPSE" Width="1.5" PointX="43.5" PointY="148" />
+        <EntityTypeShape EntityType="Abundance_NkModel.E_CONTENT_TYPE" Width="1.5" PointX="39" PointY="123" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_CONTENT_TYPE_COURSE_ALLOCATION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_CONTENT_TYPE_E_CONTENT_TYPE" />
+        <EntityTypeShape EntityType="Abundance_NkModel.E_CHAT_TOPIC" Width="1.5" PointX="39" PointY="109.375" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_CHAT_TOPIC_COURSE_ALLOCATION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_CHAT_RESPONPSE_E_CHAT_TOPIC" />
+        <EntityTypeShape EntityType="Abundance_NkModel.E_COURSE_CONTENT" Width="1.5" PointX="41.25" PointY="114.75" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_COURSE_CONTENT_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_COURSE_CONTENT_E_CONTENT_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_COURSE_CONTENT_DOWNLOAD_E_COURSE_CONTENT" />
+        <EntityTypeShape EntityType="Abundance_NkModel.USER" Width="1.5" PointX="6.75" PointY="166.875" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ADMISSION_LIST_AUDIT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLIED_COURSE_AUDIT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_AUDIT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_O_LEVEL_RESULT_DETAIL_AUDIT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICATION_FORM_SETTING_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CLEARANCE_LOG_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_ALLOCATION_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_CHAT_RESPONPSE_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FACULTY_OFFICER_USER1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_DETAIL_AUDIT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_GENERAL_AUDIT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_REQUEST_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PAYMENT_VERIFICATION_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_PERSON_AUDIT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_ILAROPOLY_2015_PUTME_RESULT_AUDIT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_USER_ROLE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_SCRATCH_CARD_BATCH_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_USER_SECURITY_QUESTION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STAFF_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_AUDIT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_NOT_REGISTERED_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_UPDATE_AUDIT_USER" />
+        <EntityTypeShape EntityType="Abundance_NkModel.E_ASSIGNMENT" Width="1.5" PointX="42" PointY="110.125" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_ASSIGNMENT_COURSE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_ASSIGNMENT_COURSE_ALLOCATION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_ASSIGNMENT_SUBMISSION_E_ASSIGNMENT" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_APPLICATION_FORM_COUNT" Width="1.5" PointX="35.375" PointY="7.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.PRINCIPAL_OFFICERS" Width="1.5" PointX="23.375" PointY="30.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_PREVIOUS_EDUCATION" Width="1.5" PointX="22.5" PointY="142.25" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_APPLICANT_UPLOAD" Width="1.5" PointX="35.375" PointY="21.75" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_PREVIOUS_EDUCATION_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_PREVIOUS_EDUCATION_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_PREVIOUS_EDUCATION_RESULT_GRADE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_PREVIOUS_EDUCATION_EDUCATIONAL_QUALIFICATION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_PREVIOUS_EDUCATION_IT_DURATION" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_APPLICANT_DETAILS_HND" Width="1.5" PointX="35.375" PointY="28.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FEE_SETUP" Width="1.5" PointX="20" PointY="131" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FEE_SETUP_AUDIT" Width="1.5" PointX="30.25" PointY="126" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FEESETUP_FEE" Width="1.5" PointX="31.5" PointY="110.625" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEESETUP_FEE_FEE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_SETUP_AUDIT_FEE_SETUP" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_SETUP_FEE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_SETUP_PAYMENT_MODE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_SETUP_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_SETUP_USER" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEESETUP_FEE_FEESETUP_FEE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_SETUP_AUDIT_FEE_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_SETUP_AUDIT_PAYMENT_MODE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_SETUP_AUDIT_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_SETUP_AUDIT_USER" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_VERIFICATION_NEW_STUDENT" Width="1.5" PointX="37.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_VERIFICATION_OLD_STUDENT" Width="1.5" PointX="0.75" PointY="37.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.DRIVING_EXPERIENCE" Width="1.5" PointX="36.5" PointY="139.125" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DRIVING_EXPERIENCE_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DRIVING_EXPERIENCE_PERSON" />
+        <EntityTypeShape EntityType="Abundance_NkModel.LICENSE_TYPE" Width="1.5" PointX="34.25" PointY="145.875" />
+        <AssociationConnector Association="Abundance_NkModel.FK_DRIVING_EXPERIENCE_LICENSE_TYPE" />
+        <EntityTypeShape EntityType="Abundance_NkModel.APPLICANT_APPLICATION_APPROVAL" Width="1.5" PointX="14.5" PointY="154.875" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_APPLICANT_APPLICATION_APPROVAL_SUMMARY" Width="1.5" PointX="37.375" PointY="6.75" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLICATION_APPROVAL_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_APPLICANT_APPLICATION_APPROVAL_USER" />
+        <EntityTypeShape EntityType="Abundance_NkModel.LIVE_LECTURE_ATTENDANCE" Width="1.5" PointX="41.25" PointY="126" />
+        <EntityTypeShape EntityType="Abundance_NkModel.LIVE_LECTURES" Width="1.5" PointX="39" PointY="103.625" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LIVE_LECTURES_COURSE_ALLOCATION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LIVE_LECTURES_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LIVE_LECTURES_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LIVE_LECTURE_ATTENDANCE_LIVE_LECTURES" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LIVE_LECTURE_ATTENDANCE_STUDENT_COURSE_REGISTRATION_DETAIL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LIVE_LECTURES_PROGRAMME" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LIVE_LECTURES_SESSION" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FEEDBACK_STORE" Width="1.5" PointX="41.25" PointY="105.125" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEEDBACK_STORE_LIVE_LECTURES" />
+        <EntityTypeShape EntityType="Abundance_NkModel.JAMB_O_LEVEL" Width="1.5" PointX="13.5" PointY="92.375" />
+        <EntityTypeShape EntityType="Abundance_NkModel.JAMB_O_LEVEL_DETAIL" Width="1.5" PointX="15.75" PointY="87.25" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_O_LEVEL_DETAIL_JAMB_O_LEVEL" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_O_LEVEL_O_LEVEL_EXAM_SITTING" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_O_LEVEL_O_LEVEL_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_O_LEVEL_DETAIL_O_LEVEL_GRADE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_O_LEVEL_DETAIL_O_LEVEL_SUBJECT" />
+        <EntityTypeShape EntityType="Abundance_NkModel.JAMB_RECORD" Width="1.5" PointX="33.25" PointY="116.625" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_RECORD_DEPARTMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_O_LEVEL_JAMB_RECORD" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_RECORD_SESSION" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_RECORD_SEX" />
+        <AssociationConnector Association="Abundance_NkModel.FK_JAMB_RECORD_STATE" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ACCEPTANCE_VERIFICATION" Width="1.5" PointX="37.375" PointY="22.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_SCHOOL_FEES_VERIFICATION" Width="1.5" PointX="37.375" PointY="32.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_CONFIRMATION" Width="1.5" PointX="37.375" PointY="17.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_SCHOOL_FEES_PAYMENT" Width="1.5" PointX="37.375" PointY="27.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_PAYMENT_CONFIRMATION_NEW_STUDENTS" Width="1.5" PointX="37.375" PointY="37.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.FEE_IN_PAYMENT" Width="1.5" PointX="34.5" PointY="110" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_IN_PAYMENT_FEE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_FEE_IN_PAYMENT_PAYMENT" />
+        <EntityTypeShape EntityType="Abundance_NkModel.STUDENT" Width="1.5" PointX="22.5" PointY="122.875" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_APPLICATION_FORM" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_BLOOD_GROUP" />
+        <AssociationConnector Association="Abundance_NkModel.FK_CLEARANCE_LOG_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_COURSE_EVALUATION_ANSWER_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_ASSIGNMENT_SUBMISSION_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_E_CHAT_RESPONPSE_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_GENOTYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_HOSTEL_BLACKLIST_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_LIVE_LECTURE_ATTENDANCE_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_MARITAL_STATUS" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_REPORT_CARD_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_ACADEMIC_INFORMATION_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_DETAIL_AUDIT_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_COURSE_REGISTRATION_STUDENT1" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_DEFERMENT_LOG_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EMPLOYMENT_INFORMATION_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_FINANCE_INFORMATION_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_LEVEL_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_ND_RESULT_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_PAYMENT_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_RESULT_DETAIL_PERSON" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_SCORE_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_SPONSOR_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_STUDENT_CATEGORY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_STUDENT_STATUS" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_STUDENT_TYPE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_TERM_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_TITLE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_STUDENT_UPDATE_AUDIT_STUDENT" />
+        <EntityTypeShape EntityType="Abundance_NkModel.REGENERATED_CLEARED_INVOICE" Width="1.5" PointX="29.375" PointY="38.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.VW_ADMISSION_LIST_SUMMARY" Width="1.5" PointX="17.375" PointY="38.75" />
+        <EntityTypeShape EntityType="Abundance_NkModel.TRANSCRIPT_REQUEST" Width="1.5" PointX="35.75" PointY="115.125" />
+        <AssociationConnector Association="Abundance_NkModel.FK_TRANSCRIPT_REQUEST_COUNTRY" />
+        <AssociationConnector Association="Abundance_NkModel.FK_TRANSCRIPT_REQUEST_DELIVERY_SERVICE_ZONE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_TRANSCRIPT_REQUEST_PAYMENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_TRANSCRIPT_REQUEST_STATE" />
+        <AssociationConnector Association="Abundance_NkModel.FK_TRANSCRIPT_REQUEST_STUDENT" />
+        <AssociationConnector Association="Abundance_NkModel.FK_TRANSCRIPT_REQUEST_TRANSCRIPT_CLEARANCE_STATUS" />
+        <AssociationConnector Association="Abundance_NkModel.FK_TRANSCRIPT_REQUEST_TRANSCRIPT_STATUS" />
+        <!-- <AssociationConnector Association="Abundance_NkModel.FK_TRANSCRIPT_REQUEST_STUDENT" /> -->
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

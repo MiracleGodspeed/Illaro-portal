@@ -1,0 +1,293 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.UserViewModel
+@{
+    ViewBag.Title = "Audit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+
+<link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+<link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+
+<script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<link href="~/Content/jquery-ui-1.10.3.css" rel="stylesheet" />
+<script src="~/Scripts/file-upload/jquery-ui-1.9.2.min.js"></script>
+
+    <script type="text/javascript">
+
+        var dataTable;
+
+        $(document).ready(function () {
+
+            $("#tab1").attr('style', 'background-color: #66ad72; color:#ffffff; border-radius: 100px;');
+            $("#tab2").attr('style', 'background-color: #990066; color:#ffffff; border-radius: 100px;');
+
+
+            $('.date').datepicker({
+                dateFormat: "mm/dd/yy",
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                autoclose: true,
+                changeMonth: true,
+                changeYear: true
+            });
+
+            $("#search").on('click', function () {
+
+                $("#dataTableBody").empty();
+
+                $("#progress").show();
+                $("#divList").hide();
+
+                var dateFrom = $("#fromDate").val();
+                var dateTo = $("#toDate").val();
+                var username = $("#User_Username").val();
+                var roleId = $("#User_Role_Id").val();
+                var admission = $("#admission").is(':checked');
+                var application = $("#application").is(':checked');
+                var sessionId = $("#Session_Id").val();
+
+                if (admission && !sessionId) {
+                    alert("Please select admitted session.");
+                    $("#progress").hide();
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetAudits", "User")', // Calling json method
+                    dataType: 'json',
+                    data: { dateFrom: dateFrom, dateTo: dateTo, username: username, roleId: roleId, admission: admission, application: application, sessionId: sessionId },
+                    success: function(result) {
+                        if (result && result.IsError == false) {
+                            if (result.Audits && result.Audits.length > 0) {
+                                setTable(result.Audits);
+                            }
+                        } else {
+                            alert(result.Message);
+                        }
+
+                        $("#progress").hide();
+                    },
+                    error: function(jqXHR) {
+                        alert('Failed.' + jqXHR.statusText);
+                        $("#progress").hide();
+                    }
+                });
+            });
+            
+        });
+
+
+        function setTable(tableData) {
+
+            //check if datatable is set
+            if (dataTable) {
+                dataTable.destroy();
+            }
+            $("#dataTableBody").empty();
+            //populate table
+            $.each(tableData, function (i, item) {
+                $("#dataTableBody").append('<tr><td>' + item.Date + '</td>' + '<td>' + item.Action + '</td>' + '<td>' + item.Operation + '</td>' +
+                    '<td>' + item.InitialValues + '</td>' + '<td>' + item.CurrentValues + '</td>' + '<td>' + item.Client + '</td>' +
+                    '<td>' + item.Username + '</td>' + '<td>' + item.Email + '</td>' + '<td>' + item.Role + '</td></tr>');
+            });
+
+            //set datatable
+            dataTable = $('#dataTable').DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+
+
+                    }, , 'colvis'
+                ]
+            });
+
+            $("#divList").show();
+        }
+
+        function changeStyle(suffix) {
+            if (suffix == 1) {
+                $("#tab1").attr('style', 'background-color: #66ad72; color:#ffffff; border-radius: 100px;');
+                $("#tab2").attr('style', 'background-color: #297d38; color:#ffffff; border-radius: 100px;');
+            } else if (suffix == 2) {
+                $("#tab2").attr('style', 'background-color: #ebbbdb; color:#ffffff; border-radius: 100px;');
+                $("#tab1").attr('style', 'background-color: #990066; color:ffffff; border-radius: 100px;');
+            }
+        }
+        function showSession() {
+            if ($("#admission").is(':checked')){
+                $("#divSession").show();
+            }
+            else {
+                $("#divSession").hide();
+            }
+        }
+    </script>
+}
+
+<div>
+    @if (TempData["Message"] != null)
+    {
+        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+    }
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">Comprehensive Portal Audit</h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-12">
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#searchFilter" style="background-color: #297d38; color:white; border-radius: 100px;" onclick="changeStyle(1)" id="tab1">Search Filter</a></li>
+            </ul>
+            <br />
+            <div class="tab-content">
+                <div id="searchFilter" class="tab-pane fade in active">
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" class="date col-md-4" placeholder="From..." id="fromDate" /> &nbsp; &nbsp;
+                                <input type="text" class="date col-md-offset-1 col-md-4" placeholder="To..." id="toDate" />
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.Username, "Username:", new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.User.Username, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.User.Username)
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.Role.Id, "Role:", new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.User.Role.Id, (IEnumerable<SelectListItem>)ViewBag.Role, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.User.Role.Id)
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="checkbox" name="appliedCourse" value="Application" id="application" /> Application <br />
+                                <input type="checkbox" name="admission" value="Admission" id="admission" onclick="showSession()" /> Admission
+                            </div>
+                            <div id="divSession" class="form-group" style="display:none">
+                                @Html.LabelFor(model => model.Session.Id, "Admitted Session:", new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Session.Id)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success" id="search">Search</button>
+                                <span style="display: none" id="progress"><img src="~/Content/Images/bx_loader.gif" /></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div id="divList" style="display:none;" class="panel panel-default">
+    <div class="panel-body table-responsive">
+        <div class="col-md-12">
+
+                    <table class="table-bordered table-hover table-striped table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                                <th>
+                                    Operation
+                                </th>
+                                <th>
+                                    Initial Value
+                                </th>
+                                <th>
+                                    Current Value
+                                </th>
+                                <th>
+                                    Client
+                                </th>
+                                <th>
+                                    User
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Role
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody"></tbody>
+
+                    </table>
+               
+        </div>
+    </div>
+</div>

@@ -1,0 +1,153 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.ConfrencePaymentViewModels
+
+@{
+    ViewBag.Title = "Invoice";
+    //Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/style.default.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        $("#aPrint").on('click', function () {
+            $(".printable").print();
+            return false;
+        });
+    </script>
+}
+
+
+
+
+@if (TempData["Message"] != null)
+{
+    <div class="row">
+        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+    </div>
+
+}
+else
+{
+    <div id="printable" class="printable">
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row text-center">
+                    <h3> <img src="@Url.Content("~/Content/Images/school_logo.jpg")" width="100px" height="100px" alt="" /><p class="custom-text-black"><strong>THE FEDERAL POLYTECHNIC ILARO</strong></p></h3>
+
+
+
+
+                    <div class="row text-center">
+                        <p class="text-center" style="color:green; font-size:25px;">CONFERENCE APPLICANT DETAILS</p>
+
+                        <br />
+                    </div>
+                    <div class="row" style="margin:20px; border-bottom:1px solid slategrey">
+                        <div class="col-sm-4">
+                            <p style="font-size:17px">Name:<strong class="text-right"> @ViewBag.fullName</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p style="font-size:17px">Email: <strong class="text-right"> @ViewBag.Email</strong></p>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <p style="font-size:17px">Phone:<strong class="text-right"> @ViewBag.Phone</strong></p>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <p style="font-size:17px">Sex:<strong class="text-right"> @ViewBag.Sex</strong></p>
+                        </div>
+
+                    </div><!-- panel-body -->
+                    <div class="row" style="margin:20px; border-bottom:1px solid slategrey">
+                        <div class="col-sm-4">
+                            <p style="font-size:17px">Department:<strong class="text-right"> @ViewBag.Department</strong></p>
+                        </div>
+
+
+                        <div class="col-sm-4">
+                            <p style="font-size:17px">Institution:<strong class="text-right"> @ViewBag.Institution</strong></p>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <p style="font-size:17px">City:<strong class="text-right"> @ViewBag.City</strong></p>
+                        </div>
+
+                    </div>
+                    <div class="row" style="margin:20px; border-bottom:1px solid slategrey">
+                        <div class="col-sm-4">
+                            <p style="font-size:17px">Country:<strong class="text-right"> @ViewBag.Country</strong></p>
+                        </div>
+
+
+                        <div class="col-sm-4">
+                            <p style="font-size:17px">State:<strong class="text-right"> @ViewBag.State</strong></p>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <p style="font-size:17px">Postal / Zip Code:<strong class="text-right"> @ViewBag.PostCode</strong></p>
+                        </div>
+
+                    </div>
+                    @*<div class="row" style="margin: 20px; border-bottom: 1px solid slategrey">
+                        <div class="col-sm-6">
+                            <p style="font-size: 17px">Payment:<strong class="text-right"> @ViewBag.Amount</strong>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p style="font-size: 17px">Invoice Number:<strong class="text-right"> @ViewBag.Ivn</strong>
+                            </p>
+                        </div>
+                    </div>*@
+                    <div class="col-md-12 text-center">
+                        <div class="row" style="margin: 20px; border-bottom: 1px solid slategrey">
+                            <h4>PAYMENT DETAILS</h4>
+                            <div class="form-group col-md-6">
+                                <p style="font-size: 17px">Account Name: <b>International Conference Federal Poly Ilaro</b></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <p style="font-size:17px">Account Number: <b>3002523270</b></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <p style="font-size: 17px">Sort Code: <b>033173632</b></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <p style="font-size: 17px"> Swift Code: <b>UNAFNGLA</b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin:20px;">
+
+
+                        @*<div class="col-sm-3">
+            <button id="aPrint" class="print btn btn-white btn-lg "><i class="fa fa-print mr5"></i> Print Slip</button>
+
+        </div>*@
+                        <div class="col-sm-4">
+                            <a class="btn btn-white btn-lg " href="@ViewBag.ResearchDoc"><i class="fa fa-print mr5"></i>Download Abstract</a>
+                        </div>
+                       
+                        <div class="col-sm-4">
+                            <a class="btn btn-white btn-lg " href="http://www.federalpolyilaro.edu.ng/web/"><i class="fa fa-home mr5"></i>Back to Home</a>
+                        </div>
+                        <div class="col-sm-4">
+                            <p style="font-style:italic; font-size:18px; color:green;">  Thank you for choosing our institution.</p>
+                        </div>
+                    </div>
+                </div><!-- panel -->
+
+
+
+            </div>
+        </div>
+        }

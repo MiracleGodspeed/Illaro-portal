@@ -1,0 +1,360 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.StudentCourseRegistrationViewModel
+@{
+    ViewBag.Title = "Result Audit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (TempData["Message"] != null)
+{
+    @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+
+    <link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+    <link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+
+    <script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+    <script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <link href="~/Content/jquery-ui-1.10.3.css" rel="stylesheet" />
+    <script src="~/Scripts/file-upload/jquery-ui-1.9.2.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.date').datepicker({
+                dateFormat: "mm/dd/yy",
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                autoclose: true,
+                changeMonth: true,
+                changeYear: true
+            });
+
+            var dateFrom = $("#DateFrom").val();
+            var dateTo = $("#DateTo").val();
+
+            $('#table-request').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                       {
+                           extend: 'print',
+                           exportOptions: {
+                               modifier: {
+                                   orientation: 'landscape'
+                               }
+                           },
+                           header: true,
+                           orientation: 'landscape',
+                           customize: function (doc) {
+                               doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                           },
+                           title: 'Result Audit Report',
+                           message: "Audit Report From:  " + dateFrom + "  To:  " + dateTo
+                       },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                modifier: {
+                                    orientation: 'landscape'
+                                }
+                            },
+                            header: true,
+                            orientation: 'landscape',
+                            customize: function (doc) {
+                                doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                            },
+                            title: 'Result Audit Report',
+                            message: "Audit Report From:  " + dateFrom + "  To:  " + dateTo
+                        },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        header: true,
+                        orientation: 'landscape',
+                        customize: function (doc) {
+                            doc.defaultStyle.fontSize = 8; //<-- set fontsize to 16 instead of 10
+                        },
+                        title: 'Result Audit Report',
+                        message: "Audit Report From:  " + dateFrom + "  To:  " + dateTo
+                    },
+                    'colvis'
+                ],
+                columnDefs: [{
+                    targets: [5],
+                    visible: true,
+                    "searchable": false
+                }]
+            });
+
+
+            function populateCourses() {
+                $("#Course").empty();
+                var values = new Array();
+                //vals = [$("#Department").val(), $("#Level").val(), $("#Semester").val()];
+                values[0] = $("#Department").val();
+                values[1] = $("#Level").val();
+                values[2] = $("#Semester").val();
+                values[3] = $("#Programme").val();
+                if ($("#DepartmentOption").val()) {
+                    values[4] = $("#DepartmentOption").val();
+                }
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCourses", "StudentCourseRegistration")', // Calling json method
+                    traditional: true,
+                    data: { ids: values },
+                    // Get Selected Country ID.
+                    success: function (courses) {
+
+                        $.each(courses, function (i, course) {
+                            $("#Course").append('<option value="' + course.Value + '">' +
+                                course.Text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve courses.' + ex);
+                    }
+                });
+
+            }
+
+            //Programme Drop down Selected-change event
+            $("#Programme").change(function() {
+                if ($("#Department").val() > 0 && $("#Level").val() > 0 && $("#Semester").val() > 0) {
+                    populateCourses();
+                }
+                $("#Department").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDepartments", "StudentCourseRegistration")', // Calling json method
+                    dataType: 'json',
+                    data: { id: $("#Programme").val() },
+                    // Get Selected Country ID.
+                    success: function(departments) {
+                        $("#Department").append('<option value="' + 0 + '">' +
+                            '-- Select Department --' + '</option>');
+                        $.each(departments, function(i, department) {
+                            $("#Department").append('<option value="' + department.Value + '">' +
+                                department.Text + '</option>');
+                        });
+                    },
+                    error: function(ex) {
+                        alert('Failed to retrieve departments.' + ex);
+                    }
+                });
+                return false;
+            });
+
+
+            $("#Department").change(function() {
+                if ($("#Department").val() > 0 && $("#Level").val() > 0 && $("#Semester").val() > 0) {
+                    populateCourses();
+                }
+                return false;
+            });
+
+            //Session Drop down Selected change event
+            $("#Session").change(function() {
+                if ($("#Department").val() > 0 && $("#Level").val() > 0 && $("#Semester").val() > 0) {
+                    populateCourses();
+                }
+
+                $("#Semester").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetSemester", "StudentCourseRegistration")', // Calling json method
+                    dataType: 'json',
+                    data: { id: $("#Session").val() },
+                    // Get Selected Country ID.
+                    success: function(semesters) {
+                        $("#Semester").append('<option value="' + 0 + '">' +
+                            '-- Select Semester --' + '</option>');
+                        $.each(semesters, function(i, semester) {
+                            $("#Semester").append('<option value="' + semester.Value + '">' +
+                                semester.Text + '</option>');
+                        });
+                    },
+                    error: function(ex) {
+                        alert('Failed to retrieve semesters.' + ex);
+                    }
+                });
+                return false;
+            });
+
+            $("#Department").change(function () {
+                if ($("#Department").val() > 0 && $("#Level").val() > 0 && $("#Semester").val() > 0) {
+                    populateCourses();
+                }
+            });
+            $("#Session").change(function () {
+                if ($("#Department").val() > 0 && $("#Level").val() > 0 && $("#Semester").val() > 0) {
+                    populateCourses();
+                }
+            });
+            $("#Level").change(function () {
+                if ($("#Department").val() > 0 && $("#Level").val() > 0 && $("#Semester").val() > 0) {
+                    populateCourses();
+                }
+
+            });
+
+
+        });
+    </script>
+}
+
+<div class="container" style="width: 100% !important; font-size: 12px">
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            @using (Html.BeginForm("StudentResultAudit", "StudentCourseRegistration", new { area = "Admin" }, FormMethod.Post))
+            {
+
+                <h2> Result Audit</h2>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Session.Name, "Session", new { @class = "col-sm-2 control-label " })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(model => model.Session.Id, (IEnumerable<SelectListItem>)ViewBag.Session, new { @class = "form-control", @id = "Session" })
+                        @Html.ValidationMessageFor(model => model.Session.Id, null, new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Semester.Name, "Semester", new { @class = "col-sm-2 control-label " })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(model => model.Semester.Id, (IEnumerable<SelectListItem>)ViewBag.Semester, new { @class = "form-control", @id = "Semester" })
+                        @Html.ValidationMessageFor(model => model.Semester.Id, null, new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Programme.Name, "Programme", new { @class = "col-sm-2 control-label " })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(model => model.Programme.Id, (IEnumerable<SelectListItem>)ViewBag.Programme, new { @class = "form-control", @id = "Programme" })
+                        @Html.ValidationMessageFor(model => model.Programme.Id, null, new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Department.Name, "Department", new { @class = "col-sm-2 control-label " })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(model => model.Department.Id, (IEnumerable<SelectListItem>)ViewBag.Department, new { @class = "form-control", @id = "Department" })
+                        @Html.ValidationMessageFor(model => model.Department.Id, null, new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Level.Name, "Level", new { @class = "col-sm-2 control-label " })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(model => model.Level.Id, (IEnumerable<SelectListItem>)ViewBag.Level, new { @class = "form-control", @id = "Level" })
+                        @Html.ValidationMessageFor(model => model.Level.Id, null, new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Course.Name, "Course", new {@class = "col-sm-2 control-label "})
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(model => model.Course.Id, (IEnumerable<SelectListItem>) ViewBag.Course, new {@class = "form-control", @id = "Course"})
+                        @Html.ValidationMessageFor(model => model.Course.Id, null, new {@class = "text-danger"})
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Course.Name, "Date Range", new {@class = "col-sm-2 control-label "})
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(model => model.DateFrom, new {@class = "form-control date", required = "required", placeholder = "From..."})
+                        @Html.ValidationMessageFor(model => model.DateFrom)
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(model => model.DateTo, new { @class = "form-control date", required = "required", placeholder = "To..." })
+                        @Html.ValidationMessageFor(model => model.DateTo)
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <input class="btn btn-success mr5" type="submit" name="submit" id="submit" value="Submit" />
+
+                    </div>
+                </div>
+
+            }
+            <br/>
+
+            @if (Model.CourseRegistrationDetailAuditList != null && Model.CourseRegistrationDetailAuditList.Count > 0)
+            {
+                <h2>Student Result Audit</h2>
+    <hr />
+                <div class="table-responsive">
+                    <table id="table-request" class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Matric Number</th>
+                                <th>Course Code</th>
+                                <th>Test Score</th>
+                                <th>Exam Score</th>
+                                <th>Unit</th>
+                                <th>Mode</th>
+                                <th>Operation</th>
+                                <th>Date</th>
+                                <th>Client</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody style="color: black;">
+                            @for (int i = 0; i < Model.CourseRegistrationDetailAuditList.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].CourseRegistration.Student.FullName</td>
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].CourseRegistration.Student.MatricNumber</td>
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].Course.Code</td>
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].TestScore</td>
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].ExamScore</td>
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].CourseUnit</td>
+                                    @if (Model.CourseRegistrationDetailAuditList[i].Mode != null)
+                                    {
+                                        <td>@Model.CourseRegistrationDetailAuditList[i].Mode.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].Operation</td>
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].Time</td>
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].Client</td>
+                                    <td>@Model.CourseRegistrationDetailAuditList[i].User.Username.ToUpper()</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

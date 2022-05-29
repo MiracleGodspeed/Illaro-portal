@@ -1,0 +1,264 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.ClearanceViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Scripts {
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script type="text/javascript" src="~/Scripts/file-upload/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script type="text/javascript" src="~/Scripts/file-upload/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="~/Scripts/file-upload/js/jquery.fileupload.js"></script>
+
+<script type="text/javascript" src="~/Scripts/jquery.print.js"></script>
+<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<link href="~/Content/dropzone.css" rel="stylesheet" />
+<link href="~/Content/jquery.toast.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.toast.js"></script>
+<script src="~/Scripts/dropzone.js"></script>
+
+<link href="~/Scripts/DataTables-1.10.15/media/css/jquery.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables-1.10.15/media/js/jquery.dataTables.js"></script>
+<link href="~/Scripts/DataTables-1.10.15/extensions/Buttons/css/buttons.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/dataTables.buttons.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/extensions/Buttons/js/buttons.colVis.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/extensions/Responsive/js/dataTables.responsive.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.flash.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.html5.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/buttons.print.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/jszip.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/pdfmake.min.js"></script>
+<script src="~/Scripts/DataTables-1.10.15/vfs_fonts.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+            var jqXHRData;
+                                function initSimpleFileUpload() {
+                'use strict';
+
+                $('#fu-my-simple-upload').fileupload({
+                    url: '@Url.Content("~/Applicant/Clearance/UploadFile")',
+                    dataType: 'json',
+
+                    add: function (e, data) {
+                        jqXHRData = data
+                    },
+                    send: function (e) {
+                        $('#fileUploadProgress').show();
+                    },
+                    done: function (event, data) {
+                        if (data.result.isUploaded) {
+                            //alert("success");
+                            $("#hfDocumentUrl").val(data.result.imageUrl);
+                        } else {
+                            $("#tbx-file-path").val("");
+                            alert(data.result.message);
+                        }
+
+                        $('#document').attr('src', data.result.imageUrl);
+                        $('#fileUploadProgress').hide();
+                    },
+                    fail: function (event, data) {
+                        if (data.files[0].error) {
+                            alert(data.files[0].error);
+                        }
+                    }
+                });
+        }
+                                initSimpleFileUpload();
+            $("#hl-start-upload").on('click', function () {
+                if (jqXHRData) {
+                    jqXHRData.submit();
+                }
+                return false;
+            });
+            $("#fu-my-simple-upload").on('change', function () {
+                $("#tbx-file-path").val(this.files[0].name);
+            });
+
+        $(document).ready(function () {
+            $.extend($.fn.dataTable.shadows, {
+                responsive: false
+            });
+
+            $("#clearanceTable").DataTable({
+                dom: 'Bfrtip',
+                ordering: true,
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible',
+                            header: true,
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+
+
+
+                        },
+                        orientation: 'landscape'
+
+
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                orientation: 'landscape'
+                            }
+                        },
+                        orientation: 'landscape'
+
+
+                    }, , 'colvis'
+                ]
+            });
+        })
+</script>
+    }
+<div class="container" style="height: 80vh;">
+
+
+    <div class="col-md-10 ml-auto mr-auto">
+
+        <div class="panel">
+            <div class="panel-heading">
+                <h3>DISPUTES CLEARANCE DETAIL</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-hover table-striped" id="clearanceTable">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>CLEARANCE UNIT</th>
+                            <th>REMARKS</th>
+                            <th>DOWNLOAD</th>
+                        </tr>
+                    </thead>
+                    <tbody style="color:black;">
+                        @for (int i = 0; i < Model.ClearanceDisputesList.Count; i++)
+                        {
+                            var sn = 1 + i;
+                            <tr>
+                                <td>@sn</td>
+                                <td>@Model.ClearanceDisputesList[i].ClearanceLog.ClearanceUnit.Name</td>
+                                <td>@Model.ClearanceDisputesList[i].Remark</td>
+                                @if (Model.ClearanceDisputesList[i].Attachment != null)
+                                {
+                                    <td>
+                                        @Html.ActionLink("Download", "DownloadAttachment", new { area = "Applicant", controller = "Clearance", disputeId = @Model.ClearanceDisputesList[i].Id }, new { @class = "btn btn-success mr5", target = "_blank" })
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <br />
+
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    @using (Html.BeginForm("ReplyDisputeClearance", "Clearance", new { area = "Applicant" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                        @Html.HiddenFor(model => model.ClearanceDisputesList.FirstOrDefault().ClearanceLog.Id)
+                        <div id="fileUploadProgress" style="display:none">
+                            <img src="@Url.Content("~/Content/Images/bx_loader.gif")" />
+                            <span>Uploading ...</span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ClearanceLog.Remarks, "Remarks", new { @class = "control-label " })
+                                    @Html.TextAreaFor(model => model.ClearanceLog.Remarks, new { @style = "width:700px; height:150px;" })
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => model.ClearanceDisputes.Attachment, new { id = "hfDocumentUrl", name = "hfDocumentUrl" })
+                            <input type="text" id="tbx-file-path" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.MyFile, new { id = "fu-my-simple-upload", type = "file", style = "color:transparent;" })
+                        </div>
+                    </div>
+                </div>*@
+                        <div class="row">
+                            @*<div class="col-md-6">
+                        <div class="form-group">
+                            <input class="btn btn-outline-success" type="button" name="hl-start-upload" id="hl-start-upload" value="Upload Document" />
+                        </div>
+                    </div>*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="btn btn-success btn-lg mr5" type="submit" name="submit" id="submit" value="Save" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                    }
+                </div>
+            </div>
+        </div>
+        
+
+
+
+    </div>
+
+    </div>

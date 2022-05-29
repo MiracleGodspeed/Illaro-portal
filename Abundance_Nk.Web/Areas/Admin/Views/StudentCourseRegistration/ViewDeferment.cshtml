@@ -1,0 +1,118 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.StudentCourseRegistrationViewModel
+@{
+    ViewBag.Title = "ViewDeferment";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#semesterDiv').hide();
+        $('#StudentDeferementLog_Rusticated').change(function () {
+            if ($('#StudentDeferementLog_Rusticated').prop('checked')) {
+                $('#semesterDiv').show();
+            } else {
+                $('#semesterDiv').hide();
+            }
+        });
+    });
+
+    function removeDeferment(defermentIdValue) {
+
+        $("#loading").show();
+
+        if (!defermentIdValue) {
+            alert("Parameter not set!");
+            $("#loading").hide();
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DeleteDefermentRecord", "StudentCourseRegistration")', // Calling json method
+            dataType: 'json',
+            data: { defermentId: defermentIdValue },
+            success: function (result) {
+                if (result.IsError === false) {
+                    alert(result.Message);
+                    window.location.reload(true);
+                } else {
+                    alert(result.Message);
+                }
+                $("#loading").hide();
+            },
+            error: function (jqXHR) {
+                alert('Operation failed!.' + jqXHR.statusText);
+                $("#loading").hide();
+            }
+        });
+        return false;
+    }
+</script>
+<h2>View Deferments / Rustication</h2>
+<hr />
+
+<div class="row">
+    @using (Html.BeginForm("ViewDeferment", "StudentCourseRegistration", new { area = "Admin" }, FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentDeferementLog.Session.Name, "Session", new { @class = "col-sm-2 control-label " })
+            <div class="col-sm-10">
+                @Html.DropDownListFor(model => model.StudentDeferementLog.Session.Id, (IEnumerable<SelectListItem>)ViewBag.SessionId, new { @class = "form-control" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentDeferementLog.Rusticated, new { @class = "col-sm-2 control-label " })
+            <div class="col-sm-10">
+                @Html.CheckBoxFor(model => model.StudentDeferementLog.Rusticated, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group" id="semesterDiv">
+            @Html.LabelFor(model => model.StudentDeferementLog.Semester, new { @class = "col-sm-2 control-label " })
+            <div class="col-sm-10">
+                @Html.DropDownListFor(model => model.StudentDeferementLog.Semester.Id, (IEnumerable<SelectListItem>)ViewBag.SemesterId, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group" id="semesterDiv">
+            <div class="col-sm-10">
+                <input class="btn btn-success form-control" type="submit" name="submit" id="submit" value="Submit" />
+            </div>
+        </div>
+        <div>
+            @if (TempData["Message"] != null)
+            {
+                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+        </div>
+    }
+    @if (Model.StudentDeferementLogs != null && Model.StudentDeferementLogs.Any())
+    {
+        <span style="display: none" id="loading"><img src="~/Content/Images/bx_loader.gif"/></span>
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>MATRIC NUMBER</th>
+                    <th>FULLNAME</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.StudentDeferementLogs.Count; i++)
+                {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@Model.StudentDeferementLogs[i].Student.MatricNumber</td>
+                        <td>@Model.StudentDeferementLogs[i].Student.FullName</td>
+                        @*<td>@Html.ActionLink("Delete", "EditStudentLevel", new { Controller = "StudentCourseRegistration", Area = "Admin", sid = Model.StudentDeferementLogs[i].Id }, new { @class = "btn btn-success mr5" }) </td>*@
+                        <td><button class="btn btn-success mr5" id="btnDelete" onclick="removeDeferment(@Model.StudentDeferementLogs[i].Id)">Delete</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

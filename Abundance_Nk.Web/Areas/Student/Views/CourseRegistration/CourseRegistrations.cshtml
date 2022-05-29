@@ -1,0 +1,62 @@
+﻿@model Abundance_Nk.Web.Areas.Student.ViewModels.CourseRegistrationViewModel
+@using Abundance_Nk.Web.Models;
+
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @if (TempData["Message"] != null)
+    {
+        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+    }
+</div>
+
+
+<div class="col-md-12">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4>Course Registration History</h4>
+            </div>
+            <div class="panel-body">
+                @if (Model != null && Model.CourseRegistrations != null)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Programme</th>
+                                    <th>Department</th>
+                                    <th>Level</th>
+                                    <th>Session</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.CourseRegistrations.Count; i++)
+                                {
+                                    var sn = i + 1;
+                                    <tr>
+                                        <td>@sn</td>
+                                        <td>@Model.CourseRegistrations[i].Programme.Name</td>
+                                        <td>@Model.CourseRegistrations[i].Department.Name</td>
+                                        <td>@Model.CourseRegistrations[i].Level.Name</td>
+                                        <td>@Model.CourseRegistrations[i].Session.Name</td>
+                                        <td>@Html.ActionLink("Reprint Course Form", "ReprintCourseForm", "CourseRegistration", new { Area = "Student", cId = Utility.Encrypt(Model.CourseRegistrations[i].Id.ToString()) }, new { @class = "btn btn-sm btn-success", target = "_blank" })</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+

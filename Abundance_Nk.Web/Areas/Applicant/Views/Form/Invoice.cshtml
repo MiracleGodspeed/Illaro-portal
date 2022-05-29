@@ -1,0 +1,263 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJAMBFormPaymentViewModel
+
+@{
+    ViewBag.Title = "Invoice";
+    //Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.11.1.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/style.default.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        $("#aPrint").on('click', function () {
+            $(".printable").print();
+            return false;
+        });
+    </script>
+}
+
+
+
+<div id="printable" class="printable">
+        <div class="row text-center">
+            <h3> <img src="@Url.Content("~/Content/Images/school_logo.jpg")" width="100px" height="100px" alt="" /><p class="custom-text-black"><strong>THE FEDERAL POLYTECHNIC ILARO</strong></p></h3>
+
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    @if (TempData["Message"] != null)
+                    {
+                        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                    }
+
+                    @if (Model == null || Model.Person == null || Model.Payment == null) { return; }
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+
+                        <h5 class="lg-title mb10">From</h5>
+                        <div>
+                            <p class="custom-text-black"><strong>@Model.Person.FullName</strong><br></p>
+                            <h5>
+                                <p class="custom-text-black">
+                                    Email:
+                                    @Model.Person.Email
+                                    <br>
+                                </p>
+                            </h5>
+                            <p class="custom-text-black">
+                                Phone: @Model.Person.MobilePhone
+                                <br />
+                            </p>
+                            <p class="custom-text-black">
+                                Department: @Model.Department.Name
+                                <br />
+                            </p>
+                            <p class="custom-text-black">
+                                Programme: @Model.ApplicationProgrammeFee.Programme.Name
+                                <br />
+                            </p>
+                            <br />
+                            @if (Model != null)
+                            {
+
+                                <span><b><p class="custom-text-black">Payment Type:</b>: @Model.PaymentEtranzactType.Name</span>
+
+                            }
+
+                        </div>
+
+                    </div><!-- col-sm-6 -->
+
+                    <div class="col-xs-6 text-right">
+                        <h5 class="subtitle mb10"><p class="custom-text-black">Invoice No.</p></h5>
+                        <h4 class="text-primary custom-text-black">@Model.Payment.InvoiceNumber</h4>
+                        <h5 class="subtitle mb10"><p class="custom-text-black">RRR No.</p></h5>
+                        @if (Model.remitaPayment != null)
+    {
+                    <h4 class="text-primary custom-text-black">@Model.remitaPayment.RRR</h4>
+}
+
+                        <h5 class="subtitle mb10 custom-text-black">To</h5>
+
+
+                        <div>
+                            <p class="custom-text-black">
+                                <strong>The Federal Polytechnic, Ilaro</strong><br>
+                                P.M.B. 50, Ilaro, Ogun State.<br>
+                            </p>
+                        </div>
+
+                        <br />
+                        <p class="custom-text-black"><strong>Invoice Date:</strong> @DateTime.Now.ToLongDateString()</p>
+
+                    </div>
+                </div><!-- row -->
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                                <th>Unit Price (₦)</th>
+                                <th>Total Price (₦)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h5><p class="custom-text-black">@Model.ApplicationProgrammeFee.FeeType.Name</p></h5>
+                                </td>
+                                <td><p class="custom-text-black">1</p></p></td>
+
+
+                                <td><p class="custom-text-black">@Model.Payment.FeeDetails.Sum(p => p.Fee.Amount).ToString("n")</p></td>
+                                <td><p class="custom-text-black">@Model.Payment.FeeDetails.Sum(p => p.Fee.Amount).ToString("n")</p></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5><a href=""></a></h5>
+                                    <p></p>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5><a href=""></a></h5>
+                                    <p> </p>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5><a href=""></a></h5>
+                                    <p></p>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div><!-- table-responsive -->
+
+                <table class="table table-total">
+                    <tbody>
+                        <tr>
+                            <td class="custom-text-black">Sub Total:</td>
+                            <td class="custom-text-black">@Model.Payment.FeeDetails.Sum(p => p.Fee.Amount).ToString("n")</td>
+                            @*<td>@Model.ApplicationProgrammeFee.Fee.Amount</td>*@
+                        </tr>
+                        <tr>
+                            <td class="custom-text-black">VAT:</tdclass>
+                            <td class="custom-text-black">0.00</td>
+                        </tr>
+                        <tr>
+                            <td class="custom-text-black">TOTAL:</td>
+                            <td class="custom-text-black">@Model.Payment.FeeDetails.Sum(p => p.Fee.Amount).ToString("n")</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </div><!-- panel-body -->
+            <div class="well nomargin custom-text-black" style="margin:20px">
+                Thank you for choosing our institution.
+            </div>
+
+        </div><!-- panel -->
+   
+    <button id="aPrint" class="print btn btn-white btn-lg "><i class="fa fa-print mr5"></i> Print Slip</button>
+    <a class="btn btn-white btn-lg " href="http://www.federalpolyilaro.edu.ng/web/"><i class="fa fa-home mr5"></i>Back to Home</a>
+
+</div>
+@*<div class="container">
+    <button id="aPrint" class="print btn btn-white btn-lg "><i class="fa fa-print mr5"></i> Print Slip</button>
+    <a class="btn btn-white btn-lg " href="http://www.federalpolyilaro.edu.ng/web/"><i class="fa fa-home mr5"></i>Back to Home</a>
+</div>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @*<div class="alert alert-success fade in" style="border:1px solid green">
+                <div>
+                    <table style="margin-bottom:7px">
+                        <tr>
+                            <td style="padding-right:7px"><img src="@Url.Content("~/Content/Images/school_logo.jpg")" alt="" /></td>
+                            <td>
+                                <h3><strong>THE FEDERAL POLYTECHNIC, ILARO</strong></h3>
+                                <p>
+                                    P.M.B. 50, ILARO, OGUN STATE.
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+            <br />
+
+            <h2>Acknowledgement Slip For @Model.CurrentSession.Name Academic Session </h2>
+
+            <hr class="no-top-padding" />
+
+            <div class="row">
+                <div class="col-md-12" style="text-align:justify">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                </div>
+            </div>
+
+            <hr class="no-top-padding" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-actions no-color">
+                    <input class="btn btn-default btn-xs" type="button" name="aPrint" id="aPrint" value="Print Slip" /> |
+                    @Html.ActionLink("Fill Another Form", "PostJAMBProgramme") | <a href="http://www.federalpolyilaro.edu.ng/web/">Back to Home</a>
+                </div>
+            </div>
+        </div>*@
+
+
+
+
+
+
+
+
+
+
+
+
+

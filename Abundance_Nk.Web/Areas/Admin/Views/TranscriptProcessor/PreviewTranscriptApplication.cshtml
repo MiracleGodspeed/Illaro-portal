@@ -1,0 +1,250 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.TranscriptRequestViewModel
+@using Abundance_Nk.Business
+@{
+    ViewBag.Title = "";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+
+}
+
+<div class="card card-shadow">
+    <div class="col-md-8 p-0 ml-auto mr-auto" id="content">
+        <div class="card card-shadow" style="background: #FFF; padding:15px;">
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="">
+                            <div class="container" style="border:none !important;">
+                                <div class="row" style="text-align: center;">
+                                    <div class="col-lg-1"></div>
+                                    <div class="col-lg-2" style="">
+                                        <img class="" style="display-inline" src="https://applications.federalpolyilaro.edu.ng/Content/Images/school_logo.jpg" data-holder-rendered="true" height="150" />
+                                    </div>
+
+                                    <div class="col-lg-7" style="display: inline; margin-top:30px">
+                                        <h2 class="text-center leterhead" style="display: inline; width: 100%; margin-bottom: 1px;">THE FEDERAL POLYTECHNIC, ILARO<h2> <h5 style="" class="text-center">APPLICATION FOR ACADEMIC TRANSCRIPT</span></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <div class="container mt-5 mb-5 ml-5">
+                <div class="" style="padding-left:20px">
+
+                    <table class="table table-borderless" style="margin-bottom:0px;">
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Applicant's Name: </b> @Model.TranscriptRequest.student.FullName</div><br>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Studentship Reg./Matric No: </b> @Model.TranscriptRequest.student.MatricNumber</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <table class="table table-borderless" style="margin-bottom:0px;">
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Contact Phone No.: </b>@Model.TranscriptRequest.student.MobilePhone</div>
+                                </td>
+                                <td>
+                                    @*<div class="para" style="margin-bottom:0px;"> <b>Contact Phone No.: </b>09087654321</div>*@
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                    <table class="table table-borderless" style="margin-bottom:0px;">
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px; margin-top:0px"> <b>Fees Payable: </b></div>
+                                </td>
+                                <td>
+                                    <div>Within Nigeria(Local): &#8358;5,000.00 per Transcript</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;">Outside Nigeria(International): &#8358;10,000.00 per Transcript</div>
+                                    <div class="para"><small>The above new charges take effect from Monday 29<sup>th</sup> February, 2016.</small></div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                    <table class="table table-borderless" style="margin-bottom:0px; ">
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Copy(ies) of transcript(s) required: </b>1</div>
+                                </td>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px; text-align: left;"> <b>Fees Paid: </b>&#8358;@Model.TranscriptRequest.TransactionAmount</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Receipt No: </b>@Model.TranscriptRequest.payment.SerialNumber</div>
+                                </td>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px; text-align: left;"> <b>Date: </b>@Model.TranscriptRequest.payment.DatePaid.ToShortDateString()</div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                    <br><br>
+
+
+                    <h5>COURSE INFORMATION</h5>
+
+                    <table class="table table-borderless" style="margin-bottom:0px;">
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Carry over courses(if any): </b></div>
+                                </td>
+
+                                <td>
+                                    <div class="para" style="margin-bottom:0px; text-align: left;"> <b>Course Title/Code: </b></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Session/Semester(Carry Over Completed): </b>None</div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <small>
+                                        Name(s) and Address(es) of School(s) or Institution(s) to which Transcript(s) is/are to be forwarded.<br>
+                                        (Note: Destination Address should be clearly written in capital letters, personal/Home Address is not acceptable)
+                                    </small>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+                    <table class="table table-borderless" style="margin-bottom:0px;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <address class="para" style="margin-bottom:0px;">@Model.TranscriptRequest.DestinationAddress</address>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;">@Model.TranscriptRequest.DestinationState.Name</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;">@Model.TranscriptRequest.DestinationCountry.CountryName</div>
+                                </td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+
+
+                    <table class="table table-borderless" style="margin-bottom:0px;">
+                        <br>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Programme of Award() ND/HND/Cert.: </b>@Model.StudentLevel.Programme.Name</div><br>
+                                    @*<div class="para" style="margin-bottom:0px;"> <b>Mode of Study(Full Time or Part Time): </b> Full Time</div>*@
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <table class="table table-borderless" style="margin-bottom:0px;">
+
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Year of Entry: </b></div>
+                                </td>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Year of Graduation: </b></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>School of: </b>@Model.StudentLevel.Department.Faculty.Name</div>
+                                </td>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Department of: </b>@Model.StudentLevel.Department.Name</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>CGPA: </b></div>
+                                </td>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>CLASS/GRADE: </b></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Applicant's Signature: </b></div>
+                                </td>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Date: </b>@Model.TranscriptRequest.payment.DatePaid.ToShortDateString()</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Checked by: </b></div>
+                                </td>
+                                <td>
+                                    <div class="para" style="margin-bottom:0px;"> <b>Approved by: </b></div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>

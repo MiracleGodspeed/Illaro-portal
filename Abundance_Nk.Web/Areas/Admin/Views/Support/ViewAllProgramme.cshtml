@@ -1,0 +1,100 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.SupportViewModel
+@{
+    ViewBag.Title = "ViewAllProgramme";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="col-md-8 ml-auto mr-auto">
+    <div class="card card-shadow">
+        <div class="card-header">
+            <h3>All Programmes</h3>
+        </div>
+        <div class="card-body">
+
+
+
+            <div class="col-md-12">
+                    <div class="col-md-12 p-0">
+                        <table class="table table-responsive table-bordered table-striped table-hover" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        SN
+                                    </th>
+                                    <th>
+                                        PROGRAMME
+                                    </th>
+                                    <th>
+                                        ACTIVE
+                                    </th>
+                                    <th>
+                                        ACTIVE FOR APPLICATION
+                                    </th>
+
+                                    <th>
+                                        Activate
+                                    </th>
+                                    <th>
+                                        Application
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.ProgrammeList.Count; i++)
+                {
+                    int sn = i + 1;
+                                    <tr>
+                                        <td class="col-lg-1 col-md-1 col-sm-1">
+                                            @sn
+                                        </td>
+                                        <td class="col-lg-3 col-md-3 col-sm-3">
+                                            @Model.ProgrammeList[i].Name
+                                        </td>
+                                        <td class="col-lg-3 col-md-3 col-sm-3">
+                                            @Model.ProgrammeList[i].Activated
+                                        </td>
+                                        <td class="col-lg-3 col-md-3 col-sm-3">
+                                            @Model.ProgrammeList[i].ActiveForApllication
+                                        </td>
+                                        <td>
+                                            @if (Model.ProgrammeList[i].Activated == false)
+                                            {
+                                                <span class="glyphicon glyphicon-add" aria-hidden="true"></span> @Html.ActionLink("Activate", "ActivateProgramme", new { prId = @Model.ProgrammeList[i].Id, action="activate",  area = "admin", controller = "Support" }, new { @class = "btn btn-success" })
+                                            }
+                                            else
+                                            {
+                                                <span class="glyphicon glyphicon-add" aria-hidden="true"></span> @Html.ActionLink("Deactivate", "DeActivateProgramme", new { prId = @Model.ProgrammeList[i].Id, action="activate", area = "admin", controller = "Support" }, new { @class = "btn btn-success" })
+                                            }
+                                            
+                                        </td>
+                                        <td>
+                                            @if (Model.ProgrammeList[i].ActiveForApllication == false)
+                                            {
+                                                <span class="glyphicon glyphicon-add" aria-hidden="true"></span> @Html.ActionLink("Activate", "ActivateProgramme", new { prId = @Model.ProgrammeList[i].Id, action = "application", area = "admin", controller = "Support" }, new { @class = "btn btn-success" })
+                                            }
+                                            else
+                                            {
+                                                <span class="glyphicon glyphicon-add" aria-hidden="true"></span> @Html.ActionLink("Deactivate", "DeActivateProgramme", new { prId = @Model.ProgrammeList[i].Id, action = "application", area = "admin", controller = "Support" }, new { @class = "btn btn-success" })
+                                            }
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+

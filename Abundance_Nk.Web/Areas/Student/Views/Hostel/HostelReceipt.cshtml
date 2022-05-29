@@ -1,0 +1,335 @@
+﻿@using Abundance_Nk.Web.Models
+@model Abundance_Nk.Web.Areas.Student.ViewModels.HostelViewModel
+@{
+    Layout = null;
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/style.default.css" rel="stylesheet" />
+<link href="~/Content/misc.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        @if (TempData["Message"] != null)
+        {
+            @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+        }
+    </div>
+</div>
+
+<div class="printable">
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+
+                <div class="row pad-top-botm ">
+                    <div class="col-lg-5 col-md-6 col-sm-6 ">
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 ">
+                        <img src="~/Content/Images/school_logo.jpg" height="200" width="200" />
+                    </div>
+
+                </div>
+                <div class="row text-center contact-info">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <hr />
+                        <span>
+                            <strong>Email : </strong> info@federalpoly-ilaro.com
+                        </span>
+                        <span>
+                            <strong>Call : </strong>  08034567893
+                        </span>
+                        <span>
+                            <strong>Contact Address : </strong>Federal Ploytechnic Ilaro Ogun State.
+                        </span>
+                        <hr />
+                    </div>
+                </div>
+                <div class="row pad-top-botm client-info">
+                    <div class="col-lg-5">
+
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <h3 style="text-align: center;"> <strong>Hostel Information</strong></h3>
+                    </div>
+                    @if (Model != null && Model.HostelAllocation != null)
+            {
+                        <div class="col-md-12" style="text-align: center; font-weight: bold;">@Model.HostelAllocation.Session.Name Academic Session</div>
+                    }
+
+                </div>
+                <div class="row" style="padding: 30px;">
+                    <div class="col-md-12">
+                        <table class="table table-hover">
+                            <thead></thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>Student Name :</td>
+                                    <td>@if (Model != null && Model.HostelAllocation != null)
+                                    {
+                                        @Model.HostelAllocation.Person.FullName
+                                    }</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Student Registeration Number :</td>
+                                    <td>@if (Model != null && Model.HostelAllocation.Student != null)
+                                    {
+                                        @Model.HostelAllocation.Student.MatricNumber
+                                    }</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Hostel :</td>
+                                    <td>@if (Model != null && Model.HostelAllocation != null)
+                                    {
+                                        @Model.HostelAllocation.Hostel.Name
+                                    }</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Series/Floor :</td>
+                                    <td>@if (Model != null && Model.HostelAllocation != null)
+                                    {
+                                        @Model.HostelAllocation.Series.Name
+                                    }</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Room :</td>
+                                    <td>@if (Model != null && Model.HostelAllocation != null)
+                                    {
+                                        @Model.HostelAllocation.Room.Number
+                                    }</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Bed Space :</td>
+                                    <td>@if (Model != null && Model.HostelAllocation != null)
+                                    {
+                                        @Model.HostelAllocation.Corner.Name
+                                    }</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>
+    Bill Amount :</strong>
+</td>
+                                    <td>&#8358; @if (Model != null && Model.HostelFee != null)
+                                    {
+                                        @Model.HostelFee.Amount
+                                    }</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                      
+                    </div>
+                  
+                </div>
+                
+                    <div class="col-md-12 col-sm-12"  style="padding: 30px; background: #f2f2f2;">
+                        <strong> Important: </strong>
+                        <ol>
+                            <li>
+                                This is an electronically generated receipt so it doesn't require any signature.
+
+                            </li>
+                            <li>
+                                Please read all terms and polices on www.federalployilaro.com for returns, replacement and other issues.
+
+                            </li>
+                        </ol>
+                    </div>
+        
+
+
+        </div>
+
+
+    </div>
+ </div>
+    <!------Hostel ID Card-->
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card">
+
+                <div class="bg-success text-white mt-3 p-2">
+                    <img src="https://3.bp.blogspot.com/-F9J3QPCeoYI/XMMzkr3VbUI/AAAAAAAADxo/xorW1Xdk9xgZRIBM3RiI7LzrrIW1hLtYQCLcBGAs/s1600/Ilaro%2BPoly%2BND%2BPart-Time%2B%2528DPT%2529%2BForm%2Bis%2BOut%2B-%2BProcedures%252C%2BPrice%252C%2BExams%2Band%2BClosing%2BDate.jpg" style="width:50px; height:50px; border-radius:50%; border: 5px solid #fff;" class="img-circle"> <b>THE FEDERAL POLYTECHNIC, ILARO</b>
+                </div>
+                <div class="card-body p-2" style=" background-repeat: no-repeat; background-position: center center;  padding: 15px;   opacity: 0.9;">
+                    <div class="row" style="z-index: 9;">
+                        <div class="col-md-12">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"><h6>@Html.DisplayFor(model => model.Student.FullName) </h6></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>Department</b></td>
+                                        <td><b>Session</b></td>
+                                        <td rowspan="4">
+                                            <img src="@Url.Content(Model.Student.ImageFileUrl)" style="height: 250px; width:250px" alt="..." class="img-thumbnail">
+                                            @if (Model.HostelAllocation.Person.SignatureFileUrl != null)
+                                            {
+                                                <img src="@Url.Content(Model.HostelAllocation.Person.SignatureFileUrl)" style="height: 50px; width:200px" alt="..." class="img-thumbnail">
+                                            }
+                                            
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.DisplayFor(model => model.HostelRequest.Department.Name)</td>
+                                        <td>@Html.DisplayFor(model => model.HostelAllocation.Session.Name)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Matric Number</b></td>
+                                        <td><b>Level</b></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.DisplayFor(model => model.Student.MatricNumber)</td>
+                                        <td>@Html.DisplayFor(model => model.HostelRequest.Level.Name)</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><b>Hostel</b></td>
+                                        <td><b>Room No.</b></td>
+
+                                    </tr>
+                                    <tr>
+                                        @if (Model.HostelAllocation != null)
+                                    {
+                                            <td>
+                                                @Model.HostelAllocation.Room.Hostel.Name
+                                            </td>
+                                    }
+                                    else
+                                    {
+                                            <td></td>
+                                    }
+
+                                        @if (Model.HostelAllocation != null)
+                                    {
+                                            <td>
+                                                @Model.HostelAllocation.Room.Number
+                                            </td>
+                                    }
+                                    else
+                                    {
+                                            <td></td>
+                                    }
+                                    </tr>
+                                    <tr>
+                                        <td><b>Series/Floor</b></td>
+                                        <td><b>Bed Space</b></td>
+
+                                    </tr>
+                                    <tr>
+                                        @if (Model.HostelAllocation != null)
+                                        {
+                                            <td>
+                                                @Model.HostelAllocation.Series.Name
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+
+                                        @if (Model.HostelAllocation != null)
+                                        {
+                                            <td>
+                                                @Model.HostelAllocation.Corner.Name
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        @*<div class="col-md-4">
+                            <div class="col-md-12">
+                                <img src="@Url.Content(Model.Student.ImageFileUrl)" style="height: 150px; width:150px" alt="..." class="img-thumbnail">
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+
+                <div class="col-md-12 bg-success p-2 text-center mb-3">
+                    <h4 class="text-white">STUDENT ID CARD</h4>
+                </div>
+
+
+            </div>
+
+            <br />
+
+            <div class="card">
+
+                <div class="bg-success mt-3 p-4">
+
+                </div>
+                <div class="card-body p-2" style=" background-repeat: no-repeat; background-position: center center;  padding: 15px;  opacity: 0.9;">
+                    <div class="row pt-5 pb-3">
+                        <div class="col-md-6 pb-2">
+                            <div class="col-md-10 bg-secondary" style="height: 150px;">
+                                @if (Model.barcodeImageUrl != null)
+                            {
+                                    <div class="pull-left text-center">
+                                        <br />
+                                        <br />
+
+                                        @Html.GenerateQrCode(Model.barcodeImageUrl)
+                                    </div>
+                            }
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 ml-auto mr-auto pt-5 text-center" style="text-align:center;">
+                            <img src="@Url.Content("~/Content/Images/registrar_signature.jpg")" alt="..." class="image-responsive mt-4" height="50px" width="150px" style="background: transparent; border:0; border-radius:0px; border-bottom:2px solid rgb(109, 107, 107); ">
+
+                            <div class="text-center"><em><b>Registrar's Signature</b></em></div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-8" style="font-size: 12px;">
+                                    If found, please return to DSA Federal Polytechnic, Ilaro<br>
+
+                                </div>
+
+                                <div class="col-md-3 ">
+                                    <span style="font-size: 13px; font-weight:bold;">Powered By</span> lloydant
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+    
+
+    </div>

@@ -1,0 +1,134 @@
+﻿@model Abundance_Nk.Web.Areas.Admin.ViewModels.PaymentViewModel
+@{
+    ViewBag.Title = "Upload Payment";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function showNotification(msg, type, title) {
+            $.toast({
+                heading: title,
+                text: msg,
+                position: 'top-right',
+                loaderBg: '#ff6849',
+                icon: type,
+                hideAfter: 6500,
+                stack: 6
+            });
+        }
+        
+        function showLoading() {
+            $("#btnSubmit").hide();
+            $("#btnLoading").show();
+        }
+        function disableSaveBtn() {
+            $("#btnSave").hide();
+            $("#btnSaveLoading").show();
+        }
+
+    </script>
+}
+
+
+<div class="col-md-12">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+        <div>
+            @if (TempData["Message"] != null)
+            {
+                @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+            }
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading panel-dark-head">
+                <h4>Upload Payment </h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+@using (Html.BeginForm("UploadPayment", "Payment", new {area = "Admin"}, FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    <div class="row">
+        <div class="form-group">
+            @Html.LabelFor(m => m.FeeType.Name, "FeeType", new {@class = "col-md-2 control-label"})
+            <div class="col-md-4">
+                @Html.DropDownListFor(m => m.FeeType.Id, (IEnumerable<SelectListItem>) ViewBag.FeeType, new {@class = "form-control", @required = "required"})
+                @Html.ValidationMessageFor(m => m.FeeType.Id, null, new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("File", new { @class = "col-md-2 control-label " })
+            <div class="col-md-4">
+                <input type="file" title="Upload File" name="file" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <button type="submit" id="btnSubmit" onclick="showLoading()" value="Submit" class="btn btn-success">Submit</button>
+                <button class="btn btn-success" disabled="disabled" id="btnLoading" style="display: none"><img style="width: 10px; height: 10px" src="~/Content/Images/bx_loader.gif"/></button>
+                @Html.ActionLink("Sample Sheet", "SamplePaymentUpload", new { Controller = "Payment", area = "Admin" }, new { @class = "btn btn-default mr5", id = "btnSample" })
+            </div>
+        </div>
+    </div>
+}
+                </div>
+            </div>
+            <br/>
+            @if (Model.PaymentModels != null && Model.PaymentModels.Count > 0)
+            {
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <span> <i>Preview</i></span>
+                        <table id="payment_table" class="table-bordered table-hover table-striped table-responsive table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        SN
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Application Number
+                                    </th>
+                                    <th>
+                                        RRR
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl_body">
+                            @for (int i = 0; i < Model.PaymentModels.Count; i++)
+                            {
+                                var sn = i + 1;
+                                <tr>
+                                    <td>@sn</td>
+                                    <td>@Model.PaymentModels[i].Name</td>
+                                    <td>@Model.PaymentModels[i].ApplicationNumber</td>
+                                    <td>@Model.PaymentModels[i].RRR</td>
+
+                                </tr>
+                            }
+                            </tbody>
+
+                        </table>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                @Html.ActionLink("Save", "SavePayments", "Payment", new { Area = "Admin" }, new { @class = "btn btn-success", id = "btnSave", onclick = "disableSaveBtn()" })
+                                <button class="btn btn-success" disabled="disabled" id="btnSaveLoading" style="display: none"><img style="width: 10px; height: 10px" src="~/Content/Images/bx_loader.gif" /></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+

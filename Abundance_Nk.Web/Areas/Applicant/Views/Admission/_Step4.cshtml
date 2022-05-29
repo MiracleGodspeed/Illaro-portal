@@ -1,0 +1,151 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.AdmissionViewModel
+
+
+<h3>Generate School Fees Invoice</h3>
+<div class="row">
+    <div class="col-sm-12 ">
+        <div class="well">
+
+            @*<div class="form-group margin-bottom-0">
+                    @Html.LabelFor(model => model.ApplicationForm.Number, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9" style="font-weight:bold">
+                        @Html.DisplayFor(model => model.ApplicationForm.Number)
+                    </div>
+                </div>*@
+
+            <div class="form-group ">
+                @Html.LabelFor(model => model.AcceptanceReceiptNumber, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9" style="font-weight:bold">
+                    @Html.DisplayFor(model => model.AcceptanceReceiptNumber, new { @class = "form-control" })
+                </div>
+            </div>
+
+            @*<div class="form-group ">
+                    @Html.LabelFor(model => model.AcceptanceConfirmationOrderNumber, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9" style="font-weight:bold">
+                        @Html.DisplayFor(model => model.AcceptanceConfirmationOrderNumber, new { @class = "form-control" })
+                    </div>
+                </div>*@
+
+            @if (Model.AppliedCourse != null && Model.AppliedCourse.Programme != null && (Model.AppliedCourse.Programme.Id == 8 || Model.AppliedCourse.Programme.Id == 9))
+            {
+                <div class="form-group ">
+                    <div class="col-sm-3 ">
+                        <div class="form-group">
+                            <label>Payment Mode</label>
+                            @Html.DropDownListFor(model => model.PaymentMode.Id, (IEnumerable<SelectListItem>)ViewBag.PaymentModeId, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-sm-9 ">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <button class="btn btn-success btn-metro mr5" type="button" name="btnGenerateSchoolFeesInvoiceDL" id="btnGenerateSchoolFeesInvoiceDL">Generate Invoice</button>
+                            </div>
+
+
+                            <div class="form-group margin-bottom-0">
+                                <div id="divProcessingSchoolFeesInvoice" style="display:none">
+                                    <img src="@Url.Content(" ~/Content/Images/bx_loader.gif")" />
+                                    <span>Processing...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group ">
+
+                    <div class="col-sm-9 ">
+                        <div class="form-inline">
+
+                            <div class="form-group">
+                                <button class="btn btn-success btn-metro mr5" type="button" name="btnGenerateSchoolFeesInvoice" id="btnGenerateSchoolFeesInvoice">Generate School Fees Invoice</button>
+                            </div>
+                            <div class="row">
+                                @if (Model.AppliedCourse.Department.Faculty.Id == 1 || Model.AppliedCourse.Department.Faculty.Id == 6)
+                                {
+                                    <div class="form-group col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Include Robotic?</label>
+                                            @Html.DropDownListFor(model => model.IncludeRoboticFee, (IEnumerable<SelectListItem>)ViewBag.OptionItems, new { @class = "form-control", @id = "robotic" })
+                                            @Html.ValidationMessageFor(model => model.IncludeRoboticFee, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.AppliedCourse.Department.Faculty.Id != 6)
+                                {
+                                    <div class="form-group col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Include CISCO?</label>
+                                            @Html.DropDownListFor(model => model.IncludeCISCOFee, (IEnumerable<SelectListItem>)ViewBag.OptionItems, new { @class = "form-control" ,@id="cisco"})
+                                            @Html.ValidationMessageFor(model => model.IncludeCISCOFee, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+                                <div class="form-group col-md-4" id="regenerateInvoiceDiv" style="display:none">
+                                    <div class="form-group">
+                                        <label class="control-label">Regenerate Invoice?</label>
+                                        @Html.DropDownListFor(model => model.RegenerateInvoice, (IEnumerable<SelectListItem>)ViewBag.OptionItems, new { @class = "form-control", @id = "regenerateInvoice" })
+                                        @Html.ValidationMessageFor(model => model.RegenerateInvoice, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            @if ((Model.AppliedCourse != null && Model.AppliedCourse.Programme != null && Model.AppliedCourse.Programme.Id == 7) && Model.AppliedCourse.Option.Id == 16)
+                            {
+                                if (Model.DriversLicenseInvoiceNumber != null)
+                                {
+                                    <div class="form-group">
+                                        <button class="btn btn-success btn-metro mr5" type="button" name="" id="" disabled>
+                                            Generate Driver's License Invoice
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        <button class="btn btn-success btn-metro mr5" type="button" name="btnGenerateDriversLicenseFeesInvoice" id="btnGenerateDriversLicenseFeesInvoice">
+                                            Generate Driver's License Invoice
+                                        </button>
+                                    </div>
+                                }
+
+                            }
+                            <div class="form-group margin-bottom-0">
+                                <div id="divProcessingSchoolFeesInvoice" style="display:none">
+                                    <img src="@Url.Content(" ~/Content/Images/bx_loader.gif")" />
+                                    <span>Processing ...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div class="form-inline">
+            <div class="form-group  margin-bottom-0 divSchoolFeesInvoice" style="display:none">
+                <a id="aSchoolFeesInvoiceNumber" href="#" target="_blank" class="btn btn-white btn-lg">Print School Fees Invoice</a>
+            </div>
+            @if (Model.AppliedCourse != null && Model.AppliedCourse.Programme != null && Model.AppliedCourse.Programme.Id == 7 && Model.AppliedCourse.Option.Id == 16 && (Model.DriversLicenseInvoiceNumber != null))
+            {
+
+                <div class="form-group  margin-bottom-0 divDriversLicenseInvoice" style="display:block">
+                    <a id="aDriversLicenseInvoiceNumber" href="#" target="_blank" class="btn btn-white btn-lg">Print Drivers Licence Invoice</a>
+                </div>
+            }
+
+
+        </div>
+
+        <br />
+        <div id="divGenerateSchoolFeesInvoice"></div>
+    </div>
+
+</div>

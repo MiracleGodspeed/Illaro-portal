@@ -1,0 +1,66 @@
+﻿@model Abundance_Nk.Web.Areas.Applicant.ViewModels.PostJAMBProgrammeViewModel
+
+@{
+    //Layout = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Reprint Screening Slip";
+}
+
+
+
+@using (Html.BeginForm("ReprintAcknowledgeSlip", "Form", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <div class="panel">
+                    <div class="panel-heading"><h3>Reprint Screening Slip</h3></div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+
+                                <div class="bg-light" style="margin-bottom:15px">
+                                    <blockquote>
+                                        <p class="custom-text-black" style="padding:10px;">
+                                            <b>
+                                                Kindly enter your Application Number to reprint your Screening Slip.
+                                            </b>
+                                        </p>
+
+                                    </blockquote>
+                                </div>
+
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    @if (TempData["Message"] != null)
+                                    {
+                                        @Html.Partial("_Message", (Abundance_Nk.Model.Model.Message)TempData["Message"])
+                                    }
+                                    <div class="col-md-8 form-group">
+                                        <label style="font-size:10pt"> Please enter your Application No. Number</label>
+                                        <input type="text" required name="ApplicationNo" class="form-control" />
+                                    </div>
+
+                                    <div class="col-md-4 form-group" style="padding:20px;">
+                                        <button class="btn btn-success" type="submit" name="submit" id="submit" value="Next">
+                                            Next
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+}

@@ -1,0 +1,1519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A99E1BF1-A288-4C1F-95F0-7187EF1EBA49}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Abundance_Nk.Model</RootNamespace>
+    <AssemblyName>Abundance_Nk.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity\ABILITY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\AbundanceModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AbundanceModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\AbundanceModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\AbundanceModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AbundanceModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ACADEMIC_STANDING.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ACCPTANCE__REPORT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ADMISSION_CRITERIA.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ADMISSION_CRITERIA_FOR_O_LEVEL_SUBJECT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ADMISSION_CRITERIA_FOR_O_LEVEL_SUBJECT_ALTERNATIVE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ADMISSION_CRITERIA_FOR_O_LEVEL_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ADMISSION_LIST.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ADMISSION_LIST_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ADMISSION_LIST_BATCH.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ADMISSION_LIST_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_APPLICATION_APPROVAL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_APPLIED_COURSE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_APPLIED_COURSE_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_CLEARANCE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_JAMB_DETAIL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_LEVEL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_O_LEVEL_RESULT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_O_LEVEL_RESULT_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_O_LEVEL_RESULT_DETAIL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_O_LEVEL_RESULT_DETAIL_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_PREVIOUS_EDUCATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_SPONSOR.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICANT_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICATION_FORM.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICATION_FORM_SETTING.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\APPLICATION_PROGRAMME_FEE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ATTENDANCE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ATTENDANCE_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\BANK.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\BANK_BRANCH.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\BLOOD_GROUP.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CARD_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CHANGE_OF_COURSE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CLASS_ASSESSMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CLASS_ROOM.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CLEARANCE_DISPUTES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CLEARANCE_LOG.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CLEARANCE_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CLEARANCE_UNITS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COMPLAIN_LOG.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CONFRENCE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COUNTRY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COURSE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COURSE_ALLOCATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COURSE_EVALUATION_ANSWER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COURSE_EVALUATION_QUESTION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COURSE_MODE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COURSE_REGISTRATION_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COURSE_TEACHER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COURSE_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\COURSE_UNIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CURRENT_FEE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CURRENT_SESSION_SEMESTER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DAY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DAY_ACTIVITY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DELIVERY_SERVICE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DELIVERY_SERVICE_ZONE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DEPARTMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DEPARTMENT_CAPACITY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DEPARTMENT_HEAD.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DEPARTMENT_OPTION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DISPLAY_MESSAGE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DRIVING_EXPERIENCE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\EDUCATIONAL_QUALIFICATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\E_ASSIGNMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\E_ASSIGNMENT_SUBMISSION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\E_CHAT_RESPONPSE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\E_CHAT_TOPIC.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\E_CONTENT_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\E_COURSE_CONTENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\E_COURSE_CONTENT_DOWNLOAD.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FACULTY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FACULTY_OFFICER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FEE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FEEDBACK_STORE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FEESETUP_FEE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FEE_DETAIL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FEE_DETAIL_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FEE_IN_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FEE_SETUP.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FEE_SETUP_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FEE_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\GENERAL_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\GENOTYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\GEO_ZONE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\GRADE_LEVEL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_ALLOCATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_ALLOCATION_COUNT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_ALLOCATION_CRITERIA.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_AMOUNT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_BLACKLIST.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_FEE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_REQUEST.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_REQUEST_COUNT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_ROOM.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_ROOM_CORNER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_SERIES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\HOSTEL_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ILLNESS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\INSTITUTION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\INSTITUTION_CHOICE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\INSTITUTION_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\IT_DURATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\JAMB_O_LEVEL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\JAMB_O_LEVEL_DETAIL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\JAMB_RECORD.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\JOB_ROLE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\LEVEL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\LEVEL_CLASS_ROOM.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\LICENSE_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\LIVE_LECTURES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\LIVE_LECTURE_ATTENDANCE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\LOCAL_GOVERNMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MARITAL_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MENU.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MENU_GROUP.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MENU_IN_ROLE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MIGRA.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Model\AdmissionListReportFormat.cs" />
+    <Compile Include="Entity\Model\AdmissionListSummary.cs" />
+    <Compile Include="Entity\Model\AdvancedAdmissionList.cs" />
+    <Compile Include="Entity\Model\AggregateSheet.cs" />
+    <Compile Include="Entity\Model\AlumniRecord.cs" />
+    <Compile Include="Entity\Model\ApplicantApplicationApproval.cs" />
+    <Compile Include="Entity\Model\ApplicationApprovalModel.cs" />
+    <Compile Include="Entity\Model\ApplicationFormJsonModel.cs" />
+    <Compile Include="Entity\Model\ChangeOfCourse.cs" />
+    <Compile Include="Entity\Model\ClearanceDisputes.cs" />
+    <Compile Include="Entity\Model\ClearanceLog.cs" />
+    <Compile Include="Entity\Model\ClearanceStatus.cs" />
+    <Compile Include="Entity\Model\ClearanceUnit.cs" />
+    <Compile Include="Entity\Model\Confrence.cs" />
+    <Compile Include="Entity\Model\CourseEvaluationReport.cs" />
+    <Compile Include="Entity\Model\CourseRegistrationDetailAudit.cs" />
+    <Compile Include="Entity\Model\CourseRegistrationReport.cs" />
+    <Compile Include="Entity\Model\CourseRegistrationStatus.cs" />
+    <Compile Include="Entity\Model\DeliveryService.cs" />
+    <Compile Include="Entity\Model\DeliveryServiceZone.cs" />
+    <Compile Include="Entity\Model\DepartmentCapacity.cs" />
+    <Compile Include="Entity\Model\DisplayMessage.cs" />
+    <Compile Include="Entity\Model\DrivingExperience.cs" />
+    <Compile Include="Entity\Model\DuplicateApplicationNumber.cs" />
+    <Compile Include="Entity\Model\EAssignment.cs" />
+    <Compile Include="Entity\Model\EAssignmentSubmission.cs" />
+    <Compile Include="Entity\Model\EChatBoard.cs" />
+    <Compile Include="Entity\Model\EChatResponse.cs" />
+    <Compile Include="Entity\Model\EChatTopic.cs" />
+    <Compile Include="Entity\Model\EContentType.cs" />
+    <Compile Include="Entity\Model\ECourse.cs" />
+    <Compile Include="Entity\Model\ECourseContentDownload.cs" />
+    <Compile Include="Entity\Model\ElearningResult.cs" />
+    <Compile Include="Entity\Model\ELearningView.cs" />
+    <Compile Include="Entity\Model\EmailMessage.cs" />
+    <Compile Include="Entity\Model\EnumClass.cs" />
+    <Compile Include="Entity\Model\FeedbackStore.cs" />
+    <Compile Include="Entity\Model\FeeDetailAudit.cs" />
+    <Compile Include="Entity\Model\FeeinPayment.cs" />
+    <Compile Include="Entity\Model\FeeSetup.cs" />
+    <Compile Include="Entity\Model\FeeSetupAudit.cs" />
+    <Compile Include="Entity\Model\FeeSetupFee.cs" />
+    <Compile Include="Entity\Model\GeneralAudit.cs" />
+    <Compile Include="Entity\Model\GeoZone.cs" />
+    <Compile Include="Entity\Model\HostelAmount.cs" />
+    <Compile Include="Entity\Model\HostelFee.cs" />
+    <Compile Include="Entity\Model\Ability.cs" />
+    <Compile Include="Entity\Model\AcademicStanding.cs" />
+    <Compile Include="Entity\Model\AcceptanceView.cs" />
+    <Compile Include="Entity\Model\AdmissionCriteria.cs" />
+    <Compile Include="Entity\Model\AdmissionCriteriaForOLevelSubjectAlternative.cs" />
+    <Compile Include="Entity\Model\AdmissionCriteriaForOLevelSubject.cs" />
+    <Compile Include="Entity\Model\AdmissionCriteriaForOLevelType.cs" />
+    <Compile Include="Entity\Model\AdmissionLetter.cs" />
+    <Compile Include="Entity\Model\AdmissionList.cs" />
+    <Compile Include="Entity\Model\AdmissionListAudit.cs" />
+    <Compile Include="Entity\Model\AdmissionListBatch.cs" />
+    <Compile Include="Entity\Model\AdmissionListType.cs" />
+    <Compile Include="Entity\Model\Applicant.cs" />
+    <Compile Include="Entity\Model\ApplicantClearance.cs" />
+    <Compile Include="Entity\Model\ApplicantResult.cs" />
+    <Compile Include="Entity\Model\ApplicantStatus.cs" />
+    <Compile Include="Entity\Model\ApplicationForm.cs" />
+    <Compile Include="Entity\Model\ApplicationFormSetting.cs" />
+    <Compile Include="Entity\Model\ApplicationFormSummary.cs" />
+    <Compile Include="Entity\Model\ApplicationFormView.cs" />
+    <Compile Include="Entity\Model\ApplicationProgrammeFee.cs" />
+    <Compile Include="Entity\Model\AppliedCourse.cs" />
+    <Compile Include="Entity\Model\AppliedCourseAudit.cs" />
+    <Compile Include="Entity\Model\AttendanceFormat.cs" />
+    <Compile Include="Entity\Model\Audit.cs" />
+    <Compile Include="Entity\Model\Bank.cs" />
+    <Compile Include="Entity\Model\BankBranch.cs" />
+    <Compile Include="Entity\Model\BasicSetup.cs" />
+    <Compile Include="Entity\Model\BloodGroup.cs" />
+    <Compile Include="Entity\Model\CardPayment.cs" />
+    <Compile Include="Entity\Model\CarryOverReportModel.cs" />
+    <Compile Include="Entity\Model\ComplaintLog.cs" />
+    <Compile Include="Entity\Model\CourseEvaluation.cs" />
+    <Compile Include="Entity\Model\CourseEvaluationAnswer.cs" />
+    <Compile Include="Entity\Model\CourseEvaluationQuestion.cs" />
+    <Compile Include="Entity\Model\HostelAllocationCount.cs" />
+    <Compile Include="Entity\Model\HostelBlacklist.cs" />
+    <Compile Include="Entity\Model\HostelRequest.cs" />
+    <Compile Include="Entity\Model\HostelRequestCount.cs" />
+    <Compile Include="Entity\Model\HostelRoomCorner.cs" />
+    <Compile Include="Entity\Model\Country.cs" />
+    <Compile Include="Entity\Model\Course.cs" />
+    <Compile Include="Entity\Model\CourseAllocation.cs" />
+    <Compile Include="Entity\Model\CourseMode.cs" />
+    <Compile Include="Entity\Model\CourseRegistration.cs" />
+    <Compile Include="Entity\Model\CourseRegistrationDetail.cs" />
+    <Compile Include="Entity\Model\CourseRegistrationReportModel.cs" />
+    <Compile Include="Entity\Model\CourseType.cs" />
+    <Compile Include="Entity\Model\CourseUnit.cs" />
+    <Compile Include="Entity\Model\CurrentSessionSemester.cs" />
+    <Compile Include="Entity\Model\Department.cs" />
+    <Compile Include="Entity\Model\DepartmentalSchoolFees.cs" />
+    <Compile Include="Entity\Model\DepartmentOption.cs" />
+    <Compile Include="Entity\Model\DuplicateMatricNumberFix.cs" />
+    <Compile Include="Entity\Model\EducationalQualification.cs" />
+    <Compile Include="Entity\Model\ExamRawScoreSheetReport.cs" />
+    <Compile Include="Entity\Model\Faculty.cs" />
+    <Compile Include="Entity\Model\FacultyOfficer.cs" />
+    <Compile Include="Entity\Model\Fee.cs" />
+    <Compile Include="Entity\Model\FeeDetail.cs" />
+    <Compile Include="Entity\Model\FeesPaymentReport.cs" />
+    <Compile Include="Entity\Model\FeeType.cs" />
+    <Compile Include="Entity\Model\FeeTypes.cs" />
+    <Compile Include="Entity\Model\Genotype.cs" />
+    <Compile Include="Entity\Model\Hostel.cs" />
+    <Compile Include="Entity\Model\HostelAllocation.cs" />
+    <Compile Include="Entity\Model\HostelAllocationCriteria.cs" />
+    <Compile Include="Entity\Model\HostelType.cs" />
+    <Compile Include="Entity\Model\Institution.cs" />
+    <Compile Include="Entity\Model\InstitutionChoice.cs" />
+    <Compile Include="Entity\Model\InstitutionType.cs" />
+    <Compile Include="Entity\Model\Invoice.cs" />
+    <Compile Include="Entity\Model\ITDuration.cs" />
+    <Compile Include="Entity\Model\JambOlevel.cs" />
+    <Compile Include="Entity\Model\JambOlevelDetail.cs" />
+    <Compile Include="Entity\Model\JambRecord.cs" />
+    <Compile Include="Entity\Model\JsonResultModel.cs" />
+    <Compile Include="Entity\Model\LevelList.cs" />
+    <Compile Include="Entity\Model\LicenseType.cs" />
+    <Compile Include="Entity\Model\LiveLectures.cs" />
+    <Compile Include="Entity\Model\LiveLecturesAttendance.cs" />
+    <Compile Include="Entity\Model\MaritalStatus.cs" />
+    <Compile Include="Entity\Model\Menu.cs" />
+    <Compile Include="Entity\Model\MenuGroup.cs" />
+    <Compile Include="Entity\Model\MenuInRole.cs" />
+    <Compile Include="Entity\Model\ModeOfEntry.cs" />
+    <Compile Include="Entity\Model\ModeOfFinance.cs" />
+    <Compile Include="Entity\Model\ModeOfStudy.cs" />
+    <Compile Include="Entity\Model\NextOfKin.cs" />
+    <Compile Include="Entity\Model\OdFelStudentFormat.cs" />
+    <Compile Include="Entity\Model\OlevelResultAudit.cs" />
+    <Compile Include="Entity\Model\OlevelResultdDetailsAudit.cs" />
+    <Compile Include="Entity\Model\OLevelTypes.cs" />
+    <Compile Include="Entity\Model\PaymentChannel.cs" />
+    <Compile Include="Entity\Model\PaymentEtranzact.cs" />
+    <Compile Include="Entity\Model\PaymentEtranzactType.cs" />
+    <Compile Include="Entity\Model\PaymentHistory.cs" />
+    <Compile Include="Entity\Model\PaymentReport.cs" />
+    <Compile Include="Entity\Model\PaymentSummary.cs" />
+    <Compile Include="Entity\Model\PaymentVerification.cs" />
+    <Compile Include="Entity\Model\PaymentVerificationReport.cs" />
+    <Compile Include="Entity\Model\Paystack.cs" />
+    <Compile Include="Entity\Model\PrincipalOfficers.cs" />
+    <Compile Include="Entity\Model\Programmes.cs" />
+    <Compile Include="Entity\Model\RankingData.cs" />
+    <Compile Include="Entity\Model\RegenerateClearedInvoice.cs" />
+    <Compile Include="Entity\Model\RegisteredCoursesReport.cs" />
+    <Compile Include="Entity\Model\RegistrationBalanceReport.cs" />
+    <Compile Include="Entity\Model\PaymentScholarship.cs" />
+    <Compile Include="Entity\Model\PaymentTerminal.cs" />
+    <Compile Include="Entity\Model\PaymentView.cs" />
+    <Compile Include="Entity\Model\PersonAudit.cs" />
+    <Compile Include="Entity\Model\PostUtmeResult.cs" />
+    <Compile Include="Entity\Model\PutmeResult.cs" />
+    <Compile Include="Entity\Model\PutmeResultAudit.cs" />
+    <Compile Include="Entity\Model\Receipt.cs" />
+    <Compile Include="Entity\Model\Remita.cs" />
+    <Compile Include="Entity\Model\RemitaPayment.cs" />
+    <Compile Include="Entity\Model\RemitaRequestState.cs" />
+    <Compile Include="Entity\Model\RemitaResponse.cs" />
+    <Compile Include="Entity\Model\RemitaSettings.cs" />
+    <Compile Include="Entity\Model\RemitaSplitItems.cs" />
+    <Compile Include="Entity\Model\ResponseModel.cs" />
+    <Compile Include="Entity\Model\Result.cs" />
+    <Compile Include="Entity\Model\ResultFormat.cs" />
+    <Compile Include="Entity\Model\ResultHolder.cs" />
+    <Compile Include="Entity\Model\ResultSpecialCaseMessages.cs" />
+    <Compile Include="Entity\Model\HostelRoom.cs" />
+    <Compile Include="Entity\Model\ResultUpdateModel.cs" />
+    <Compile Include="Entity\Model\Roles.cs" />
+    <Compile Include="Entity\Model\RoomSetting.cs" />
+    <Compile Include="Entity\Model\ScratchCard.cs" />
+    <Compile Include="Entity\Model\ApplicantJambDetail.cs" />
+    <Compile Include="Entity\Model\Level.cs" />
+    <Compile Include="Entity\Model\LocalGovernment.cs" />
+    <Compile Include="Entity\Model\Message.cs" />
+    <Compile Include="Entity\Model\Nationality.cs" />
+    <Compile Include="Entity\Model\OLevelExamSitting.cs" />
+    <Compile Include="Entity\Model\OLevelGrade.cs" />
+    <Compile Include="Entity\Model\OLevelResult.cs" />
+    <Compile Include="Entity\Model\OLevelResultDetail.cs" />
+    <Compile Include="Entity\Model\OLevelSubject.cs" />
+    <Compile Include="Entity\Model\OLevelType.cs" />
+    <Compile Include="Entity\Model\OnlinePayment.cs" />
+    <Compile Include="Entity\Model\Payment.cs" />
+    <Compile Include="Entity\Model\PaymentMode.cs" />
+    <Compile Include="Entity\Model\PaymentType.cs" />
+    <Compile Include="Entity\Model\Person.cs" />
+    <Compile Include="Entity\Model\PersonRight.cs" />
+    <Compile Include="Entity\Model\PersonType.cs" />
+    <Compile Include="Entity\Model\PhotoCard.cs" />
+    <Compile Include="Entity\Model\PreviousEducation.cs" />
+    <Compile Include="Entity\Model\Programme.cs" />
+    <Compile Include="Entity\Model\ProgrammeDepartment.cs" />
+    <Compile Include="Entity\Model\Relationship.cs" />
+    <Compile Include="Entity\Model\Religion.cs" />
+    <Compile Include="Entity\Model\ResultGrade.cs" />
+    <Compile Include="Entity\Model\Right.cs" />
+    <Compile Include="Entity\Model\Role.cs" />
+    <Compile Include="Entity\Model\RoleRight.cs" />
+    <Compile Include="Entity\Model\SchoolType.cs" />
+    <Compile Include="Entity\Model\ScoreGrade.cs" />
+    <Compile Include="Entity\Model\ScratchCardBatch.cs" />
+    <Compile Include="Entity\Model\ScratchCardType.cs" />
+    <Compile Include="Entity\Model\SecurityQuestion.cs" />
+    <Compile Include="Entity\Model\Semester.cs" />
+    <Compile Include="Entity\Model\HostelSeries.cs" />
+    <Compile Include="Entity\Model\Session.cs" />
+    <Compile Include="Entity\Model\Sessions.cs" />
+    <Compile Include="Entity\Model\SessionSemester.cs" />
+    <Compile Include="Entity\Model\Setup.cs" />
+    <Compile Include="Entity\Model\Sex.cs" />
+    <Compile Include="Entity\Model\ShortFall.cs" />
+    <Compile Include="Entity\Model\Slug.cs" />
+    <Compile Include="Entity\Model\Sms.cs" />
+    <Compile Include="Entity\Model\SortOption.cs" />
+    <Compile Include="Entity\Model\Sponsor.cs" />
+    <Compile Include="Entity\Model\Staff.cs" />
+    <Compile Include="Entity\Model\StaffDepartment.cs" />
+    <Compile Include="Entity\Model\StaffType.cs" />
+    <Compile Include="Entity\Model\State.cs" />
+    <Compile Include="Entity\Model\StateGeoZone.cs" />
+    <Compile Include="Entity\Model\StatementOfResultSummary.cs" />
+    <Compile Include="Entity\Model\Student.cs" />
+    <Compile Include="Entity\Model\StudentAcademicInformation.cs" />
+    <Compile Include="Entity\Model\StudentCategory.cs" />
+    <Compile Include="Entity\Model\StudentDeferementLog.cs" />
+    <Compile Include="Entity\Model\StudentDetailFormat.cs" />
+    <Compile Include="Entity\Model\StudentDetailsModel.cs" />
+    <Compile Include="Entity\Model\StudentEmploymentInformation.cs" />
+    <Compile Include="Entity\Model\StudentExamRawScoreSheet.cs" />
+    <Compile Include="Entity\Model\StudentExtraYearSession.cs" />
+    <Compile Include="Entity\Model\StudentFinanceInformation.cs" />
+    <Compile Include="Entity\Model\StudentLevel.cs" />
+    <Compile Include="Entity\Model\StudentMatricNumberAssignment.cs" />
+    <Compile Include="Entity\Model\StudentNdResult.cs" />
+    <Compile Include="Entity\Model\StudentPayment.cs" />
+    <Compile Include="Entity\Model\StudentRecordFormat.cs" />
+    <Compile Include="Entity\Model\StudentReport.cs" />
+    <Compile Include="Entity\Model\StudentResult.cs" />
+    <Compile Include="Entity\Model\StudentResultDetail.cs" />
+    <Compile Include="Entity\Model\StudentResultStatus.cs" />
+    <Compile Include="Entity\Model\StudentResultType.cs" />
+    <Compile Include="Entity\Model\StudentSponsor.cs" />
+    <Compile Include="Entity\Model\StudentStatisticReport.cs" />
+    <Compile Include="Entity\Model\StudentStatus.cs" />
+    <Compile Include="Entity\Model\StudentType.cs" />
+    <Compile Include="Entity\Model\StudentUpdateAudit.cs" />
+    <Compile Include="Entity\Model\StudentVerification.cs" />
+    <Compile Include="Entity\Model\Title.cs" />
+    <Compile Include="Entity\Model\TranscriptClearanceStatus.cs" />
+    <Compile Include="Entity\Model\TranscriptRequest.cs" />
+    <Compile Include="Entity\Model\TranscriptStatus.cs" />
+    <Compile Include="Entity\Model\UnregisteredStudentReportModel.cs" />
+    <Compile Include="Entity\Model\UploadedCourseFormat.cs" />
+    <Compile Include="Entity\Model\User.cs" />
+    <Compile Include="Entity\Model\UserRoles.cs" />
+    <Compile Include="Entity\Model\Value.cs" />
+    <Compile Include="Entity\MODE_OF_ENTRY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MODE_OF_FINANCE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MODE_OF_STUDY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\NATIONALITY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\NEWS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\NEXT_OF_KIN.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\OCCUPATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\OFFENCE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\OFFENCE_DEGREE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\OFFENCE_PUNISHMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ONLINE_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\O_LEVEL_EXAM_SITTING.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\O_LEVEL_GRADE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\O_LEVEL_SUBJECT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\O_LEVEL_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAID.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT_CHANNEL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT_ETRANZACT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT_ETRANZACT_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT_MODE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT_PAYSTACK.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT_SCHOLARSHIP.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT_TERMINAL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PAYMENT_VERIFICATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PERIOD.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PERSON.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PERSON_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PERSON_LOGIN.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PERSON_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\POST_UTME_RESULT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PRINCIPAL_OFFICERS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PROGRAMME.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PROGRAMME_DEPARTMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PUNISHMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PUNISHMENT_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PUTME_RESULT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PUTME_RESULT_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\RANKING_DATA.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\RATING.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\REGENERATED_CLEARED_INVOICE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\RELATIONSHIP.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\RELIGION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\REMITA_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\REMITA_PAYMENT_SETTINGS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\REMITA_SPLIT_DETAILS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\REPORT_CARD.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\REPORT_CARD_COMMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\RESULT_GRADE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\RIGHT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ROLE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ROLE_RIGHT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SCORE_GRADE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SCRATCH_CARD.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SCRATCH_CARD_BATCH.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SCRATCH_CARD_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SECURITY_QUESTION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SEMESTER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SESSION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SESSION_SEMESTER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SEX.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SHORT_FALL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STAFF.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STAFF_DEPARTMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STAFF_JOB_ROLE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STAFF_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STATE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STATE_GEO_ZONE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STP_INSERT_APPLICATION_FORM_Result.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STP_INSERT_STUDENT_Result.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STP_UPDATE_APPLICATION_FORM_Result.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STP_UPDATE_STUDENT_Result.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_ACADEMIC_INFORMATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_ASSESSMENT_CRITERIA.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_CATEGORY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_COURSE_REGISTRATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_COURSE_REGISTRATION_DETAIL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_COURSE_REGISTRATION_DETAIL_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_DEFERMENT_LOG.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_EMPLOYMENT_INFORMATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_EXAM_RAW_SCORE_SHEET_RESULT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_EXAM_RAW_SCORE_SHEET_RESULT_NOT_REGISTERED.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_EXTRA_YEAR_SESSION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_FINANCE_INFORMATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_LEVEL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_LEVEL_HISTORY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_MATRIC_NUMBER_ASSIGNMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_ND_RESULT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_RESULT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_RESULT_DETAIL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_RESULT_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_RESULT_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_SCORE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_SEMESTER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_SPONSOR.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_TYPE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\STUDENT_UPDATE_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\TEMPEVALUATIONTABLE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\TITLE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\tmp_CourseReg.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\TRANSCRIPT_CLEARANCE_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\TRANSCRIPT_REQUEST.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\TRANSCRIPT_STATUS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\USER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VENUE_DESIGNATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ACCEPTANCE_REPORT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ACCEPTANCE_VERIFICATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ADMISSION_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ADMISSION_LIST.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ADMISSION_LIST_ALL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ADMISSION_LIST_SUMMARY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ALL_PAYMENT_REPORT_NEW_STUDENTS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ALL_PAYMENT_REPORT_RETURNING_STUDENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_APPLICANT_APPLICATION_APPROVAL_SUMMARY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_APPLICANT_DETAILS_HND.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_APPLICANT_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_APPLICANT_RESULT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_APPLICANT_UPLOAD.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_APPLICATION_EXAM_NUMBER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_APPLICATION_FORM_COUNT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_APPLICATION_FORM_SUMMARY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_APPLIED_COURSE_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ASSIGNED_MATRIC_NUMBER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_CERTIFICATE_VERFICATION_REMITA.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_CONFIRMED_PAYMENTS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_COURSE_EVALUATION_SCORES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_COURSE_REGISTRATION_SUMMARY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_DEBTORS_NEW_STUDENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_DEBTORS_OLD_STUDENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_DEPARTMENT_OPTION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_DUPLICATE_APPLICATION_NUMBER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_ELEARNING_COURSE_CONTENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_GENERAL_AUDIT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_HND_APPLICANTS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_HOSTEL_ALLOCATION_COUNT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_NEW_STUDENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_OLD_STUDENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAID_FEES_NOT_REGISTERED.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_CONFIRMATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_CONFIRMATION_NEW_STUDENTS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_ETRANZACT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_NEW_STUDENT_COMPREHENSIVE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_NEW_STUDENT_FIRST.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_NEW_STUDENT_FULL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_OLD_STUDENT_COMPREHENSIVE.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_OLD_STUDENT_FIRST.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_OLD_STUDENT_FULL.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_SUMMARY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_SUMMARY_ETRANZACT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_SUMMARY_REMITA.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_VERIFICATION_NEW_STUDENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PAYMENT_VERIFICATION_OLD_STUDENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PERSON_APPLICATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_POST_JAMP_APPLICATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_POST_JAMP_APPLICATION_ND_REGULAR.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PROGRAMME_DEPARTMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PROSPECTIVE_STUDENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_PUTME_RESULT_DETAILS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_REGISTERED_COURSES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_REMITA_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_RESULT_UPDATES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_SCHOOL_FEES_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_SCHOOL_FEES_VERIFICATION.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENTS_PAID_BUT_UNREGISTERED.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENTS_WITH_NO_SCHOOL_FEES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_DETAILS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_REGISTERED_COURSES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_REGISTERED_COURSES_REPORT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_REGISTERED_COURSE_CARRYOVER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_RESULT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_RESULT_2.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_RESULT_MASTER_LIST.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_RESULT_OLD_GRADING_SYSTEM.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_RESULT_RAW_SCORE_SHEET.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_RESULT_RAW_SCORE_SHEET_UNREGISTERED.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_RESULT_SUMMARY.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_RESULT_WITH_OPTIONS.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_STUDENT_WITHOUT_RESULT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_TRANSCRIPT_REQUEST.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_TRANSCRIPT_REQUEST_REMITA.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_TRANSCRIPT_VERIFICATION_REMITA.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_TRANSCRIPT_VERIFICATION_REMITA2.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_UPLOADED_COURSES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_VACANT_BEDSPACES.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_VERIFICATION_REPORT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_VERIFIED_CERTIFICATE_VERIFICATION_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_VERIFIED_TRANSCRIPT_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\VW_VERIFIED_TRANSCRIPT_VERIFICATION_PAYMENT.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\WRONG_CARRYOVER.cs">
+      <DependentUpon>AbundanceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Translator\AbilityTranslator.cs" />
+    <Compile Include="Translator\AcademicStandingTranslator.cs" />
+    <Compile Include="Translator\AdmissionCriteriaForOLevelSubjectAlternativeTranslator.cs" />
+    <Compile Include="Translator\AdmissionCriteriaForOLevelSubjectTranslator.cs" />
+    <Compile Include="Translator\AdmissionCriteriaForOLevelTypeTranslator.cs" />
+    <Compile Include="Translator\AdmissionCriteriaTranslator.cs" />
+    <Compile Include="Translator\AdmissionListAuditTranslator.cs" />
+    <Compile Include="Translator\AdmissionListBatchTranslator.cs" />
+    <Compile Include="Translator\AdmissionListTranslator.cs" />
+    <Compile Include="Translator\AdmissionListTypeTranslator.cs" />
+    <Compile Include="Translator\ApplicantApplicationApprovalTranslator.cs" />
+    <Compile Include="Translator\ApplicantClearanceTranslator.cs" />
+    <Compile Include="Translator\ApplicantStatusTranslator.cs" />
+    <Compile Include="Translator\ApplicantTranslator.cs" />
+    <Compile Include="Translator\ApplicationFormSettingTranslator.cs" />
+    <Compile Include="Translator\ApplicationFormTranslator.cs" />
+    <Compile Include="Translator\ApplicationProgrammeFeeTranslator.cs" />
+    <Compile Include="Translator\AppliedCourseAuditTranslator.cs" />
+    <Compile Include="Translator\AppliedCourseTranslator.cs" />
+    <Compile Include="Translator\BankBranchTranslator.cs" />
+    <Compile Include="Translator\BankTranslator.cs" />
+    <Compile Include="Translator\BloodGroupTranslator.cs" />
+    <Compile Include="Translator\CardPaymentTranslator.cs" />
+    <Compile Include="Translator\ChangeOfCourseTranslator.cs" />
+    <Compile Include="Translator\ClearanceDisputesTranslator.cs" />
+    <Compile Include="Translator\ClearanceLogTranslator.cs" />
+    <Compile Include="Translator\ClearanceStatusTranslator.cs" />
+    <Compile Include="Translator\ClearanceUnitTranslator.cs" />
+    <Compile Include="Translator\ComplianLogTranslator.cs" />
+    <Compile Include="Translator\ConfrenceTranslator.cs" />
+    <Compile Include="Translator\CountryTranslator.cs" />
+    <Compile Include="Translator\CourseAllocationTranslator.cs" />
+    <Compile Include="Translator\CourseEvaluationAnswerTranslator.cs" />
+    <Compile Include="Translator\CourseEvaluationQuestionTranslator.cs" />
+    <Compile Include="Translator\CourseModeTranslator.cs" />
+    <Compile Include="Translator\CourseRegistrationDetailAuditTranslator.cs" />
+    <Compile Include="Translator\CourseRegistrationDetailTranslator.cs" />
+    <Compile Include="Translator\CourseRegistrationStatusTranslator.cs" />
+    <Compile Include="Translator\CourseRegistrationTranslator.cs" />
+    <Compile Include="Translator\CourseTranslator.cs" />
+    <Compile Include="Translator\CourseTypeTranslator.cs" />
+    <Compile Include="Translator\CourseUnitTranslator.cs" />
+    <Compile Include="Translator\CurrentSessionSemesterTranslator.cs" />
+    <Compile Include="Translator\DeliveryServiceTranslator.cs" />
+    <Compile Include="Translator\DeliveryServiceZoneTranslator.cs" />
+    <Compile Include="Translator\DepartmentCapacityTranslator.cs" />
+    <Compile Include="Translator\DepartmentOptionTranslator.cs" />
+    <Compile Include="Translator\DepartmentTranslator.cs" />
+    <Compile Include="Translator\DisplayMessageTranslator.cs" />
+    <Compile Include="Translator\DrivingExperienceTranslator.cs" />
+    <Compile Include="Translator\EAssignmentSubmissionTranslator.cs" />
+    <Compile Include="Translator\EAssignmentTranslator.cs" />
+    <Compile Include="Translator\EChatResponseTranslator.cs" />
+    <Compile Include="Translator\EChatTopicTranslator.cs" />
+    <Compile Include="Translator\EContentTypeTranslator.cs" />
+    <Compile Include="Translator\ECourseContentDownloadTranslator.cs" />
+    <Compile Include="Translator\ECourseTranslator.cs" />
+    <Compile Include="Translator\EducationalQualificationTranslator.cs" />
+    <Compile Include="Translator\FacultyOfficerTranslator.cs" />
+    <Compile Include="Translator\FacultyTranslator.cs" />
+    <Compile Include="Translator\FeedbackStoreTranslator.cs" />
+    <Compile Include="Translator\FeeDetailAuditTranslator.cs" />
+    <Compile Include="Translator\FeeDetailTranslator.cs" />
+    <Compile Include="Translator\FeeinPaymentTranslator.cs" />
+    <Compile Include="Translator\FeeSetupAuditTranslator.cs" />
+    <Compile Include="Translator\FeeSetupFeeTranslator.cs" />
+    <Compile Include="Translator\FeeSetupTranslator.cs" />
+    <Compile Include="Translator\FeeTranslator.cs" />
+    <Compile Include="Translator\FeeTypeTranslator.cs" />
+    <Compile Include="Translator\GeneralAuditTranslator.cs" />
+    <Compile Include="Translator\GenotypeTranslator.cs" />
+    <Compile Include="Translator\GeoZoneTranslator.cs" />
+    <Compile Include="Translator\HostelAllocationCountTranslator.cs" />
+    <Compile Include="Translator\HostelAmountTranslator.cs" />
+    <Compile Include="Translator\HostelBlacklistTranslator.cs" />
+    <Compile Include="Translator\HostelFeeTranslator.cs" />
+    <Compile Include="Translator\HostelRequestCountTranslator.cs" />
+    <Compile Include="Translator\HostelRequestTranslator.cs" />
+    <Compile Include="Translator\HostelAllocationCriteriaTranslator.cs" />
+    <Compile Include="Translator\HostelAllocationTranslator.cs" />
+    <Compile Include="Translator\HostelRoomCornerTranslator.cs" />
+    <Compile Include="Translator\HostelRoomTranslator.cs" />
+    <Compile Include="Translator\HostelSeriesTranslator.cs" />
+    <Compile Include="Translator\HostelTranslator.cs" />
+    <Compile Include="Translator\HostelTypeTranslator.cs" />
+    <Compile Include="Translator\InstitutionChoiceTranslator.cs" />
+    <Compile Include="Translator\InstitutionTranslator.cs" />
+    <Compile Include="Translator\InstitutionTypeTranslator.cs" />
+    <Compile Include="Translator\ITDurationTranslator.cs" />
+    <Compile Include="Translator\JambOlevelDetailTranslator.cs" />
+    <Compile Include="Translator\JambOlevelTranslator.cs" />
+    <Compile Include="Translator\JambRecordTranslator.cs" />
+    <Compile Include="Translator\LicenceTypeTranslator.cs" />
+    <Compile Include="Translator\LiveLecturesAttendanceTranslator.cs" />
+    <Compile Include="Translator\LiveLecturesTranslator.cs" />
+    <Compile Include="Translator\MaritalStatusTranslator.cs" />
+    <Compile Include="Translator\MenuGroupTranslator.cs" />
+    <Compile Include="Translator\MenuInRoleTranslator.cs" />
+    <Compile Include="Translator\MenuTranslator.cs" />
+    <Compile Include="Translator\ModeOfEntryTranslator.cs" />
+    <Compile Include="Translator\ModeOfFinanceTranslator.cs" />
+    <Compile Include="Translator\ModeOfStudyTranslator.cs" />
+    <Compile Include="Translator\NextOfKinTranslator.cs" />
+    <Compile Include="Translator\OLevelResultAuditTranslator.cs" />
+    <Compile Include="Translator\OlevelResultdDetailAuditTranslator.cs" />
+    <Compile Include="Translator\PaymentChannelTranslator.cs" />
+    <Compile Include="Translator\PaymentEtranzactTranslator.cs" />
+    <Compile Include="Translator\PaymentEtranzactTypeTranslator.cs" />
+    <Compile Include="Translator\PaymentScholarshipTranslator.cs" />
+    <Compile Include="Translator\PaymentTerminalTranslator.cs" />
+    <Compile Include="Translator\PaymentVerificationTranslator.cs" />
+    <Compile Include="Translator\PaystackTranslator.cs" />
+    <Compile Include="Translator\PersonAuditTranslator.cs" />
+    <Compile Include="Translator\PostUtmeResultTranslator.cs" />
+    <Compile Include="Translator\PrincipalOfficersTranslator.cs" />
+    <Compile Include="Translator\PutmeResultAuditTranslator.cs" />
+    <Compile Include="Translator\PutmeResultTranslator.cs" />
+    <Compile Include="Translator\RankingDataTranslator.cs" />
+    <Compile Include="Translator\RegenerateClearedInvoiceTranslator.cs" />
+    <Compile Include="Translator\RemitaPayementTranslator.cs" />
+    <Compile Include="Translator\RemitaSettingsTranslator.cs" />
+    <Compile Include="Translator\RemitaSplitItemsTranslator.cs" />
+    <Compile Include="Translator\ScratchCardBatchTranslator.cs" />
+    <Compile Include="Translator\ScratchCardTranslator.cs" />
+    <Compile Include="Translator\ApplicantJambDetailTranslator.cs" />
+    <Compile Include="Translator\LevelTranslator.cs" />
+    <Compile Include="Translator\LocalGovernmentTranslator.cs" />
+    <Compile Include="Translator\NationalityTranslator.cs" />
+    <Compile Include="Translator\OLevelExamSittingTranslator.cs" />
+    <Compile Include="Translator\OLevelGradeTranslator.cs" />
+    <Compile Include="Translator\OLevelResultDetailTranslator.cs" />
+    <Compile Include="Translator\OLevelResultTranslator.cs" />
+    <Compile Include="Translator\OLevelSubjectTranslator.cs" />
+    <Compile Include="Translator\OLevelTypeTranslator.cs" />
+    <Compile Include="Translator\OnlinePaymentTranslator.cs" />
+    <Compile Include="Translator\PaymentModeTranslator.cs" />
+    <Compile Include="Translator\PaymentTranslator.cs" />
+    <Compile Include="Translator\PaymentTypeTranslator.cs" />
+    <Compile Include="Translator\PersonTranslator.cs" />
+    <Compile Include="Translator\PersonTypeTranslator.cs" />
+    <Compile Include="Translator\PreviousEducationTranslator.cs" />
+    <Compile Include="Translator\ProgrammeDepartmentTranslator.cs" />
+    <Compile Include="Translator\ProgrammeTranslator.cs" />
+    <Compile Include="Translator\RelationshipTranslator.cs" />
+    <Compile Include="Translator\ReligionTranslator.cs" />
+    <Compile Include="Translator\ResultGradeTranslator.cs" />
+    <Compile Include="Translator\RightTranslator.cs" />
+    <Compile Include="Translator\RoleRightTranslator.cs" />
+    <Compile Include="Translator\RoleTranslator.cs" />
+    <Compile Include="Translator\ScoreGradeTranslator.cs" />
+    <Compile Include="Translator\ScratchCardTypeTranslator.cs" />
+    <Compile Include="Translator\SecurityQuestionTranslator.cs" />
+    <Compile Include="Translator\SemesterTranslator.cs" />
+    <Compile Include="Translator\SessionSemesterTranslator.cs" />
+    <Compile Include="Translator\SessionTranslator.cs" />
+    <Compile Include="Translator\SexTranslator.cs" />
+    <Compile Include="Translator\ShortFallTranslator.cs" />
+    <Compile Include="Translator\SponsorTranslator.cs" />
+    <Compile Include="Translator\StaffDepartmentTranslator.cs" />
+    <Compile Include="Translator\StaffTranslator.cs" />
+    <Compile Include="Translator\StaffTypeTranslator.cs" />
+    <Compile Include="Translator\StateGeoZoneTranslator.cs" />
+    <Compile Include="Translator\StateTranslator.cs" />
+    <Compile Include="Translator\StudentAcademicInformationTranslator.cs" />
+    <Compile Include="Translator\StudentCategoryTranslator.cs" />
+    <Compile Include="Translator\StudentDefermentLogTranslator.cs" />
+    <Compile Include="Translator\StudentEmploymentInformationTranslator.cs" />
+    <Compile Include="Translator\StudentExamRawScoreSheetNotRegisteredTranslator.cs" />
+    <Compile Include="Translator\StudentExamRawScoreSheetTranslator.cs" />
+    <Compile Include="Translator\StudentExtraYearSessionTranslator.cs" />
+    <Compile Include="Translator\StudentFinanceInformationTranslator.cs" />
+    <Compile Include="Translator\StudentLevelTranslator.cs" />
+    <Compile Include="Translator\StudentMatricNumberAssignmentTranslator.cs" />
+    <Compile Include="Translator\StudentNdResultTranslator.cs" />
+    <Compile Include="Translator\StudentPaymentTranslator.cs" />
+    <Compile Include="Translator\StudentResultDetailTranslator.cs" />
+    <Compile Include="Translator\StudentResultStatusTranslator.cs" />
+    <Compile Include="Translator\StudentResultTranslator.cs" />
+    <Compile Include="Translator\StudentResultTypeTranslator.cs" />
+    <Compile Include="Translator\StudentSponsorTranslator.cs" />
+    <Compile Include="Translator\StudentStatusTranslator.cs" />
+    <Compile Include="Translator\StudentTranslator.cs" />
+    <Compile Include="Translator\StudentTypeTranslator.cs" />
+    <Compile Include="Translator\StudentUpdateAuditTranslator.cs" />
+    <Compile Include="Translator\TitleTranslator.cs" />
+    <Compile Include="Translator\TranscriptClearanceStatusTranslator.cs" />
+    <Compile Include="Translator\TranscriptRequestTranslator.cs" />
+    <Compile Include="Translator\TranscriptStatusTranslator.cs" />
+    <Compile Include="Translator\TranslatorBase.cs" />
+    <Compile Include="Translator\UserTranslator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EntityDeploy Include="Entity\AbundanceModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AbundanceModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Entity\AbundanceModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AbundanceModel.edmx</DependentUpon>
+      <LastGenOutput>AbundanceModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Entity\AbundanceModel.edmx.diagram">
+      <DependentUpon>AbundanceModel.edmx</DependentUpon>
+    </None>
+    <None Include="Entity\AbundanceModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AbundanceModel.edmx</DependentUpon>
+      <LastGenOutput>AbundanceModel.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
